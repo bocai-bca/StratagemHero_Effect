@@ -1,0 +1,130 @@
+[gd_scene load_steps=10 format=3 uid="uid://dmm7sji51u4gi"]
+
+[ext_resource type="Theme" uid="uid://rlx03g7wychq" path="res://content/common_theme.tres" id="1_j0dt2"]
+[ext_resource type="Script" uid="uid://cqbkk6sdifg1i" path="res://content/classic_game/classic_game.gd" id="2_7r8fn"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7r8fn"]
+font_size = 128
+
+[sub_resource type="LabelSettings" id="LabelSettings_j0dt2"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_pl0ml"]
+font_size = 64
+font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_dydj6"]
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_2fuic"]
+font_size = 64
+font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_w3hah"]
+font_size = 32
+font_color = Color(0.49803922, 0.49803922, 0.49803922, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_r07ce"]
+line_spacing = 0.0
+font_size = 48
+font_color = Color(0, 0, 0, 1)
+
+[node name="ClassicGame" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("1_j0dt2")
+script = ExtResource("2_7r8fn")
+
+[node name="TitleText" type="Label" parent="."]
+layout_mode = 0
+offset_top = -72.0
+offset_right = 1280.0
+offset_bottom = 648.0
+text = "game_text_ready"
+label_settings = SubResource("LabelSettings_7r8fn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundText" type="Label" parent="."]
+layout_mode = 0
+offset_top = 144.0
+offset_right = 1280.0
+offset_bottom = 864.0
+text = "game_text_round"
+label_settings = SubResource("LabelSettings_j0dt2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundNumber" type="Label" parent="."]
+auto_translate_mode = 2
+layout_mode = 0
+offset_top = 216.0
+offset_right = 1280.0
+offset_bottom = 936.0
+text = "0"
+label_settings = SubResource("LabelSettings_pl0ml")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreText" type="Label" parent="."]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -180.0
+offset_right = 1216.0
+offset_bottom = 540.0
+text = "game_text_score"
+label_settings = SubResource("LabelSettings_dydj6")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="ScoreNumber" type="Label" parent="."]
+auto_translate_mode = 2
+layout_mode = 0
+offset_left = -64.0
+offset_top = -252.0
+offset_right = 1216.0
+offset_bottom = 468.0
+text = "0"
+label_settings = SubResource("LabelSettings_2fuic")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TimeLeftBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 576.0
+offset_right = 1184.0
+offset_bottom = 604.8
+max_value = 1.0
+step = 0.0
+show_percentage = false
+
+[node name="BackToTitleTip" type="Label" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+text = "classic_back_to_title_tip"
+label_settings = SubResource("LabelSettings_w3hah")
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="NameColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 360.0
+offset_right = 1152.0
+offset_bottom = 414.0
+color = Color(1, 1, 0, 1)
+
+[node name="NameText" type="Label" parent="."]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 355.0
+offset_right = 1152.0
+offset_bottom = 419.0
+text = "stratagem_name_test"
+label_settings = SubResource("LabelSettings_r07ce")
+horizontal_alignment = 1
+vertical_alignment = 1
