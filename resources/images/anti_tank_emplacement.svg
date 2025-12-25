@@ -1,1 +1,23 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126 126"><g><path d="M99.866 31A54.163 54.163 0 0 0 84.65 16H121v15H99.866Zm1.691 24v14H49.99v-5H64l5-5h15l13-10-13-10H69l-5-5H49.993V16h18.6s32.964-.032 32.964 39Zm-5.918 19v16h-37.2V74h37.2Zm6.761 20 10.99 16H39l10.99-16h52.41Z" style="fill-rule:evenodd;fill:#679552"/><circle cx="18" cy="24" r="9" fill="#fff"/><path fill="#fff" fill-rule="evenodd" d="M5 34v40h5v37h16V74h5V34H5Z"/><path fill="#fff" fill-rule="evenodd" d="M82 55H66l-4 5H39V38h23l4 5h16l8 6Z"/></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <style>
+      .st0, .st1 {
+        fill: #fff;
+      }
+
+      .st1, .st2 {
+        fill-rule: evenodd;
+      }
+
+      .st2 {
+        fill: #679552;
+      }
+    </style>
+  </defs>
+  <path class="st2" d="M405.8,125.97c-16.36-24.22-37.38-44.94-61.83-60.95h147.71v60.95h-85.88ZM412.68,223.49v56.89h-209.54v-20.32h56.93l20.32-20.32h60.95l52.83-40.63-52.83-40.63h-60.95l-20.32-20.32h-56.92v-73.14h75.58s133.95-.13,133.95,158.48ZM388.63,300.7v65.02h-151.16v-65.02h151.16ZM416.1,381.97l44.66,65.02H158.48l44.66-65.02h212.97Z"/>
+  <circle class="st0" cx="73.14" cy="97.52" r="36.57"/>
+  <path class="st1" d="M20.32,138.16v162.54h20.32v150.35h65.02v-150.35h20.32v-162.54H20.32Z"/>
+  <path class="st1" d="M333.21,223.49h-65.02l-16.25,20.32h-93.46v-89.4h93.46l16.25,20.32h65.02l32.51,24.38-32.51,24.38Z"/>
+</svg>

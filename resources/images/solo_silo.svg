@@ -1,1 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126 126" fill-rule="evenodd"><path d="m84 99-9-4.286V71l15 22v3ZM63 89l-9 4.286V29l9-11 9 11v64.286ZM42 99l-6-3v-3l15-22v23.714Z" fill="#fff"/><path d="M121 121H5v-20.045L22 94l20 10 21-10 21 10 20-10 17 7.192V121Z" fill="#49adc9"/></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+      }
+
+      .st0, .st1 {
+        fill-rule: evenodd;
+      }
+
+      .st1 {
+        fill: #49adc9;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M341.33,402.29l-36.57-17.42v-96.36l60.95,89.4v12.19l-24.38,12.19ZM256,361.65l-36.57,17.42V117.84l36.57-44.7,36.57,44.7v261.23l-36.57-17.42ZM170.67,402.29l-24.38-12.19v-12.19l60.95-89.4v96.36l-36.57,17.42Z"/>
+  <path class="st1" d="M491.68,491.68H20.32v-81.45l69.08-28.26,81.27,40.63,85.33-40.63,85.33,40.63,81.27-40.63,69.08,29.22v80.49Z"/>
+</svg>

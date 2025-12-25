@@ -1,5 +1,18 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126 126" fill="#fff">
-	<path d="M29 93V82h68v11l-13 6-21-10-21 10Z"/>
-	<path d="M38 69h50v9H38zM58 60h10v5H58z"/>
-	<path fill="#679552" d="M121 121H5v-20l17-7 20 10 21-10 21 10 20-10 17 7.2V121Z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #679552;
+      }
+
+      .st1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <path class="st1" d="M117.84,377.9v-44.7h276.32v44.7l-52.83,24.38-85.33-40.63-85.33,40.63-52.83-24.38Z"/>
+  <path class="st1" d="M154.41,280.38h203.17v36.57h-203.17v-36.57ZM235.68,243.81h40.63v20.32h-40.63v-20.32Z"/>
+  <path class="st0" d="M491.68,491.68H20.32v-81.27l69.08-28.44,81.27,40.63,85.33-40.63,85.33,40.63,81.27-40.63,69.08,29.26v80.46Z"/>
 </svg>

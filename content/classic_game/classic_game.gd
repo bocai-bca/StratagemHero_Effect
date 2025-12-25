@@ -5,16 +5,22 @@ class_name StratagemHeroEffect_ClassicGame
 ## 在游戏完全结束(例如需要返回主菜单时)调用该信号，表示接下来画面将不再由经典游戏主类掌控
 signal game_end()
 
-## 标题文本，用于显示"准备"和"游戏结束"
+## 标题文本，用于显示"准备"和"游戏结束"和"本轮加分"
 @onready var n_title_text: Label = $TitleText as Label
-## 回合文本，用于显示"回合"和"最高分"
+## 回合文本，用于显示"回合"和"最高分"和"时间加分"
 @onready var n_round_text: Label = $RoundText as Label
 ## 回合数字文本，用于显示回合数和最高分数
 @onready var n_round_number: Label = $RoundNumber as Label
-## 分数文本，用于显示"得分"和"你的最终得分"
+## 分数文本，用于显示"得分"和"你的最终得分"和"完美加分"
 @onready var n_score_text: Label = $ScoreText as Label
 ## 分数数字文本，用于显示分数和结算屏幕上的分数
 @onready var n_score_number: Label = $ScoreNumber as Label
+## 总分文本，用于在回合分数屏幕上显示"总分"
+@onready var n_total_score_text: Label = $TotalScoreText as Label
+## 完美加分数字文本，用于在回合分数屏幕上显示完美加分分数
+@onready var n_perfect_bonus_number: Label = $PerfectBonusNumber as Label
+## 总分数字文本，用于在回合分数屏幕上显示总分分数
+@onready var n_total_score_number: Label = $TotalScoreNumber as Label
 @onready var n_time_left_bar: ProgressBar = $TimeLeftBar as ProgressBar
 @onready var n_back_to_title_tip: Label = $BackToTitleTip as Label
 @onready var n_name_color_rect: ColorRect = $NameColorRect as ColorRect
@@ -38,6 +44,8 @@ const ROUND_TIME: float = 15.0
 const ROUND_SCORE_STAY_TIME: float = 4.0
 ## 按错闪红光时红色不满的持续时间
 const WRONG_FLASH_NONMAX_TIME: float = 0.6
+## 按错闪红光时的总持续时间
+const WRONG_FLASH_TOTAL_TIME: float = 0.9
 ## 游戏状态
 enum GameState{
 	IDLE, ## 闲置状态，相当于经典游戏主类未开始
@@ -80,6 +88,7 @@ var game_state: GameState = GameState.IDLE:
 				n_icons.visible = false
 				for node in n_arrows.get_children():
 					node.queue_free()
+				n_arrows.visible = false
 			GameState.INROUND:
 				if (from_state == GameState.READY):
 					StratagemHeroEffect.instance.audio_playing_music.play()
@@ -95,6 +104,30 @@ var game_state: GameState = GameState.IDLE:
 					timer = time_max
 					stratagem_sequence = create_sequence(clampi(int(rounds / 2.0), 6, 16))
 					next_stratagem()
+					n_arrows.visible = true
+			GameState.ROUND_SCORE:
+				StratagemHeroEffect.instance.audio_round_completes[rounds % 4].play()
+				StratagemHeroEffect.instance.audio_playing_music.stop()
+				n_time_left_bar.visible = false
+				n_name_color_rect.visible = false
+				n_name_text.visible = false
+				n_icons.visible = false
+				n_arrows.visible = false
+				n_title_text.visible = true
+				n_title_text.text = "game_text_round_bonus"
+				n_round_text.visible = true
+				n_round_text.text = "game_text_time_bonus"
+				n_score_text.visible = true
+				n_score_text.text = "game_text_perfect_bonus"
+				n_total_score_text.visible = true
+				n_total_score_text.text = "game_text_total_score"
+				n_round_number.text #本轮加分
+				n_score_number.text #时间加分
+				n_perfect_bonus_number.text #完美加分
+				n_total_score_number.text #总分
+				n_score_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				n_score_number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+				_physics_process(0.0)
 			GameState.GAME_OVER:
 				if (rounds > 1):
 					StratagemHeroEffect.instance.audio_game_over_large.play()
@@ -107,6 +140,7 @@ var game_state: GameState = GameState.IDLE:
 				n_name_color_rect.visible = false
 				n_name_text.visible = false
 				n_icons.visible = false
+				n_arrows.visible = false
 				n_title_text.visible = true
 				n_title_text.text = "game_text_game_over"
 				n_round_text.visible = true
@@ -127,7 +161,7 @@ var time_max: float = 0.0
 ## 本回合是否有错误
 var was_wrong_this_round: bool = false
 ## 错误闪红光计时器
-var wrong_timer: TransferTimer = TransferTimer.new(1.0, false, 0.0)
+var wrong_timer: TransferTimer = TransferTimer.new(WRONG_FLASH_TOTAL_TIME, false, 0.0)
 ## 当前的战备的箭头列表
 var current_codes: Array[StratagemData.CodeArrow] = []
 ## 当前战备的箭头完成数量
@@ -142,7 +176,39 @@ func _unhandled_input(event: InputEvent) -> void:
 			get_viewport().set_input_as_handled()
 			stop_game()
 	if (game_state == GameState.INROUND):
-		pass
+		if (pressing_code(event)): #如果按对了
+			next_code()
+		else: #否则(按错了)
+			wrong_pressed()
+
+## 判断并返回该按下的按键是否是当前正确箭头的按键
+func pressing_code(event: InputEvent) -> bool:
+	if (arrow_completed >= current_codes.size()):
+		return true
+	var current_code: StratagemData.CodeArrow = current_codes[arrow_completed]
+	if (event.is_action_pressed(&"up") and current_code == StratagemData.CodeArrow.UP):
+		return true
+	if (event.is_action_pressed(&"down") and current_code == StratagemData.CodeArrow.DOWN):
+		return true
+	if (event.is_action_pressed(&"left") and current_code == StratagemData.CodeArrow.LEFT):
+		return true
+	if (event.is_action_pressed(&"right") and current_code == StratagemData.CodeArrow.RIGHT):
+		return true
+	return false
+
+## 使当前的箭头正确，来到下一个箭头或者完成当前战备
+func next_code() -> void:
+	arrow_completed += 1
+	if (arrow_completed >= current_codes.size()):
+		next_stratagem()
+		StratagemHeroEffect.instance.audio_done.play()
+	StratagemHeroEffect.instance.audio_press.play()
+
+## 按错时调用，用于重置当前已经按的数量
+func wrong_pressed() -> void:
+	arrow_completed = 0
+	wrong_timer.current = WRONG_FLASH_TOTAL_TIME
+	StratagemHeroEffect.instance.audio_wrong.play()
 
 func _process(delta: float) -> void:
 	match (game_state):
@@ -153,6 +219,9 @@ func _process(delta: float) -> void:
 			n_time_left_bar.value = timer / time_max
 			if (timer <= 0.0):
 				game_state = GameState.GAME_OVER
+			var arrow_nodes: Array[TextureRect] = n_arrows.get_children() as Array[TextureRect]
+			for index in arrow_nodes.size():
+				arrow_nodes[index].modulate = Color(1.0 - clampf(wrong_timer.current, 0.0, WRONG_FLASH_NONMAX_TIME) / WRONG_FLASH_NONMAX_TIME, 1.0, 0.0 if index < arrow_completed else 1.0)
 		GameState.GAME_OVER:
 			n_round_text.visible = true if timer <= 4.0 else false
 			n_round_number.visible = true if timer <= 3.0 else false
@@ -172,6 +241,7 @@ func _physics_process(_delta: float) -> void:
 	n_time_left_bar.size = Vector2(window.size.x * 0.8, window.size.y * 0.04)
 	n_name_color_rect.size = Vector2(window.size.x * 0.8, window.size.y * 0.075)
 	n_name_text.size = Vector2(n_name_color_rect.size.x, 0.0)
+	n_back_to_title_tip.size = window.size
 	match (game_state):
 		GameState.READY:
 			n_title_text.position = Vector2(0.0, window.size.y * -0.1)
@@ -202,6 +272,8 @@ func _physics_process(_delta: float) -> void:
 				n_icon_nodes[i].size = Vector2.ONE * small_icon_width
 				n_icon_nodes[i].position = n_name_color_rect.position + Vector2(large_icon_width + (i - 1) * small_icon_width, -n_icon_nodes[i].size.y)
 			n_icon_0_panel.size = n_icon_nodes[0].size
+			n_arrows.size = Vector2(window.size.x, window.size.y * 0.175)
+			n_arrows.position = Vector2(0.0, window.size.y * 0.6)
 		GameState.GAME_OVER:
 			n_title_text.position = Vector2(0.0, window.size.y * -0.2)
 			n_title_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(128.0))
@@ -228,7 +300,7 @@ func start_game() -> void:
 	n_name_text.visible = false
 	n_icons.visible = false
 
-## 将界面切换至下一个战备
+## 将界面切换至下一个战备，或者本回合完成
 func next_stratagem() -> void:
 	var next_stratagem_data: StratagemData = stratagem_sequence.pop_front()
 	for node in n_arrows.get_children():

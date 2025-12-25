@@ -1,6 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 126 126" fill="#fff">
-<path fill="#49adc9" d="M31 83V59L18 83h13Z"/>
-<path d="m35 87 2 25h5V87h-7ZM45 87v25h5l2-25h-7ZM76 87l2 25h5V87h-7ZM86 87v25h5l2-25h-7ZM35 83V33h17v50H35Z"/>
-<path d="M76 33h17v50H76z"/>
-<path fill="#49adc9" d="M97 83h13L97 59v24ZM56 83V29H35V16h58v13H72v54H56Z"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_图层_1" data-name="图层_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 512 512">
+  <!-- Generator: Adobe Illustrator 29.5.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 141)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fff;
+      }
+
+      .st1 {
+        fill: #49adc9;
+      }
+    </style>
+  </defs>
+  <path class="st1" d="M125.97,337.27v-97.52l-52.83,97.52h52.83Z"/>
+  <path class="st0" d="M142.22,353.52l8.13,101.59h20.32v-101.59h-28.44ZM182.86,353.52v101.59h20.32l8.13-101.59h-28.44ZM308.83,353.52l8.13,101.59h20.32v-101.59h-28.44ZM349.46,353.52v101.59h20.32l8.13-101.59h-28.44ZM142.22,337.27v-203.17h69.08v203.17h-69.08Z"/>
+  <path class="st0" d="M308.83,134.1h69.08v203.17h-69.08v-203.17Z"/>
+  <path class="st1" d="M394.16,337.27h52.83l-52.83-97.52v97.52ZM227.56,337.27V117.84h-85.33v-52.83h235.68v52.83h-85.33v219.43h-65.02Z"/>
 </svg>

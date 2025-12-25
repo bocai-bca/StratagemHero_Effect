@@ -94,6 +94,38 @@ label_settings = SubResource("LabelSettings_2fuic")
 horizontal_alignment = 2
 vertical_alignment = 1
 
+[node name="TotalScoreText" type="Label" parent="."]
+layout_mode = 0
+offset_top = 144.0
+offset_right = 1280.0
+offset_bottom = 864.0
+text = "game_text_round"
+label_settings = SubResource("LabelSettings_j0dt2")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PerfectBonusNumber" type="Label" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 144.0
+offset_right = 1120.0
+offset_bottom = 864.0
+text = "100"
+label_settings = SubResource("LabelSettings_j0dt2")
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="TotalScoreNumber" type="Label" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 144.0
+offset_right = 1120.0
+offset_bottom = 864.0
+text = "0"
+label_settings = SubResource("LabelSettings_j0dt2")
+horizontal_alignment = 2
+vertical_alignment = 1
+
 [node name="TimeLeftBar" type="ProgressBar" parent="."]
 layout_mode = 0
 offset_left = 160.0

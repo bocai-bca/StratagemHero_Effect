@@ -8,10 +8,18 @@ static var instance: StratagemHeroEffect
 @onready var audio_ready: AudioStreamPlayer = $Audio_Ready as AudioStreamPlayer
 @onready var audio_menu_click: AudioStreamPlayer = $Audio_MenuClick as AudioStreamPlayer
 @onready var audio_press: AudioStreamPlayer = $Audio_Press as AudioStreamPlayer
+@onready var audio_done: AudioStreamPlayer = $Audio_Done as AudioStreamPlayer
+@onready var audio_wrong: AudioStreamPlayer = $Audio_Wrong as AudioStreamPlayer
 @onready var audio_start: AudioStreamPlayer = $Audio_Start as AudioStreamPlayer
 @onready var audio_playing_music: AudioStreamPlayer = $Audio_PlayingMusic as AudioStreamPlayer
 @onready var audio_game_over: AudioStreamPlayer = $Audio_GameOver as AudioStreamPlayer
 @onready var audio_game_over_large: AudioStreamPlayer = $Audio_GameOverLarge as AudioStreamPlayer
+@onready var audio_round_completes: Array[AudioStreamPlayer] = [
+	$Audio_RoundComplete_0 as AudioStreamPlayer,
+	$Audio_RoundComplete_1 as AudioStreamPlayer,
+	$Audio_RoundComplete_2 as AudioStreamPlayer,
+	$Audio_RoundComplete_3 as AudioStreamPlayer,
+]
 
 @onready var n_super_earth_background: TextureRect = $SuperEarthBackground as TextureRect
 @onready var n_title: Label = $Title as Label
