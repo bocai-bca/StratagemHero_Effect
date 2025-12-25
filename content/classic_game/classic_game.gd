@@ -19,6 +19,16 @@ signal game_end()
 @onready var n_back_to_title_tip: Label = $BackToTitleTip as Label
 @onready var n_name_color_rect: ColorRect = $NameColorRect as ColorRect
 @onready var n_name_text: Label = $NameText as Label
+@onready var n_icons: Control = $Icons as Control
+@onready var n_icon_nodes: Array[TextureRect] = [
+	$Icons/Icon_0 as TextureRect,
+	$Icons/Icon_1 as TextureRect,
+	$Icons/Icon_2 as TextureRect,
+	$Icons/Icon_3 as TextureRect,
+	$Icons/Icon_4 as TextureRect,
+]
+@onready var n_icon_0_panel: Panel = $Icons/Icon_0/Panel as Panel
+@onready var n_arrows: HBoxContainer = $Arrows as HBoxContainer
 
 ## 回合准备停留时间
 const ROUND_READY_STAY_TIME: float = 1.25
@@ -26,6 +36,8 @@ const ROUND_READY_STAY_TIME: float = 1.25
 const ROUND_TIME: float = 15.0
 ## 回合分数结算时间
 const ROUND_SCORE_STAY_TIME: float = 4.0
+## 按错闪红光时红色不满的持续时间
+const WRONG_FLASH_NONMAX_TIME: float = 0.6
 ## 游戏状态
 enum GameState{
 	IDLE, ## 闲置状态，相当于经典游戏主类未开始
@@ -35,6 +47,9 @@ enum GameState{
 	GAME_OVER, ## 游戏结束
 }
 
+## 战备队列
+var stratagem_sequence: Array[StratagemData] = []
+## 游戏状态(特指本类的游戏状态)
 var game_state: GameState = GameState.IDLE:
 	get:
 		return game_state
@@ -59,6 +74,12 @@ var game_state: GameState = GameState.IDLE:
 				n_score_text.text = "game_text_score"
 				n_score_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 				n_score_number.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+				n_time_left_bar.visible = false
+				n_name_color_rect.visible = false
+				n_name_text.visible = false
+				n_icons.visible = false
+				for node in n_arrows.get_children():
+					node.queue_free()
 			GameState.INROUND:
 				if (from_state == GameState.READY):
 					StratagemHeroEffect.instance.audio_playing_music.play()
@@ -69,8 +90,11 @@ var game_state: GameState = GameState.IDLE:
 					n_time_left_bar.visible = true
 					n_name_color_rect.visible = true
 					n_name_text.visible = true
+					n_icons.visible = true
 					time_max = ROUND_TIME
 					timer = time_max
+					stratagem_sequence = create_sequence(clampi(int(rounds / 2.0), 6, 16))
+					next_stratagem()
 			GameState.GAME_OVER:
 				if (rounds > 1):
 					StratagemHeroEffect.instance.audio_game_over_large.play()
@@ -82,6 +106,7 @@ var game_state: GameState = GameState.IDLE:
 				n_time_left_bar.visible = false
 				n_name_color_rect.visible = false
 				n_name_text.visible = false
+				n_icons.visible = false
 				n_title_text.visible = true
 				n_title_text.text = "game_text_game_over"
 				n_round_text.visible = true
@@ -99,6 +124,14 @@ var score: int = 0
 var timer: float = 0.0
 ## 计时器上限
 var time_max: float = 0.0
+## 本回合是否有错误
+var was_wrong_this_round: bool = false
+## 错误闪红光计时器
+var wrong_timer: TransferTimer = TransferTimer.new(1.0, false, 0.0)
+## 当前的战备的箭头列表
+var current_codes: Array[StratagemData.CodeArrow] = []
+## 当前战备的箭头完成数量
+var arrow_completed: int = 0
 
 func _ready() -> void:
 	game_state = GameState.IDLE
@@ -108,6 +141,8 @@ func _unhandled_input(event: InputEvent) -> void:
 		if (game_state == GameState.GAME_OVER):
 			get_viewport().set_input_as_handled()
 			stop_game()
+	if (game_state == GameState.INROUND):
+		pass
 
 func _process(delta: float) -> void:
 	match (game_state):
@@ -125,6 +160,7 @@ func _process(delta: float) -> void:
 			n_score_number.visible = true if timer <= 1.0 else false
 			n_back_to_title_tip.visible = true if timer <= 0.0 else false
 	timer -= delta
+	wrong_timer.update(delta)
 
 func _physics_process(_delta: float) -> void:
 	var window: Window = get_window()
@@ -145,9 +181,9 @@ func _physics_process(_delta: float) -> void:
 			n_round_number.position = Vector2(0.0, window.size.y * 0.3)
 			n_round_number.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(64.0))
 		GameState.INROUND:
-			n_round_text.position = Vector2(window.size.x * -0.4, window.size.y * -0.35)
+			n_round_text.position = Vector2(window.size.x * -0.45, window.size.y * -0.35)
 			n_round_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(32.0))
-			n_round_number.position = Vector2(window.size.x * -0.4, window.size.y * -0.25)
+			n_round_number.position = Vector2(window.size.x * -0.45, window.size.y * -0.25)
 			n_round_number.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(64.0))
 			n_score_text.position = Vector2(window.size.x * -0.05, window.size.y * -0.25)
 			n_score_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(32.0))
@@ -156,6 +192,16 @@ func _physics_process(_delta: float) -> void:
 			n_time_left_bar.position = Vector2(window.size.x * 0.1, window.size.y * 0.8)
 			n_name_color_rect.position = Vector2(window.size.x * 0.1, window.size.y * 0.5)
 			n_name_text.position = Vector2(n_name_color_rect.position.x, n_name_color_rect.position.y - clampf((n_name_text.size.y - n_name_color_rect.size.y) / 2.0, 0.0, INF))
+			var large_icon_width: float = StratagemHeroEffect.instance.get_font_size(288.0)
+			var small_icon_width: float = StratagemHeroEffect.instance.get_font_size(180.0)
+			for i in n_icon_nodes.size():
+				if (i == 0):
+					n_icon_nodes[i].size = Vector2.ONE * large_icon_width
+					n_icon_nodes[i].position = n_name_color_rect.position - Vector2(0.0, n_icon_nodes[i].size.y)
+					continue
+				n_icon_nodes[i].size = Vector2.ONE * small_icon_width
+				n_icon_nodes[i].position = n_name_color_rect.position + Vector2(large_icon_width + (i - 1) * small_icon_width, -n_icon_nodes[i].size.y)
+			n_icon_0_panel.size = n_icon_nodes[0].size
 		GameState.GAME_OVER:
 			n_title_text.position = Vector2(0.0, window.size.y * -0.2)
 			n_title_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(128.0))
@@ -180,6 +226,24 @@ func start_game() -> void:
 	n_back_to_title_tip.visible = false
 	n_name_color_rect.visible = false
 	n_name_text.visible = false
+	n_icons.visible = false
+
+## 将界面切换至下一个战备
+func next_stratagem() -> void:
+	var next_stratagem_data: StratagemData = stratagem_sequence.pop_front()
+	for node in n_arrows.get_children():
+		node.queue_free()
+	for arrow in next_stratagem_data.codes:
+		n_arrows.add_child(create_arrow(arrow))
+	n_icon_nodes[0].texture = next_stratagem_data.icon
+	for i in 4: # [0,1,2,3]
+		var index: int = i + 1
+		if (index >= n_icon_nodes.size()):
+			n_icon_nodes[index].texture = null
+			continue
+		n_icon_nodes[index].texture = stratagem_sequence[i].icon
+	n_name_text.text = next_stratagem_data.name_key
+	current_codes = next_stratagem_data.codes
 
 func stop_game() -> void:
 	game_state = GameState.IDLE
@@ -187,3 +251,30 @@ func stop_game() -> void:
 	StratagemHeroEffect.instance.audio_game_over.stop()
 	StratagemHeroEffect.instance.audio_game_over_large.stop()
 	emit_signal(&"game_end")
+
+## 创建一个箭头TextureRect节点，用于作为$Arrows的子节点
+static func create_arrow(direct: StratagemData.CodeArrow) -> TextureRect:
+	var arrow_node: TextureRect = TextureRect.new()
+	arrow_node.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	arrow_node.stretch_mode = TextureRect.STRETCH_SCALE
+	match (direct):
+		StratagemData.CodeArrow.UP:
+			arrow_node.texture = preload("res://resources/images/arrow_v.svg")
+		StratagemData.CodeArrow.DOWN:
+			arrow_node.texture = preload("res://resources/images/arrow_v.svg")
+			arrow_node.flip_v = true
+		StratagemData.CodeArrow.LEFT:
+			arrow_node.texture = preload("res://resources/images/arrow_h.svg")
+		StratagemData.CodeArrow.RIGHT:
+			arrow_node.texture = preload("res://resources/images/arrow_h.svg")
+			arrow_node.flip_h = true
+	return arrow_node
+
+## 创建战备序列
+static func create_sequence(count: int) -> Array[StratagemData]:
+	var result: Array[StratagemData] = []
+	var values: Array[StratagemData] = StratagemHeroEffect.StratagemDataList.values() as Array[StratagemData]
+	while (count > 0):
+		count -= 1
+		result.append(values[randi_range(0, values.size() - 1)])
+	return result

@@ -35,6 +35,33 @@ const LanguagesSupported: PackedStringArray = [
 	"en",
 	"zh",
 ]
+## 战备数据列表
+static var StratagemDataList: Dictionary[StringName, StratagemData] = {
+	&"airburst_rocket_launcher":
+		StratagemData.new(
+			preload("res://resources/images/airburst_rocket_launcher.svg"),
+			"stratagem_name.airburst_rocket_launcher",
+			"v^^<>"
+		),
+	&"anti_materiel_rifle":
+		StratagemData.new(
+			preload("res://resources/images/anti_materiel_rifle.svg"),
+			"stratagem_name.anti_materiel_rifle",
+			"v<>^v"
+		),
+	&"anti_personnel_minefield":
+		StratagemData.new(
+			preload("res://resources/images/anti_personnel_minefield.svg"),
+			"stratagem_name.anti_personnel_minefield",
+			"v<^>"
+		),
+	&"eagle_500kg_bomb":
+		StratagemData.new(
+			preload("res://resources/images/eagle_500kg_bomb.svg"),
+			"stratagem_name.eagle_500kg_bomb",
+			"^>vvv"
+		)
+}
 
 static var config_file: ConfigFile = ConfigFile.new()
 var game_state: GameState = GameState.Init:

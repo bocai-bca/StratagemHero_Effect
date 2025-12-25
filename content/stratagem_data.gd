@@ -17,6 +17,11 @@ var name_key: String
 ## 战备指令列表
 var codes: Array[CodeArrow]
 
+func _init(new_icon: Texture2D, new_name_key: String, new_codes: String) -> void:
+	icon = new_icon
+	name_key = new_name_key
+	set_codes_by_string(new_codes)
+
 ## 以字符串的形式设定指令，可接受这四种字符：< ^ > v
 func set_codes_by_string(string: String) -> void:
 	codes = []

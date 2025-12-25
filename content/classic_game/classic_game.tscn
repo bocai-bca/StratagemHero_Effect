@@ -1,7 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://dmm7sji51u4gi"]
+[gd_scene load_steps=13 format=3 uid="uid://dmm7sji51u4gi"]
 
 [ext_resource type="Theme" uid="uid://rlx03g7wychq" path="res://content/common_theme.tres" id="1_j0dt2"]
 [ext_resource type="Script" uid="uid://cqbkk6sdifg1i" path="res://content/classic_game/classic_game.gd" id="2_7r8fn"]
+[ext_resource type="Texture2D" uid="uid://bgvysdx8qua23" path="res://resources/images/eagle_500kg_bomb.svg" id="3_7r8fn"]
+[ext_resource type="Texture2D" uid="uid://ddtfas48w2jpi" path="res://resources/images/eagle_airstrike.svg" id="4_pl0ml"]
+[ext_resource type="Texture2D" uid="uid://c0a2vro0hvi1k" path="res://resources/images/arrow_v.svg" id="5_dydj6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_7r8fn"]
 font_size = 128
@@ -124,7 +127,72 @@ offset_left = 128.0
 offset_top = 355.0
 offset_right = 1152.0
 offset_bottom = 419.0
-text = "stratagem_name_test"
+text = "stratagem_name.test"
 label_settings = SubResource("LabelSettings_r07ce")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Icons" type="Control" parent="."]
+anchors_preset = 0
+
+[node name="Icon_0" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 72.0
+offset_right = 416.0
+offset_bottom = 360.0
+texture = ExtResource("3_7r8fn")
+expand_mode = 1
+
+[node name="Panel" type="Panel" parent="Icons/Icon_0"]
+layout_mode = 0
+offset_right = 288.0
+offset_bottom = 288.0
+
+[node name="Icon_1" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 180.0
+offset_right = 596.0
+offset_bottom = 360.0
+texture = ExtResource("4_pl0ml")
+expand_mode = 1
+
+[node name="Icon_2" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = 596.0
+offset_top = 180.0
+offset_right = 776.0
+offset_bottom = 360.0
+texture = ExtResource("4_pl0ml")
+expand_mode = 1
+
+[node name="Icon_3" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = 776.0
+offset_top = 180.0
+offset_right = 956.0
+offset_bottom = 360.0
+texture = ExtResource("4_pl0ml")
+expand_mode = 1
+
+[node name="Icon_4" type="TextureRect" parent="Icons"]
+layout_mode = 0
+offset_left = 956.0
+offset_top = 180.0
+offset_right = 1136.0
+offset_bottom = 360.0
+texture = ExtResource("4_pl0ml")
+expand_mode = 1
+
+[node name="Arrows" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_top = 432.0
+offset_right = 1280.0
+offset_bottom = 558.0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Arrows"]
+layout_mode = 2
+texture = ExtResource("5_dydj6")
+expand_mode = 3
