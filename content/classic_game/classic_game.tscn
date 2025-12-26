@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dmm7sji51u4gi"]
+[gd_scene load_steps=18 format=3 uid="uid://dmm7sji51u4gi"]
 
 [ext_resource type="Theme" uid="uid://rlx03g7wychq" path="res://content/common_theme.tres" id="1_j0dt2"]
 [ext_resource type="Script" uid="uid://cqbkk6sdifg1i" path="res://content/classic_game/classic_game.gd" id="2_7r8fn"]
@@ -22,6 +22,30 @@ font_size = 48
 [sub_resource type="LabelSettings" id="LabelSettings_2fuic"]
 font_size = 64
 font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wgs0r"]
+font_size = 48
+font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2qnp0"]
+font_size = 48
+font_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dydj6"]
+bg_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+border_color = Color(1, 1, 1, 0)
+shadow_color = Color(0, 0, 0, 0)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2fuic"]
+bg_color = Color(1, 1, 0, 1)
+border_color = Color(1, 1, 1, 0)
+shadow_color = Color(0, 0, 0, 0)
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_w3hah"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_dydj6")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_2fuic")
 
 [sub_resource type="LabelSettings" id="LabelSettings_w3hah"]
 font_size = 32
@@ -111,7 +135,7 @@ offset_top = 144.0
 offset_right = 1120.0
 offset_bottom = 864.0
 text = "100"
-label_settings = SubResource("LabelSettings_j0dt2")
+label_settings = SubResource("LabelSettings_wgs0r")
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -122,7 +146,7 @@ offset_top = 144.0
 offset_right = 1120.0
 offset_bottom = 864.0
 text = "0"
-label_settings = SubResource("LabelSettings_j0dt2")
+label_settings = SubResource("LabelSettings_2qnp0")
 horizontal_alignment = 2
 vertical_alignment = 1
 
@@ -132,6 +156,7 @@ offset_left = 160.0
 offset_top = 576.0
 offset_right = 1184.0
 offset_bottom = 604.8
+theme = SubResource("Theme_w3hah")
 max_value = 1.0
 step = 0.0
 show_percentage = false

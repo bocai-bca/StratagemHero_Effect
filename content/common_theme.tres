@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=5 format=3 uid="uid://rlx03g7wychq"]
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://rlx03g7wychq"]
 
 [ext_resource type="FontFile" uid="uid://is2tab25h8eg" path="res://resources/fonts/FS Sinclair Medium.woff2" id="1_yy05v"]
 
@@ -11,20 +11,7 @@ border_width_right = 4
 border_width_bottom = 4
 border_color = Color(1, 1, 0, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yy05v"]
-bg_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
-border_color = Color(1, 1, 1, 0)
-shadow_color = Color(0, 0, 0, 0)
-anti_aliasing = false
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jd1td"]
-bg_color = Color(1, 1, 0, 1)
-border_color = Color(1, 1, 1, 0)
-shadow_color = Color(0, 0, 0, 0)
-
 [resource]
 default_font = ExtResource("1_yy05v")
 default_font_size = 48
 Panel/styles/panel = SubResource("StyleBoxFlat_4mddw")
-ProgressBar/styles/background = SubResource("StyleBoxFlat_yy05v")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_jd1td")
