@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://c6fiic2gbpokq"]
+[gd_scene load_steps=43 format=3 uid="uid://c6fiic2gbpokq"]
 
 [ext_resource type="Theme" uid="uid://rlx03g7wychq" path="res://content/common_theme.tres" id="1_gsidl"]
 [ext_resource type="Script" uid="uid://bownoylunbvwi" path="res://content/main/main.gd" id="1_yqvsc"]
@@ -34,6 +34,7 @@
 [ext_resource type="AudioStream" uid="uid://cvsyyopfe6ljs" path="res://resources/sounds/complete_1.wav" id="21_ivav3"]
 [ext_resource type="AudioStream" uid="uid://pwmo0bp85s5e" path="res://resources/sounds/complete_2.wav" id="22_s41ws"]
 [ext_resource type="AudioStream" uid="uid://ugj1l15t4vml" path="res://resources/sounds/complete_3.wav" id="23_3wr52"]
+[ext_resource type="PackedScene" uid="uid://b8klrhpk7hud4" path="res://content/effect_game/effect_game.tscn" id="35_ivav3"]
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_628aj"]
 fade_time = 0.0
@@ -199,4 +200,9 @@ justification_flags = 0
 script = ExtResource("12_81m4s")
 
 [node name="ClassicGame" parent="." instance=ExtResource("18_toben")]
+visible = false
 layout_mode = 0
+
+[node name="EffectGame" parent="." instance=ExtResource("35_ivav3")]
+visible = false
+layout_mode = 1

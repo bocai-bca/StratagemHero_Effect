@@ -12,6 +12,9 @@ var maximum: float
 var percent: float:
 	get:
 		return current / maximum
+	set(value):
+		@warning_ignore("assert_always_true")
+		assert(false, "Property \"percent\" is not able to set.")
 
 func update(delta: float) -> void:
 	if (timing_direct):
@@ -19,6 +22,7 @@ func update(delta: float) -> void:
 	else:
 		current = move_toward(current, 0.0, delta)
 
+## 构造函数，参数：最大值，变化方向(false负true增)，初始值
 func _init(max_value: float, direct: bool, init_value: float = 0.0 if direct else max_value) -> void:
 	maximum = max_value
 	current = init_value

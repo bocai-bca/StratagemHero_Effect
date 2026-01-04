@@ -158,7 +158,6 @@ var game_state: GameState = GameState.IDLE:
 					n_name_text.visible = true
 					n_icons.visible = true
 					time_max = get_round_time(rounds)
-					print("this round time = ", time_max)
 					timer = time_max
 					stratagem_sequence = create_sequence(clampi(int((rounds + 4) / 1.3), 3, 30))
 					next_stratagem()
@@ -323,6 +322,7 @@ func _physics_process(_delta: float) -> void:
 	n_name_color_rect.size = Vector2(window.size.x * 0.8, window.size.y * 0.075)
 	n_name_text.size = Vector2(n_name_color_rect.size.x, 0.0)
 	n_back_to_title_tip.size = window.size
+	n_arrows.add_theme_constant_override(&"separation", int(StratagemHeroEffect.instance.get_font_size(12.0)))
 	match (game_state):
 		GameState.READY:
 			n_title_text.position = Vector2(0.0, window.size.y * -0.1)
@@ -343,6 +343,7 @@ func _physics_process(_delta: float) -> void:
 			n_time_left_bar.position = Vector2(window.size.x * 0.1, window.size.y * 0.8)
 			n_name_color_rect.position = Vector2(window.size.x * 0.1, window.size.y * 0.5)
 			n_name_text.position = Vector2(n_name_color_rect.position.x, n_name_color_rect.position.y - clampf((n_name_text.size.y - n_name_color_rect.size.y) / 2.0, 0.0, INF))
+			n_name_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(48.0))
 			var large_icon_width: float = StratagemHeroEffect.instance.get_font_size(288.0)
 			var small_icon_width: float = StratagemHeroEffect.instance.get_font_size(180.0)
 			for i in n_icon_nodes.size():
@@ -450,7 +451,6 @@ func next_stratagem() -> void:
 
 func stop_game() -> void:
 	game_state = GameState.IDLE
-	visible = false
 	StratagemHeroEffect.instance.audio_game_over.stop()
 	StratagemHeroEffect.instance.audio_game_over_large.stop()
 	emit_signal(&"game_end")
@@ -476,13 +476,13 @@ static func create_arrow(direct: StratagemData.CodeArrow) -> TextureRect:
 ## 创建战备序列
 static func create_sequence(count: int) -> Array[StratagemData]:
 	var result: Array[StratagemData] = []
-	var keys: Array[StringName] = StratagemHeroEffect.StratagemDataList.keys() as Array[StringName]
+	var keys: Array[StringName] = StratagemData.list.keys() as Array[StringName]
 	while (count > 0):
 		count -= 1
 		var key: StringName = keys[randi_range(0, keys.size() - 1)]
 		if (IMCOMMON_STRATAGEMS.has(key)):
 			key = keys[randi_range(0, keys.size() - 1)]
-		result.append(StratagemHeroEffect.StratagemDataList[key])
+		result.append(StratagemData.list[key])
 	return result
 
 ## 获取给定回合的回合时间

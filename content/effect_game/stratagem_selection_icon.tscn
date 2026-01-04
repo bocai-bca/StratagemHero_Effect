@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://b0rxmm4ua5ch4"]
+
+[ext_resource type="StyleBox" uid="uid://cy460ha0pidjm" path="res://content/effect_game/stratagem_selection_icon_frame_normal.tres" id="1_uiv6s"]
+[ext_resource type="Script" uid="uid://evu4r3htqhpj" path="res://content/effect_game/stratagem_selection_icon.gd" id="2_4sg8l"]
+[ext_resource type="Shader" uid="uid://csc7bpmr3dmle" path="res://content/effect_game/stratagem_selection_icon_gray.tres" id="3_4sg8l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8guux"]
+shader = ExtResource("3_4sg8l")
+
+[node name="IconButton" type="PanelContainer"]
+custom_minimum_size = Vector2(64, 64)
+offset_right = 56.0
+offset_bottom = 56.0
+theme_override_styles/panel = ExtResource("1_uiv6s")
+script = ExtResource("2_4sg8l")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+texture_filter = 4
+material = SubResource("ShaderMaterial_8guux")
+layout_mode = 2
+mouse_filter = 2
+ignore_texture_size = true
+stretch_mode = 0
+
+[connection signal="focus_entered" from="TextureButton" to="." method="on_focus_entered"]
+[connection signal="focus_exited" from="TextureButton" to="." method="on_focus_exited"]
+[connection signal="pressed" from="TextureButton" to="." method="on_button_pressed"]

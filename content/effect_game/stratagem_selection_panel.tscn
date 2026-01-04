@@ -1,0 +1,216 @@
+[gd_scene load_steps=7 format=3 uid="uid://dfu72hq2vx505"]
+
+[ext_resource type="FontFile" uid="uid://is2tab25h8eg" path="res://resources/fonts/FS Sinclair Medium.woff2" id="1_mekki"]
+[ext_resource type="Script" uid="uid://dahjp2a7pdrdl" path="res://content/effect_game/stratagem_selection_panel.gd" id="2_ay0oy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ay0oy"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_width_top = 8
+border_color = Color(1, 1, 1, 1)
+shadow_color = Color(0, 0, 0, 0)
+anti_aliasing = false
+
+[sub_resource type="Theme" id="Theme_qk261"]
+default_font = ExtResource("1_mekki")
+default_font_size = 48
+Button/font_sizes/font_size = 32
+HBoxContainer/constants/separation = 2
+HFlowContainer/constants/h_separation = 4
+HFlowContainer/constants/v_separation = 4
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_ay0oy")
+
+[sub_resource type="LabelSettings" id="LabelSettings_mekki"]
+line_spacing = 0.0
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_ay0oy"]
+line_spacing = 0.0
+font_size = 36
+
+[node name="StratagemSelectionPanel" type="PanelContainer"]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = SubResource("Theme_qk261")
+script = ExtResource("2_ay0oy")
+
+[node name="VBC" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="TitleTip" type="Label" parent="VBC"]
+layout_mode = 2
+text = "effect_text.edit_stratagems.title"
+label_settings = SubResource("LabelSettings_mekki")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+justification_flags = 0
+clip_text = true
+
+[node name="HBC" type="HBoxContainer" parent="VBC"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+
+[node name="CommonClass" type="VBoxContainer" parent="VBC/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.5
+
+[node name="Name" type="Label" parent="VBC/HBC/CommonClass"]
+layout_mode = 2
+text = "effect_text.edit_stratagems.common"
+label_settings = SubResource("LabelSettings_ay0oy")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+justification_flags = 0
+clip_text = true
+
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/CommonClass"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+last_wrap_alignment = 1
+
+[node name="SupportClass" type="VBoxContainer" parent="VBC/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 1.75
+
+[node name="Name" type="Label" parent="VBC/HBC/SupportClass"]
+layout_mode = 2
+text = "effect_text.edit_stratagems.support"
+label_settings = SubResource("LabelSettings_ay0oy")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+justification_flags = 0
+clip_text = true
+
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/SupportClass"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+last_wrap_alignment = 1
+
+[node name="AttackClass" type="VBoxContainer" parent="VBC/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="Name" type="Label" parent="VBC/HBC/AttackClass"]
+layout_mode = 2
+text = "effect_text.edit_stratagems.attack"
+label_settings = SubResource("LabelSettings_ay0oy")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+justification_flags = 0
+clip_text = true
+
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/AttackClass"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+last_wrap_alignment = 1
+
+[node name="DefenceClass" type="VBoxContainer" parent="VBC/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.8
+
+[node name="Name" type="Label" parent="VBC/HBC/DefenceClass"]
+layout_mode = 2
+text = "effect_text.edit_stratagems.defence"
+label_settings = SubResource("LabelSettings_ay0oy")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_trim_flags = 0
+justification_flags = 0
+clip_text = true
+
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/DefenceClass"]
+layout_mode = 2
+size_flags_vertical = 3
+alignment = 1
+last_wrap_alignment = 1
+
+[node name="Buttons" type="VBoxContainer" parent="VBC/HBC"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.65
+
+[node name="SwitchAll" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.switch_all"
+autowrap_trim_flags = 0
+clip_text = true
+
+[node name="SwitchCommons" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.switch_commons"
+autowrap_trim_flags = 0
+clip_text = true
+
+[node name="SwitchSupports" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.switch_supports"
+autowrap_trim_flags = 0
+clip_text = true
+
+[node name="SwitchAttacks" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.switch_attacks"
+autowrap_trim_flags = 0
+clip_text = true
+
+[node name="SwitchDefences" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.switch_defences"
+autowrap_trim_flags = 0
+clip_text = true
+
+[node name="SwitchWarbonds" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.switch_warbonds"
+autowrap_trim_flags = 0
+clip_text = true
+
+[node name="Apply" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.apply"
+autowrap_trim_flags = 0
+clip_text = true
+
+[node name="Cancel" type="Button" parent="VBC/HBC/Buttons"]
+layout_mode = 2
+focus_mode = 0
+mouse_filter = 2
+button_mask = 0
+text = "effect_text.edit_stratagems.cancel"
+autowrap_trim_flags = 0
+clip_text = true
+
+[connection signal="pressed" from="VBC/HBC/Buttons/Apply" to="." method="close_panel" flags=3 binds= [false]]
+[connection signal="pressed" from="VBC/HBC/Buttons/Cancel" to="." method="close_panel" flags=3 binds= [true]]

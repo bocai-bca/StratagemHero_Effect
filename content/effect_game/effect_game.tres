@@ -1,0 +1,44 @@
+[gd_resource type="Theme" load_steps=5 format=3 uid="uid://cnbeyduhjvl7o"]
+
+[ext_resource type="FontFile" uid="uid://is2tab25h8eg" path="res://resources/fonts/FS Sinclair Medium.woff2" id="1_3v1tc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tx5n3"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 1, 1)
+shadow_color = Color(0, 0, 0, 0)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmh8"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.49803922, 0.49803922, 0.49803922, 1)
+shadow_color = Color(0, 0, 0, 0)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prsxv"]
+bg_color = Color(1, 1, 1, 1)
+draw_center = false
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(1, 1, 0, 1)
+shadow_color = Color(0, 0, 0, 0)
+anti_aliasing = false
+
+[resource]
+default_font = ExtResource("1_3v1tc")
+default_font_size = 48
+Button/styles/focus = SubResource("StyleBoxFlat_tx5n3")
+Button/styles/normal = SubResource("StyleBoxFlat_2xmh8")
+Button/styles/pressed = SubResource("StyleBoxFlat_prsxv")
+HBoxContainer/constants/separation = 24
