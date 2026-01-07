@@ -212,5 +212,19 @@ text = "effect_text.edit_stratagems.cancel"
 autowrap_trim_flags = 0
 clip_text = true
 
+[connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchAll" to="." method="on_button_focus_entered"]
+[connection signal="pressed" from="VBC/HBC/Buttons/SwitchAll" to="." method="on_switch_all_pressed"]
+[connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchCommons" to="." method="on_button_focus_entered"]
+[connection signal="pressed" from="VBC/HBC/Buttons/SwitchCommons" to="." method="on_switch_class_pressed" binds= [0]]
+[connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchSupports" to="." method="on_button_focus_entered"]
+[connection signal="pressed" from="VBC/HBC/Buttons/SwitchSupports" to="." method="on_switch_class_pressed" binds= [1]]
+[connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchAttacks" to="." method="on_button_focus_entered"]
+[connection signal="pressed" from="VBC/HBC/Buttons/SwitchAttacks" to="." method="on_switch_class_pressed" binds= [2]]
+[connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchDefences" to="." method="on_button_focus_entered"]
+[connection signal="pressed" from="VBC/HBC/Buttons/SwitchDefences" to="." method="on_switch_class_pressed" binds= [3]]
+[connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchWarbonds" to="." method="on_button_focus_entered"]
+[connection signal="pressed" from="VBC/HBC/Buttons/SwitchWarbonds" to="." method="on_switch_warbonds_pressed"]
+[connection signal="focus_entered" from="VBC/HBC/Buttons/Apply" to="." method="on_button_focus_entered"]
 [connection signal="pressed" from="VBC/HBC/Buttons/Apply" to="." method="close_panel" flags=3 binds= [false]]
+[connection signal="focus_entered" from="VBC/HBC/Buttons/Cancel" to="." method="on_button_focus_entered"]
 [connection signal="pressed" from="VBC/HBC/Buttons/Cancel" to="." method="close_panel" flags=3 binds= [true]]

@@ -18,4 +18,7 @@ func update_text() -> void:
 		text += "\n[color=yellow][b]" + tr(&"effect_option.oneheart") + " ON[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 3) else "\n" + tr(&"effect_option.oneheart") + " ON"
 	else:
 		text += "\n[color=yellow][b]" + tr(&"effect_option.oneheart") + " OFF[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 3) else "\n" + tr(&"effect_option.oneheart") + " OFF"
-	text += "\n[color=yellow][b]" + tr(&"effect_start") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 4) else "\n" + tr(&"effect_start")
+	if (StratagemHeroEffect_EffectGame.instance.check_is_able_to_start_core()):
+		text += "\n[color=yellow][b]" + tr(&"effect_start") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 4) else "\n" + tr(&"effect_start")
+	else:
+		text += "\n[color=red][b]" + tr(&"effect_cannot_start") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 4) else "\n[color=dark_gray]" + tr(&"effect_cannot_start") + "[/color]"

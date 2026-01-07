@@ -13,7 +13,7 @@ class_name StratagemHeroEffect_EffectGame_StratagemSelectionPanel
 
 ## 记录所有已启用的战备
 static var stratagems_enabled: Array[StringName] = []
-## 暂存调整之前的已启用的战备，用于在取消时还原。本变量不由本类自己管理
+## 暂存调整之前的已启用的战备，用于在取消时还原
 static var stratagems_enabled_original: Array[StringName]
 ## 记录面板隐藏时的坐标Y
 var position_y_when_hidden: float = 720.0
@@ -65,15 +65,67 @@ func remove_icons() -> void:
 
 func open_panel() -> void:
 	place_icons()
-	stratagems_enabled_original = stratagems_enabled
+	stratagems_enabled_original = stratagems_enabled.duplicate()
 	for button in (n_buttons_container.get_children() as Array[Button]):
 		button.focus_mode = Control.FOCUS_ALL
 	n_cancel_button.grab_focus()
 
 func close_panel(is_cancel: bool) -> void:
 	remove_icons()
+	StratagemHeroEffect.instance.audio_menu_click.play()
 	for button in (n_buttons_container.get_children() as Array[Button]):
 		button.focus_mode = Control.FOCUS_NONE
 	if (is_cancel):
 		stratagems_enabled = stratagems_enabled_original
 	StratagemHeroEffect_EffectGame.instance.game_state = StratagemHeroEffect_EffectGame.GameState.MENU
+
+func on_button_focus_entered() -> void:
+	StratagemHeroEffect.instance.audio_press.play()
+
+func on_switch_all_pressed() -> void:
+	StratagemHeroEffect.instance.audio_menu_click.play()
+	if (stratagems_enabled.size() == 0): # 如果一个都没有启用，就开启全部
+		stratagems_enabled = StratagemData.list.keys() as Array[StringName]
+	else:
+		stratagems_enabled.clear() # 否则关闭全部
+	update_all_icons_lightness()
+
+func on_switch_class_pressed(target_class: StratagemData.StratagemClass) -> void:
+	StratagemHeroEffect.instance.audio_menu_click.play()
+	var remove_index: Array[int] = []
+	for stratagem_index in stratagems_enabled.size():
+		var stratagem: StratagemData = StratagemData.list[stratagems_enabled[stratagem_index]]
+		if (stratagem.stratagem_class == target_class): # 如果存在哪怕一个，就关闭全部
+			remove_index.insert(0, stratagem_index)
+	if (remove_index.size() != 0):
+		for index in remove_index:
+			stratagems_enabled.remove_at(index)
+		update_all_icons_lightness()
+		return
+	for stratagem_name in (StratagemData.list.keys() as Array[StringName]):
+		var stratagem: StratagemData = StratagemData.list[stratagem_name]
+		if (stratagem.stratagem_class == target_class):
+			stratagems_enabled.append(stratagem_name)
+	update_all_icons_lightness()
+
+func on_switch_warbonds_pressed() -> void:
+	StratagemHeroEffect.instance.audio_menu_click.play()
+	var remove_index: Array[int] = []
+	for stratagem_index in stratagems_enabled.size():
+		var stratagem: StratagemData = StratagemData.list[stratagems_enabled[stratagem_index]]
+		if (stratagem.is_in_warbonds): # 如果存在哪怕一个，就关闭全部
+			remove_index.insert(0, stratagem_index)
+	if (remove_index.size() != 0):
+		for index in remove_index:
+			stratagems_enabled.remove_at(index)
+		update_all_icons_lightness()
+		return
+	for stratagem_name in (StratagemData.list.keys() as Array[StringName]):
+		var stratagem: StratagemData = StratagemData.list[stratagem_name]
+		if (stratagem.is_in_warbonds):
+			stratagems_enabled.append(stratagem_name)
+	update_all_icons_lightness()
+
+func update_all_icons_lightness() -> void:
+	for icon in ((n_common_class_icons_container.get_children() + n_support_class_icons_container.get_children() + n_attack_class_icons_container.get_children() + n_defence_class_icons_container.get_children()) as Array[StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton]):
+		icon.update_lightness()

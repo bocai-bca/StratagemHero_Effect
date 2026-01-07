@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bf422iejmen21"]
+
+[ext_resource type="Theme" uid="uid://dl6143ud88v5r" path="res://content/effect_game/core/lantern_slides/greatwall/theme.tres" id="1_23klx"]
+[ext_resource type="Script" uid="uid://dcpgikfxt6005" path="res://content/effect_game/core/lantern_slides/greatwall/lantern_slide_great_wall.gd" id="2_egtoh"]
+
+[node name="LanternSlide_GreatWall" type="Panel"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_23klx")
+script = ExtResource("2_egtoh")
+
+[node name="TimeLeftBar" type="ProgressBar" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 28.8
+offset_right = 1120.0
+offset_bottom = 92.8
+max_value = 1.0
+step = 0.001
+value = 0.5
+show_percentage = false

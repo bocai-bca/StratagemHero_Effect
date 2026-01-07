@@ -11,10 +11,10 @@ enum CodeArrow{
 }
 ## 战备类型
 enum StratagemClass{
-	SUPPORT, # 支援
-	ATTACK, # 攻击
-	DEFENCE, # 防御
-	COMMON, # 通用
+	SUPPORT = 1, # 支援
+	ATTACK = 2, # 攻击
+	DEFENCE = 3, # 防御
+	COMMON = 0, # 通用
 }
 
 ## 战备的图标

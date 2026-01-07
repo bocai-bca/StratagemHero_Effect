@@ -7,6 +7,8 @@ signal game_end()
 
 static var instance: StratagemHeroEffect_EffectGame
 
+@onready var n_title: Label = $Title as Label
+@onready var n_title_line_top: ColorRect = $TitleLineTop as ColorRect
 @onready var n_menu_text: StratagemHeroEffect_EffectGame_MenuText = $MenuText as StratagemHeroEffect_EffectGame_MenuText
 @onready var n_stratagem_selection_panel: StratagemHeroEffect_EffectGame_StratagemSelectionPanel = $StratagemSelectionPanel as StratagemHeroEffect_EffectGame_StratagemSelectionPanel
 @onready var n_description_text: StratagemHeroEffect_EffectGame_DescriptionText = $DescriptionText as StratagemHeroEffect_EffectGame_DescriptionText
@@ -16,6 +18,7 @@ enum GameState{
 	IDLE, ## 闲置状态，相当于效果模式主类未开始
 	MENU, ## 菜单界面
 	STRATAGEM_EDIT, ## 编辑战备
+	CORE, ## 核心(游戏运行中)
 }
 ## 特殊效果模式
 enum SpecialEffectMode{
@@ -48,9 +51,13 @@ var game_state: GameState = GameState.IDLE:
 						_physics_process(0.0)
 					GameState.STRATAGEM_EDIT:
 						transfer_timers[0].current = 0.0
+						n_menu_text.update_text()
+						n_description_text.update_text()
 			GameState.STRATAGEM_EDIT:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
+			GameState.CORE:
+				pass
 ## 变换计时器列表
 ##  0 = 战备选择面板动画计时器
 static var transfer_timers: Array[TransferTimer] = [
@@ -83,9 +90,25 @@ func _physics_process(_delta: float) -> void:
 	n_stratagem_selection_panel.physics_process()
 	match (game_state):
 		GameState.MENU:
+			n_title.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(72.0))
+			n_title.size = Vector2(window.size.x, 0.0)
+			n_title_line_top.size = Vector2(window.size.x, StratagemHeroEffect.instance.get_fit_size(16.0))
+			n_title_line_top.position = Vector2(0.0, n_title.size.y)
 			n_menu_text.add_theme_font_size_override(&"normal_font_size", int(StratagemHeroEffect.instance.get_font_size(64.0)))
 			n_menu_text.add_theme_font_size_override(&"bold_font_size", int(StratagemHeroEffect.instance.get_font_size(72.0)))
 			n_description_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(36.0))
+	var fit_size: int = int(StratagemHeroEffect.instance.get_fit_size(4.0))
+	for button_stylebox in (
+		[
+			theme.get_stylebox(&"normal", &"Button") as StyleBoxFlat,
+			theme.get_stylebox(&"focus", &"Button") as StyleBoxFlat,
+			theme.get_stylebox(&"pressed", &"Button") as StyleBoxFlat
+		] as Array[StyleBoxFlat]
+	):
+		button_stylebox.border_width_top = fit_size
+		button_stylebox.border_width_bottom = fit_size
+		button_stylebox.border_width_right = fit_size
+		button_stylebox.border_width_left = fit_size
 
 func _unhandled_input(event: InputEvent) -> void:
 	match (game_state):
@@ -139,4 +162,16 @@ func menu_click() -> void:
 			n_menu_text.update_text()
 			StratagemHeroEffect.instance.audio_menu_click.play()
 		4: #开始游戏
-			pass
+			if (!check_is_able_to_start_core()):
+				return
+			start_core()
+
+func check_is_able_to_start_core() -> bool:
+	match (special_effect_mode):
+		SpecialEffectMode.NONE, SpecialEffectMode.DICTATION, SpecialEffectMode.MULTILINES:
+			if (n_stratagem_selection_panel.stratagems_enabled.size() <= 0):
+				return false
+	return true
+
+func start_core() -> void:
+	game_state = GameState.CORE

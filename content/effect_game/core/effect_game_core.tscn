@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1d4vlecg1jpd"]
+
+[ext_resource type="Script" uid="uid://dt8q3606bt8v0" path="res://content/effect_game/core/effect_game_core.gd" id="1_s16oi"]
+
+[node name="EffectGameCore" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_s16oi")

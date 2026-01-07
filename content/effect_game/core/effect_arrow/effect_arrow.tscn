@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ne78m02ihi5t"]
+
+[ext_resource type="Script" uid="uid://7ob6cytr5qoo" path="res://content/effect_game/core/effect_arrow/effect_arrow.gd" id="1_6yfo5"]
+[ext_resource type="Texture2D" uid="uid://c0a2vro0hvi1k" path="res://resources/images/arrow_v.svg" id="1_fyf4u"]
+[ext_resource type="Texture2D" uid="uid://b6c6boumhnxa8" path="res://resources/images/ring.svg" id="2_6yfo5"]
+
+[node name="EffectArrow" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_6yfo5")
+
+[node name="Arrow" type="Sprite2D" parent="."]
+texture = ExtResource("1_fyf4u")
+
+[node name="Ring" type="TextureRect" parent="."]
+layout_mode = 0
+texture = ExtResource("2_6yfo5")
+expand_mode = 1

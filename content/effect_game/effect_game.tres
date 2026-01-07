@@ -5,10 +5,10 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tx5n3"]
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 border_color = Color(1, 1, 1, 1)
 shadow_color = Color(0, 0, 0, 0)
 anti_aliasing = false
@@ -16,10 +16,10 @@ anti_aliasing = false
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2xmh8"]
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 border_color = Color(0.49803922, 0.49803922, 0.49803922, 1)
 shadow_color = Color(0, 0, 0, 0)
 anti_aliasing = false
@@ -27,10 +27,10 @@ anti_aliasing = false
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_prsxv"]
 bg_color = Color(1, 1, 1, 1)
 draw_center = false
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 border_color = Color(1, 1, 0, 1)
 shadow_color = Color(0, 0, 0, 0)
 anti_aliasing = false
