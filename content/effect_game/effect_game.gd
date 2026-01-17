@@ -12,6 +12,7 @@ static var instance: StratagemHeroEffect_EffectGame
 @onready var n_menu_text: StratagemHeroEffect_EffectGame_MenuText = $MenuText as StratagemHeroEffect_EffectGame_MenuText
 @onready var n_stratagem_selection_panel: StratagemHeroEffect_EffectGame_StratagemSelectionPanel = $StratagemSelectionPanel as StratagemHeroEffect_EffectGame_StratagemSelectionPanel
 @onready var n_description_text: StratagemHeroEffect_EffectGame_DescriptionText = $DescriptionText as StratagemHeroEffect_EffectGame_DescriptionText
+@onready var n_game_core: StratagemHeroEffect_EffectGameCore = $EffectGameCore as StratagemHeroEffect_EffectGameCore
 
 ## 游戏状态
 enum GameState{
@@ -57,7 +58,7 @@ var game_state: GameState = GameState.IDLE:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
 			GameState.CORE:
-				pass
+				n_game_core.start(special_effect_mode)
 ## 变换计时器列表
 ##  0 = 战备选择面板动画计时器
 static var transfer_timers: Array[TransferTimer] = [

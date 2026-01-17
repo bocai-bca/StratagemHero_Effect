@@ -13,3 +13,5 @@ static var CPS: PackedScene:
 static func _get_CPS() -> PackedScene:
 	assert(false, "This class has no CPS.")
 	return null
+
+@abstract func fit_size(window_size: Vector2, get_fit_size_method: Callable) -> void

@@ -22,3 +22,6 @@ max_value = 1.0
 step = 0.001
 value = 0.5
 show_percentage = false
+
+[node name="HBC" type="HBoxContainer" parent="."]
+layout_mode = 0

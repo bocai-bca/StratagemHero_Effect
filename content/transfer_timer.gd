@@ -8,13 +8,13 @@ var timing_direct: bool
 var current: float
 ## 计时上限值，用于计算当前值的进度位置
 var maximum: float
-## 百分比，可通过访问本属性来直接获得本计时器的状态百分比，范围为0-1
+## 百分比，可通过访问本属性来直接获得本计时器的状态百分比，或者设定本属性来通过百分比设置当前值，范围为0-1
 var percent: float:
 	get:
 		return current / maximum
 	set(value):
-		@warning_ignore("assert_always_true")
-		assert(false, "Property \"percent\" is not able to set.")
+		value = clampf(value, 0.0, 1.0)
+		current = maximum * value
 
 func update(delta: float) -> void:
 	if (timing_direct):
