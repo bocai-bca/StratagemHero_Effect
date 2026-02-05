@@ -10,12 +10,23 @@ static func _get_CPS() -> PackedScene:
 var n_arrows: Array[StratagemHeroEffect_EffectGameCore_EffectArrow] = []
 var time_left: float = 0.0
 
-## 适配尺寸的方法，相当于其他类在physics_process中做的事，不建议高频率调用
-func fit_size(window_size: Vector2, get_fit_size_method: Callable) -> void:
+func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_time_left_bar.size = Vector2(window_size.x * 0.75, window_size.y * 0.0889)
 	n_time_left_bar.position = Vector2(window_size.x * 0.125, window_size.y * 0.04)
 
-## 相当于其他类在process中做的事，需要由效果游戏核心调用
-func update(delta: float) -> void:
-	pass
+func _update(delta: float) -> void:
+	match (state):
+		State.DEAD:
+			return
+		State.FOCUS:
+			if (time_left <= 0.0):
+				drop_focus()
+				return
+			time_left -= delta
+		State.MOVEOUT:
+			moveout_timer += delta
+			position.y = lerpf(0.0, -size.y, ease(clampf(moveout_timer / MOVEOUT_TIME, 0.0, 1.0), 0.2))
+			if (moveout_timer >= MOVEOUT_TIME):
+				state = State.DEAD
+				return

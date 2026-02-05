@@ -58,7 +58,7 @@ var game_state: GameState = GameState.IDLE:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
 			GameState.CORE:
-				n_game_core.start(special_effect_mode)
+				n_game_core.start()
 ## 变换计时器列表
 ##  0 = 战备选择面板动画计时器
 static var transfer_timers: Array[TransferTimer] = [

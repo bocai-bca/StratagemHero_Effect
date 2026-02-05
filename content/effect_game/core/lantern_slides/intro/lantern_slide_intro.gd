@@ -1,0 +1,44 @@
+extends StratagemHeroEffect_EffectGameCore_LanternSlide
+class_name StratagemHeroEffect_EffectGameCore_LanternSlide_Intro
+## 效果模式开幕幻灯片类
+
+static func _get_CPS() -> PackedScene:
+	return preload("res://content/effect_game/core/lantern_slides/intro/lantern_slide_intro.tscn") as PackedScene
+
+const WAIT_TIME: float = 0.9
+
+@onready var n_text: RichTextLabel = $RichTextLabel as RichTextLabel
+
+var wait_timer: float = WAIT_TIME
+
+func _fit_size(window_size: Vector2) -> void:
+	size = window_size
+	n_text.size = window_size
+
+func _update(delta: float) -> void:
+	# 可修改以下的各个分支代码块(包括DEAD的也可以根据需要修改)
+	match (state):
+		State.DEAD:
+			return
+		State.FOCUS:
+			wait_timer -= delta
+			if (wait_timer <= 0.0):
+				drop_focus()
+		State.MOVEOUT:
+			pass
+		State.STANDBY:
+			pass
+
+## 设置用于显示的效果模式的特殊模式
+func set_effect_mode_displayed(special_mode: StratagemHeroEffect_EffectGame.SpecialEffectMode) -> void:
+	var mode_name: String
+	match (special_mode):
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.NONE:
+			mode_name = tr(&"effect_text.lantern_slide.intro.mode_none")
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION:
+			mode_name = tr(&"effect_text.lantern_slide.intro.mode_dictation")
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.GREATWALL:
+			mode_name = tr(&"effect_text.lantern_slide.intro.mode_greatwall")
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.MULTILINES:
+			mode_name = tr(&"effect_text.lantern_slide.intro.mode_multilines")
+	n_text.text = tr(&"effect_text.lantern_slide.intro.title") + "\n[color=yellow][b]" + mode_name + "[/b][/color]"

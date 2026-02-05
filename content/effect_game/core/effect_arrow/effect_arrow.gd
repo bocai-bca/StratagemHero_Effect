@@ -60,6 +60,7 @@ static func direction_to_rotation(the_direction: StratagemData.CodeArrow) -> flo
 static func rotation_normalize(original_rotation: float) -> float:
 	return fmod(original_rotation + PI, 2.0 * PI) - PI
 
+## 类场景创建函数
 static func create(new_direction: StratagemData.CodeArrow) -> StratagemHeroEffect_EffectGameCore_EffectArrow:
 	var new_instance: StratagemHeroEffect_EffectGameCore_EffectArrow = CPS.instantiate() as StratagemHeroEffect_EffectGameCore_EffectArrow
 	new_instance.n_arrow = new_instance.get_node(^"Arrow") as Sprite2D

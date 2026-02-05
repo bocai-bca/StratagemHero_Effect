@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://bqjp0po1dfs3e"]
+
+[ext_resource type="Theme" uid="uid://dhlf5u0vr7ih6" path="res://content/effect_game/core/lantern_slides/intro/theme.tres" id="1_l31gt"]
+[ext_resource type="Script" uid="uid://bb6xe43iln6yu" path="res://content/effect_game/core/lantern_slides/intro/lantern_slide_intro.gd" id="1_v8tsw"]
+
+[node name="LanternSlide_Intro" type="Panel" unique_id=919662686]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_l31gt")
+script = ExtResource("1_v8tsw")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1103435685]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+bbcode_enabled = true
+text = "效果模式
+[b]长城[/b]"
+horizontal_alignment = 1
+vertical_alignment = 1
