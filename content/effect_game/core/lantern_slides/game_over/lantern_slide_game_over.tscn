@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://bkxiihecjiaak"]
+
+[ext_resource type="Theme" uid="uid://cgvisphb6fkn6" path="res://content/effect_game/core/lantern_slides/game_over/theme.tres" id="1_8cbb3"]
+[ext_resource type="Script" uid="uid://c5eafd2ge22d6" path="res://content/effect_game/core/lantern_slides/game_over/lantern_slide_game_over.gd" id="2_myohu"]
+[ext_resource type="LabelSettings" uid="uid://bbjcqgqdlt6n" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_names.tres" id="3_17fbc"]
+[ext_resource type="LabelSettings" uid="uid://db6gj6pdj22hr" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_values.tres" id="4_8kgpr"]
+[ext_resource type="LabelSettings" uid="uid://dgb7pq3okaew0" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_continue_tip.tres" id="5_8kgpr"]
+[ext_resource type="LabelSettings" uid="uid://c02cglry4ngeh" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_one_heart.tres" id="5_l4aea"]
+
+[node name="LanternSlide_GameOver" type="Panel" unique_id=185065599]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("1_8cbb3")
+script = ExtResource("2_myohu")
+
+[node name="MC" type="MarginContainer" parent="." unique_id=1322522142]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="VBC" type="VBoxContainer" parent="MC" unique_id=1411247895]
+layout_mode = 2
+alignment = 1
+
+[node name="EffectMode" type="HBoxContainer" parent="MC/VBC" unique_id=1489047821]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MC/VBC/EffectMode" unique_id=1055007766]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Effect Mode"
+label_settings = ExtResource("3_17fbc")
+vertical_alignment = 1
+clip_text = true
+
+[node name="Value" type="Label" parent="MC/VBC/EffectMode" unique_id=323124097]
+layout_mode = 2
+text = "Greatwall"
+label_settings = ExtResource("4_8kgpr")
+horizontal_alignment = 2
+
+[node name="OneHeart" type="Label" parent="MC/VBC/EffectMode" unique_id=648904743]
+layout_mode = 2
+size_flags_vertical = 1
+text = "OH"
+label_settings = ExtResource("5_l4aea")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Score" type="HBoxContainer" parent="MC/VBC" unique_id=1460936428]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MC/VBC/Score" unique_id=826204625]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Score"
+label_settings = ExtResource("3_17fbc")
+vertical_alignment = 1
+clip_text = true
+
+[node name="Value" type="Label" parent="MC/VBC/Score" unique_id=661620363]
+layout_mode = 2
+text = "12345"
+label_settings = ExtResource("4_8kgpr")
+horizontal_alignment = 2
+
+[node name="LevelReached" type="HBoxContainer" parent="MC/VBC" unique_id=475158274]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MC/VBC/LevelReached" unique_id=79659050]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Level Reached"
+label_settings = ExtResource("3_17fbc")
+vertical_alignment = 1
+clip_text = true
+
+[node name="Value" type="Label" parent="MC/VBC/LevelReached" unique_id=1110417095]
+layout_mode = 2
+text = "67"
+label_settings = ExtResource("4_8kgpr")
+horizontal_alignment = 2
+
+[node name="AvgSpeed" type="HBoxContainer" parent="MC/VBC" unique_id=1445599591]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="MC/VBC/AvgSpeed" unique_id=1302324237]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Avg Speed"
+label_settings = ExtResource("3_17fbc")
+vertical_alignment = 1
+clip_text = true
+
+[node name="Value" type="Label" parent="MC/VBC/AvgSpeed" unique_id=1267507536]
+layout_mode = 2
+text = "8.9/min"
+label_settings = ExtResource("4_8kgpr")
+horizontal_alignment = 2
+
+[node name="ContinueTip" type="Label" parent="." unique_id=1410019577]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+text = "Press SPACE to continue"
+label_settings = ExtResource("5_8kgpr")
+horizontal_alignment = 1
+vertical_alignment = 2

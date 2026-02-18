@@ -54,6 +54,8 @@ var game_state: GameState = GameState.IDLE:
 						transfer_timers[0].current = 0.0
 						n_menu_text.update_text()
 						n_description_text.update_text()
+					GameState.CORE:
+						StratagemHeroEffect.instance.audio_title_music.play()
 			GameState.STRATAGEM_EDIT:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
@@ -62,7 +64,7 @@ var game_state: GameState = GameState.IDLE:
 ## 变换计时器列表
 ##  0 = 战备选择面板动画计时器
 static var transfer_timers: Array[TransferTimer] = [
-	TransferTimer.new(0.4, true, 0),
+	TransferTimer.new(0.4, true, 0.4),
 ]
 ## 菜单选项焦点
 static var menu_option_focus: int = 0
@@ -73,8 +75,9 @@ static var one_heart: bool = false
 
 func _init() -> void:
 	instance = self
-	set_process(false)
-	set_physics_process(false)
+
+func _ready() -> void:
+	game_state = GameState.IDLE
 
 ## 总启动入口，用于启动本主类，设计为由主菜单进入时调用
 func start() -> void:
@@ -84,6 +87,7 @@ func _process(delta: float) -> void:
 	for transfer_timer in transfer_timers:
 		transfer_timer.update(delta)
 	n_stratagem_selection_panel.process()
+	n_game_core.process(delta)
 
 func _physics_process(_delta: float) -> void:
 	var window: Window = get_window()
@@ -98,6 +102,10 @@ func _physics_process(_delta: float) -> void:
 			n_menu_text.add_theme_font_size_override(&"normal_font_size", int(StratagemHeroEffect.instance.get_font_size(64.0)))
 			n_menu_text.add_theme_font_size_override(&"bold_font_size", int(StratagemHeroEffect.instance.get_font_size(72.0)))
 			n_description_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(36.0))
+			n_menu_text.size = size
+			n_description_text.size = size
+		GameState.CORE:
+			n_game_core.fit_size(size)
 	var fit_size: int = int(StratagemHeroEffect.instance.get_fit_size(4.0))
 	for button_stylebox in (
 		[

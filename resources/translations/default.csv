@@ -1,13 +1,18 @@
 keys,en,zh
+
 title,"Stratagem Hero: Effect","战略配备英雄: 效果"
 title_tip,"Press space to continue","按空格键以继续"
+
 menu_general_text_back,"Back","返回"
+
 main_menu_text_classic,"Classic Mode","经典模式"
 main_menu_text_effects,"Effect Mode","效果模式"
 main_menu_text_settings,"Settings","设置"
 main_menu_text_statistic,"Statistics","统计信息"
 main_menu_text_about,"About","关于"
+
 settings_text_language,"Change Language [English]","Change Language [中文]"
+
 game_text_ready,"GET READY","准备"
 game_text_round,"Round","回合"
 game_text_score,"SCORE","得分"
@@ -19,13 +24,17 @@ game_text_round_bonus,"Round Bonus","本轮加分"
 game_text_time_bonus,"Time Bonus","时间加分"
 game_text_perfect_bonus,"Perfect Bonus","完美加分"
 game_text_total_score,"Total Score","总分"
-classic_back_to_title_tip,"Press space to continue","按空格键以继续"
+
+classic_back_to_title_tip,"Press SPACE to continue","按空格键以继续"
+
 effect_mode.normal,"No Effect >>","无特殊效果 >>"
 effect_mode.dictation,"Dictation >>","默写模式 >>"
 effect_mode.greatwall,"Great Wall >>","长城模式 >>"
 effect_mode.multilines,"Multi-Lines >>","多行模式 >>"
+
 effect_option.edit_stratagems,"Edit Stratagems List","编辑战略配备列表"
 effect_option.oneheart,"Oneheart","一错即死"
+
 effect_text.edit_stratagems.title,"Edit the list of stratagems able to appear.","编辑可出现的战备的列表"
 effect_text.edit_stratagems.common,"COMMON","通用"
 effect_text.edit_stratagems.support,"SUPPORT","支援型"
@@ -39,8 +48,10 @@ effect_text.edit_stratagems.switch_defences,"I/O Defences","切换防御"
 effect_text.edit_stratagems.switch_warbonds,"I/O Warbonds","切换债券"
 effect_text.edit_stratagems.apply,"Apply","应用"
 effect_text.edit_stratagems.cancel,"Cancel","取消"
+
 effect_start,"Start Effect Mode","开始效果模式"
 effect_cannot_start,"No stratagem enabled","没有启用任何战备"
+
 effect_description.back_to_title,"Back to title","回到标题界面"
 effect_description.effect_mode.normal,"No special effect.","没有特殊效果的模式"
 effect_description.effect_mode.dictation,"Arrows won't be shown, used to practicing your memory.","不会显示箭头，用于练习记忆和盲打"
@@ -49,11 +60,21 @@ effect_description.effect_mode.multilines,"Complete all stratagems on screen to 
 effect_description.effect_option.oneheart,"Game over when just wrong once.","只要按错一次就游戏结束"
 effect_description.effect_option.edit_stratagems,"Adjust which stratagems are able to appear in game.","设置游戏中能够出现哪些战备"
 effect_description.effect_start,"Start the effect mode","开始效果模式游戏"
+
+effect_text.lantern_slide.generic.mode_none,"No Effect","无特殊效果"
+effect_text.lantern_slide.generic.mode_dictation,"Dictation","默写"
+effect_text.lantern_slide.generic.mode_greatwall,"Great Wall","长城"
+effect_text.lantern_slide.generic.mode_multilines,"Multi-Lines","多行"
+
 effect_text.lantern_slide.intro.title,"Effect Mode","效果模式"
-effect_text.lantern_slide.intro.mode_none,"No Effect","无特殊效果"
-effect_text.lantern_slide.intro.mode_dictation,"Dictation","默写"
-effect_text.lantern_slide.intro.mode_greatwall,"Great Wall","长城"
-effect_text.lantern_slide.intro.mode_multilines,"Multi-Lines","多行"
+
+effect_text.lantern_slide.game_over.continue_tip,"Press SPACE to continue","按空格键以继续"
+effect_text.lantern_slide.game_over.effect_mode,"Effect Mode","效果模式"
+effect_text.lantern_slide.game_over.one_heart_shortname,"OH","一命"
+effect_text.lantern_slide.game_over.score,"Score","得分"
+effect_text.lantern_slide.game_over.level_reached,"Level Reached","抵达等级"
+effect_text.lantern_slide.game_over.avg_speed,"Avg Speed","平均速度"
+
 stratagem_name.airburst_rocket_launcher,"AIRBURST ROCKET LAUNCHER","空爆火箭发射器"
 stratagem_name.anti_materiel_rifle,"ANTI MATERIEL RIFLE","反器材步枪"
 stratagem_name.anti_personnel_minefield,"ANTI PERSONNEL MINEFIELD","反步兵地雷"

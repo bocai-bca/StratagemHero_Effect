@@ -1,0 +1,7 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://gsbvr5sasf6v"]
+
+[ext_resource type="FontFile" uid="uid://ddjmjwoqek0tx" path="res://resources/fonts/FS Sinclair Bold.woff2" id="1_81yws"]
+
+[resource]
+font = ExtResource("1_81yws")
+font_size = 96

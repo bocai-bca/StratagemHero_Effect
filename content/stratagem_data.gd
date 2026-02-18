@@ -4,10 +4,10 @@ class_name StratagemData
 
 ## 指令箭头方向的易读对应枚举
 enum CodeArrow{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
+	UP = 0,
+	DOWN = 1,
+	LEFT = 2,
+	RIGHT = 3,
 }
 ## 战备类型
 enum StratagemClass{
@@ -48,6 +48,19 @@ func set_codes_by_string(string: String) -> void:
 				codes.append(CodeArrow.RIGHT)
 			"v":
 				codes.append(CodeArrow.DOWN)
+
+## 获取一个随机的箭头方向
+static func random_arrow() -> CodeArrow:
+	match (randi_range(0, 3)):
+		0:
+			return CodeArrow.UP
+		1:
+			return CodeArrow.DOWN
+		2:
+			return CodeArrow.LEFT
+		3:
+			return CodeArrow.RIGHT
+	return CodeArrow.UP
 
 ## 记录所有战备数据的列表
 static var list: Dictionary[StringName, StratagemData]:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://c6fiic2gbpokq"]
+[gd_scene format=3 uid="uid://c6fiic2gbpokq"]
 
 [ext_resource type="Theme" uid="uid://rlx03g7wychq" path="res://content/common_theme.tres" id="1_gsidl"]
 [ext_resource type="Script" uid="uid://bownoylunbvwi" path="res://content/main/main.gd" id="1_yqvsc"]
@@ -75,7 +75,7 @@ font_size = 92
 font_size = 48
 font_color = Color(1, 1, 0, 1)
 
-[node name="Main" type="ColorRect"]
+[node name="Main" type="ColorRect" unique_id=1855945166]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -87,52 +87,53 @@ theme = ExtResource("1_gsidl")
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_yqvsc")
 
-[node name="Audio_TitleMusic" type="AudioStreamPlayer" parent="."]
+[node name="Audio_TitleMusic" type="AudioStreamPlayer" parent="." unique_id=1313029484]
 stream = SubResource("AudioStreamPlaylist_628aj")
 
-[node name="Audio_Ready" type="AudioStreamPlayer" parent="."]
+[node name="Audio_Ready" type="AudioStreamPlayer" parent="." unique_id=1880212934]
 stream = ExtResource("7_628aj")
 
-[node name="Audio_MenuClick" type="AudioStreamPlayer" parent="."]
+[node name="Audio_MenuClick" type="AudioStreamPlayer" parent="." unique_id=1841862915]
 stream = ExtResource("5_ekokd")
 
-[node name="Audio_Press" type="AudioStreamPlayer" parent="."]
+[node name="Audio_Press" type="AudioStreamPlayer" parent="." unique_id=2106098976]
 stream = SubResource("AudioStreamRandomizer_ju0h2")
 max_polyphony = 6
 
-[node name="Audio_Done" type="AudioStreamPlayer" parent="."]
+[node name="Audio_Done" type="AudioStreamPlayer" parent="." unique_id=1522041337]
 stream = SubResource("AudioStreamRandomizer_ncevx")
 max_polyphony = 2
 
-[node name="Audio_Wrong" type="AudioStreamPlayer" parent="."]
+[node name="Audio_Wrong" type="AudioStreamPlayer" parent="." unique_id=1463339233]
 stream = SubResource("AudioStreamRandomizer_kgycb")
 max_polyphony = 4
 
-[node name="Audio_Start" type="AudioStreamPlayer" parent="."]
+[node name="Audio_Start" type="AudioStreamPlayer" parent="." unique_id=1212607280]
 stream = ExtResource("10_toben")
 
-[node name="Audio_PlayingMusic" type="AudioStreamPlayer" parent="."]
+[node name="Audio_PlayingMusic" type="AudioStreamPlayer" parent="." unique_id=329039221]
 stream = SubResource("AudioStreamPlaylist_r3puh")
 
-[node name="Audio_RoundComplete_0" type="AudioStreamPlayer" parent="."]
+[node name="Audio_RoundComplete_0" type="AudioStreamPlayer" parent="." unique_id=1218187385]
 stream = ExtResource("20_khwcr")
 
-[node name="Audio_RoundComplete_1" type="AudioStreamPlayer" parent="."]
+[node name="Audio_RoundComplete_1" type="AudioStreamPlayer" parent="." unique_id=1125663682]
 stream = ExtResource("21_ivav3")
 
-[node name="Audio_RoundComplete_2" type="AudioStreamPlayer" parent="."]
+[node name="Audio_RoundComplete_2" type="AudioStreamPlayer" parent="." unique_id=1058437137]
 stream = ExtResource("22_s41ws")
 
-[node name="Audio_RoundComplete_3" type="AudioStreamPlayer" parent="."]
+[node name="Audio_RoundComplete_3" type="AudioStreamPlayer" parent="." unique_id=121656536]
 stream = ExtResource("23_3wr52")
 
-[node name="Audio_GameOver" type="AudioStreamPlayer" parent="."]
+[node name="Audio_GameOver" type="AudioStreamPlayer" parent="." unique_id=558509028]
 stream = ExtResource("12_ju0h2")
 
-[node name="Audio_GameOverLarge" type="AudioStreamPlayer" parent="."]
+[node name="Audio_GameOverLarge" type="AudioStreamPlayer" parent="." unique_id=158094692]
 stream = ExtResource("13_6tfuj")
+stream_paused = true
 
-[node name="SuperEarthBackground" type="TextureRect" parent="."]
+[node name="SuperEarthBackground" type="TextureRect" parent="." unique_id=353366259]
 modulate = Color(1, 1, 1, 0.1882353)
 layout_mode = 0
 offset_left = 160.0
@@ -145,7 +146,7 @@ expand_mode = 1
 stretch_mode = 5
 script = ExtResource("4_jsaoi")
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=1151684106]
 layout_mode = 0
 offset_top = -57.6
 offset_right = 1280.0
@@ -156,7 +157,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("5_ypqn1")
 
-[node name="TitleTipText" type="Label" parent="."]
+[node name="TitleTipText" type="Label" parent="." unique_id=845688583]
 layout_mode = 0
 offset_top = 90.0
 offset_right = 1280.0
@@ -167,21 +168,21 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("6_lcvle")
 
-[node name="TitleLineTop" type="ColorRect" parent="."]
+[node name="TitleLineTop" type="ColorRect" parent="." unique_id=1633014384]
 layout_mode = 0
 offset_top = 56.0
 offset_right = 1280.0
 offset_bottom = 72.0
 script = ExtResource("7_61xpx")
 
-[node name="TitleLineBottom" type="ColorRect" parent="."]
+[node name="TitleLineBottom" type="ColorRect" parent="." unique_id=1485880300]
 layout_mode = 0
 offset_top = 648.0
 offset_right = 1280.0
 offset_bottom = 664.0
 script = ExtResource("8_4r3nh")
 
-[node name="MainMenu_Text" type="RichTextLabel" parent="."]
+[node name="MainMenu_Text" type="RichTextLabel" parent="." unique_id=329672672]
 auto_translate_mode = 2
 layout_mode = 0
 offset_right = 1280.0
@@ -199,10 +200,10 @@ vertical_alignment = 1
 justification_flags = 0
 script = ExtResource("12_81m4s")
 
-[node name="ClassicGame" parent="." instance=ExtResource("18_toben")]
+[node name="ClassicGame" parent="." unique_id=142871471 instance=ExtResource("18_toben")]
 visible = false
 layout_mode = 0
 
-[node name="EffectGame" parent="." instance=ExtResource("35_ivav3")]
+[node name="EffectGame" parent="." unique_id=744316122 instance=ExtResource("35_ivav3")]
 visible = false
 layout_mode = 1

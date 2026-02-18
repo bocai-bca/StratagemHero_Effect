@@ -16,11 +16,16 @@ var percent: float:
 		value = clampf(value, 0.0, 1.0)
 		current = maximum * value
 
+## 更新函数，建议捆绑于使用节点的_process()或类似作用的函数调用，以便传入正确的delta
 func update(delta: float) -> void:
 	if (timing_direct):
 		current = move_toward(current, maximum, delta)
 	else:
 		current = move_toward(current, 0.0, delta)
+
+## 反转计时进度，使被调用的计时器呈现反转percent的效果，例如0.75将变为0.25
+func reversal() -> void:
+	current = maximum - current
 
 ## 构造函数，参数：最大值，变化方向(false负true增)，初始值
 func _init(max_value: float, direct: bool, init_value: float = 0.0 if direct else max_value) -> void:

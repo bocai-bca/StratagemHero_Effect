@@ -1,10 +1,10 @@
 extends StratagemHeroEffect_EffectGameCore_LanternSlide
-#class_name StratagemHeroEffect_EffectGameCore_LanternSlide_
-## 效果模式<name>幻灯片类
+class_name StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady
+## 效果模式回合准备幻灯片类
 
 static func CPS() -> PackedScene:
 	# 修改此处路径导向本脚本应用于的节点的场景文件
-	return preload("res://script_templates/StratagemHeroEffect_EffectGameCore_LanternSlide/Subclass.tscn") as PackedScene
+	return preload("res://content/effect_game/core/lantern_slides/round_ready/lantern_slide_round_ready.tscn") as PackedScene
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size

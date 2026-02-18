@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b8klrhpk7hud4"]
+[gd_scene format=3 uid="uid://b8klrhpk7hud4"]
 
 [ext_resource type="Script" uid="uid://c8bvqqnktsxwj" path="res://content/effect_game/effect_game.gd" id="1_vkigj"]
 [ext_resource type="Theme" uid="uid://cnbeyduhjvl7o" path="res://content/effect_game/effect_game.tres" id="1_y5e8c"]
@@ -15,7 +15,7 @@ font_size = 72
 line_spacing = 0.0
 font_size = 36
 
-[node name="EffectGame" type="Control"]
+[node name="EffectGame" type="Control" unique_id=1763570978]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,7 @@ grow_vertical = 2
 theme = ExtResource("1_y5e8c")
 script = ExtResource("1_vkigj")
 
-[node name="Title" type="Label" parent="."]
+[node name="Title" type="Label" parent="." unique_id=1446263307]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 96.0
@@ -34,13 +34,13 @@ label_settings = SubResource("LabelSettings_j8sgq")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TitleLineTop" type="ColorRect" parent="."]
+[node name="TitleLineTop" type="ColorRect" parent="." unique_id=829232521]
 layout_mode = 0
 offset_top = 96.0
 offset_right = 1280.0
 offset_bottom = 112.0
 
-[node name="MenuText" type="RichTextLabel" parent="."]
+[node name="MenuText" type="RichTextLabel" parent="." unique_id=326452877]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -56,7 +56,7 @@ vertical_alignment = 1
 justification_flags = 0
 script = ExtResource("3_r6mra")
 
-[node name="DescriptionText" type="Label" parent="."]
+[node name="DescriptionText" type="Label" parent="." unique_id=1089570115]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -68,10 +68,10 @@ autowrap_trim_flags = 0
 justification_flags = 0
 script = ExtResource("5_s1rfw")
 
-[node name="StratagemSelectionPanel" parent="." instance=ExtResource("3_q3pke")]
+[node name="StratagemSelectionPanel" parent="." unique_id=215983832 instance=ExtResource("3_q3pke")]
 layout_mode = 0
 offset_top = 720.0
 offset_bottom = 1440.0
 
-[node name="EffectGameCore" parent="." instance=ExtResource("6_j8sgq")]
+[node name="EffectGameCore" parent="." unique_id=1890670829 instance=ExtResource("6_j8sgq")]
 layout_mode = 1

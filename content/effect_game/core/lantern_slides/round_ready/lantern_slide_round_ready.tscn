@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://dt7ia3tp4bw2s"]
+
+[ext_resource type="Theme" uid="uid://djgdqovi8l6ca" path="res://content/effect_game/core/lantern_slides/round_ready/theme.tres" id="1_8qox6"]
+[ext_resource type="Script" uid="uid://bpng7y5n04srm" path="res://content/effect_game/core/lantern_slides/round_ready/lantern_slide_round_ready.gd" id="2_odc8t"]
+[ext_resource type="LabelSettings" uid="uid://gsbvr5sasf6v" path="res://content/effect_game/core/lantern_slides/round_ready/label_settings_round.tres" id="3_3gr33"]
+[ext_resource type="LabelSettings" uid="uid://dey8f83mlkur" path="res://content/effect_game/core/lantern_slides/round_ready/label_settings_number.tres" id="4_enjtt"]
+
+[node name="LanternSlide_RoundReady" type="Panel" unique_id=328469536]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("1_8qox6")
+script = ExtResource("2_odc8t")
+
+[node name="VBC" type="VBoxContainer" parent="." unique_id=1440043118]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+alignment = 1
+
+[node name="Round" type="Label" parent="VBC" unique_id=1680608622]
+layout_mode = 2
+text = "Round"
+label_settings = ExtResource("3_3gr33")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Number" type="Label" parent="VBC" unique_id=293472603]
+layout_mode = 2
+text = "123"
+label_settings = ExtResource("4_enjtt")
+horizontal_alignment = 1
+vertical_alignment = 1
