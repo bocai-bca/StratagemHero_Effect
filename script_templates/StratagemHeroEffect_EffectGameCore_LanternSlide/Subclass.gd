@@ -10,14 +10,10 @@ func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	# 从此处可扩展更多内容，具体取决于你想要给本幻灯片子类实现什么功能以及用到什么子节点
 
-func _update(delta: float) -> void:
-	# 可修改以下的各个分支代码块(包括DEAD的也可以根据需要修改)
-	match (state):
-		State.DEAD:
-			return
-		State.FOCUS:
-			pass
-		State.MOVEOUT:
-			pass
-		State.STANDBY:
-			pass
+## 虚方法覆写-幻灯片聚焦状态的过程方法，一般会直接用于State.FOCUS时的_update方法
+func _update_focus(_delta: float) -> void:
+	pass
+
+## 虚方法覆写-当本幻灯片实例抛下焦点后调用，本方法将于广播节点和设置状态之后调用
+func _drop_focus_postfix() -> void:
+	pass

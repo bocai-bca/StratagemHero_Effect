@@ -5,8 +5,6 @@ class_name StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall
 static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/lantern_slides/greatwall/lantern_slide_great_wall.tscn") as PackedScene
 
-static var label_settings_score: LabelSettings = preload("res://content/effect_game/core/lantern_slides/greatwall/label_settings_score.tres") as LabelSettings
-
 ## 允许同时存在的箭头数量(不包含淡出过程中的)
 const MAX_ARROWS_SAME_TIME: int = 8
 ## 留给箭头用的宽度相对于幻灯片根节点宽度的比率
@@ -21,7 +19,7 @@ const TIME_REDUCE_WHEN_WRONG: float = 1.0
 const TIME_LEFT_MAX: float = 15.0
 
 @onready var n_time_left_bar: ProgressBar = $TimeLeftBar as ProgressBar
-@onready var n_score: Label = $Score as Label
+@onready var n_score: StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
 var n_arrows: Array[StratagemHeroEffect_EffectGameCore_EffectArrow] = []
 var arrow_completed: int = 0:
@@ -41,108 +39,74 @@ func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_time_left_bar.size = Vector2(window_size.x * 0.75, window_size.y * 0.0889)
 	n_time_left_bar.position = Vector2(window_size.x * 0.125, window_size.y * 0.04)
-	n_score.size = window_size
+	n_score._fit_size(window_size)
 	n_score.position = Vector2(0.0, window_size.y * 0.3)
-	label_settings_score.font_size = int(StratagemHeroEffect.instance.get_fit_size(64.0))
 	arrow_max_width = (size.x * ARROWS_USABLE_WIDTH_RATE - size.x * ARROWS_SPACING_WIDTH_RATE * MAX_ARROWS_SAME_TIME) / MAX_ARROWS_SAME_TIME
 
-func _update(delta: float) -> void:
-	match (state):
-		State.DEAD:
-			return
-		State.FOCUS:
-			if (time_left <= 0.0):
-				var game_over_lantern_slide: StratagemHeroEffect_EffectGameCore_LanternSlide_GameOver = StratagemHeroEffect_EffectGameCore_LanternSlide_GameOver.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_GameOver
-				StratagemHeroEffect_EffectGame.instance.n_game_core.add_lantern_slide(game_over_lantern_slide)
-				game_over_lantern_slide.update_text_str(tr(&"effect_text.lantern_slide.generic.mode_greatwall"), str(arrow_completed), "--", str(snappedf(arrow_completed * 60.0 / total_timer, 0.1)) + "/min")
-				drop_focus()
-				return
-			while (n_arrows.size() < MAX_ARROWS_SAME_TIME):
-				var new_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = StratagemHeroEffect_EffectGameCore_EffectArrow.create(StratagemData.random_arrow())
-				n_arrows.append(new_arrow)
-				add_child(new_arrow)
-			for n_arrow in n_arrows:
-				n_arrow.update(delta)
-			time_left -= delta
-			total_timer += delta
-			n_time_left_bar.value = time_left / TIME_LEFT_MAX
-			positioning_arrows()
-			while (true):
-				if (n_arrows.is_empty()): break
-				if (not n_arrows[0].visible):
-					n_arrows.pop_front().queue_free()
-					continue
-				break
-			for n_arrow in n_arrows:
-				if (not n_arrow.pressed):
-					check_input(n_arrow)
-					break
-		State.MOVEOUT:
-			moveout_timer += delta
-			position.y = lerpf(0.0, -size.y, ease(clampf(moveout_timer / MOVEOUT_TIME, 0.0, 1.0), 0.2))
-			if (moveout_timer >= MOVEOUT_TIME):
-				state = State.DEAD
-				return
-		State.STANDBY:
-			pass
+func _update_focus(delta: float) -> void:
+	if (time_left <= 0.0):
+		var game_over_lantern_slide: StratagemHeroEffect_EffectGameCore_LanternSlide_GameOver = StratagemHeroEffect_EffectGameCore_LanternSlide_GameOver.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_GameOver
+		game_over_lantern_slide.update_text_str(tr(&"effect_text.lantern_slide.generic.mode_greatwall"), str(arrow_completed), "--", str(snappedf(arrow_completed * 60.0 / total_timer, 0.1)) + "/min")
+		StratagemHeroEffect_EffectGame.instance.n_game_core.add_lantern_slide(game_over_lantern_slide)
+		drop_focus()
+		return
+	while (n_arrows.size() < MAX_ARROWS_SAME_TIME):
+		var new_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = StratagemHeroEffect_EffectGameCore_EffectArrow.create(StratagemData.random_arrow())
+		n_arrows.append(new_arrow)
+		add_child(new_arrow)
+	for n_arrow in n_arrows:
+		n_arrow.update(delta)
+	time_left -= delta
+	total_timer += delta
+	n_time_left_bar.value = time_left / TIME_LEFT_MAX
+	positioning_arrows()
+	while (true):
+		if (n_arrows.is_empty()): break
+		if (not n_arrows[0].visible):
+			n_arrows.pop_front().queue_free()
+			continue
+		break
+	for n_arrow in n_arrows:
+		if (not n_arrow.pressed):
+			check_input(n_arrow)
+			break
 
 func check_input(next_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> void:
 	if (Input.is_action_just_pressed(&"up")):
 		if (next_arrow.direction_now == StratagemData.CodeArrow.UP):
-			next_arrow.set_alive(false)
-			next_arrow.set_pressed(true)
-			StratagemHeroEffect.instance.audio_press.play()
-			arrow_completed += 1
-			time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed), 0.0, INF)) * TIME_LEFT_MAX)
+			input_right(next_arrow)
 		else:
-			for n_arrow in n_arrows:
-				if (not n_arrow.pressed):
-					n_arrow.wrong()
-			StratagemHeroEffect.instance.audio_wrong.play()
-			time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
-		return
+			input_wrong()
 	if (Input.is_action_just_pressed(&"down")):
 		if (next_arrow.direction_now == StratagemData.CodeArrow.DOWN):
-			next_arrow.set_alive(false)
-			next_arrow.set_pressed(true)
-			StratagemHeroEffect.instance.audio_press.play()
-			arrow_completed += 1
-			time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed), 0.0, INF)) * TIME_LEFT_MAX)
+			input_right(next_arrow)
 		else:
-			for n_arrow in n_arrows:
-				if (not n_arrow.pressed):
-					n_arrow.wrong()
-			StratagemHeroEffect.instance.audio_wrong.play()
-			time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
-		return
+			input_wrong()
 	if (Input.is_action_just_pressed(&"left")):
 		if (next_arrow.direction_now == StratagemData.CodeArrow.LEFT):
-			next_arrow.set_alive(false)
-			next_arrow.set_pressed(true)
-			StratagemHeroEffect.instance.audio_press.play()
-			arrow_completed += 1
-			time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed), 0.0, INF)) * TIME_LEFT_MAX)
+			input_right(next_arrow)
 		else:
-			for n_arrow in n_arrows:
-				if (not n_arrow.pressed):
-					n_arrow.wrong()
-			StratagemHeroEffect.instance.audio_wrong.play()
-			time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
-		return
+			input_wrong()
 	if (Input.is_action_just_pressed(&"right")):
 		if (next_arrow.direction_now == StratagemData.CodeArrow.RIGHT):
-			next_arrow.set_alive(false)
-			next_arrow.set_pressed(true)
-			StratagemHeroEffect.instance.audio_press.play()
-			arrow_completed += 1
-			time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed), 0.0, INF)) * TIME_LEFT_MAX)
+			input_right(next_arrow)
 		else:
-			for n_arrow in n_arrows:
-				if (not n_arrow.pressed):
-					n_arrow.wrong()
-			StratagemHeroEffect.instance.audio_wrong.play()
-			time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
-		return
+			input_wrong()
+
+func input_right(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> void:
+	the_arrow.set_alive(false)
+	the_arrow.set_pressed(true)
+	StratagemHeroEffect.instance.audio_press.play()
+	arrow_completed += 1
+	time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed ** 0.8), 0.0, INF)) * TIME_LEFT_MAX)
+	n_score.set_new_text(str(arrow_completed))
+
+func input_wrong() -> void:
+	for n_arrow in n_arrows:
+		if (not n_arrow.pressed):
+			n_arrow.wrong()
+	StratagemHeroEffect.instance.audio_wrong.play()
+	time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
 
 ## 排列箭头，将设置它们的坐标和缩放
 func positioning_arrows() -> void:
@@ -161,4 +125,3 @@ func _drop_focus_postfix() -> void:
 		StratagemHeroEffect.instance.audio_game_over_large.play()
 	else:
 		StratagemHeroEffect.instance.audio_game_over.play()
-	StratagemHeroEffect.instance.audio_playing_music.stop()

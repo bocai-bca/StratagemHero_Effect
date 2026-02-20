@@ -1,5 +1,6 @@
 extends Node2D
 class_name StratagemHeroEffect_EffectGameCore_EffectArrow
+## 效果模式效果箭头
 
 static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/effect_arrow/effect_arrow.tscn") as PackedScene

@@ -29,13 +29,11 @@ func fit_size(window_size: Vector2) -> void:
 
 func start() -> void:
 	var new_intro: StratagemHeroEffect_EffectGameCore_LanternSlide_Intro = StratagemHeroEffect_EffectGameCore_LanternSlide_Intro.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_Intro
-	add_lantern_slide(new_intro)
 	new_intro.set_effect_mode_displayed(StratagemHeroEffect_EffectGame.special_effect_mode)
-	StratagemHeroEffect.instance.audio_title_music.stop()
-	StratagemHeroEffect.instance.audio_start.play()
+	add_lantern_slide(new_intro)
 	match (StratagemHeroEffect_EffectGame.special_effect_mode):
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.NONE:
-			add_lantern_slide(null)
+			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady.CPS().instantiate())
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.GREATWALL:
 			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall.CPS().instantiate())
 

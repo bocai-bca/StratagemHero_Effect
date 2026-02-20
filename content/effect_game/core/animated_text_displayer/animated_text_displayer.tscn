@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://0nnv3tch1670"]
+
+[ext_resource type="Script" uid="uid://b3fnm28k5helw" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.gd" id="1_e5me1"]
+[ext_resource type="LabelSettings" uid="uid://o2gtycplrjoo" path="res://content/effect_game/core/animated_text_displayer/label_settings.tres" id="1_ryp24"]
+
+[node name="AnimatedTextDisplayer" type="Label" unique_id=13880197]
+offset_right = 1280.0
+offset_bottom = 720.0
+pivot_offset_ratio = Vector2(0.5, 0.5)
+text = "0"
+label_settings = ExtResource("1_ryp24")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_e5me1")

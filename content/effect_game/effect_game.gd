@@ -54,8 +54,6 @@ var game_state: GameState = GameState.IDLE:
 						transfer_timers[0].current = 0.0
 						n_menu_text.update_text()
 						n_description_text.update_text()
-					GameState.CORE:
-						StratagemHeroEffect.instance.audio_title_music.play()
 			GameState.STRATAGEM_EDIT:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
@@ -184,3 +182,16 @@ func check_is_able_to_start_core() -> bool:
 
 func start_core() -> void:
 	game_state = GameState.CORE
+
+## 获取已翻译的特殊模式名称
+static func get_special_mode_name_translated() -> String:
+	match (special_effect_mode):
+		SpecialEffectMode.NONE:
+			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_none")
+		SpecialEffectMode.DICTATION:
+			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_dictation")
+		SpecialEffectMode.GREATWALL:
+			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_greatwall")
+		SpecialEffectMode.MULTILINES:
+			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_multilines")
+	return ""

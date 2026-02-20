@@ -131,7 +131,6 @@ stream = ExtResource("12_ju0h2")
 
 [node name="Audio_GameOverLarge" type="AudioStreamPlayer" parent="." unique_id=158094692]
 stream = ExtResource("13_6tfuj")
-stream_paused = true
 
 [node name="SuperEarthBackground" type="TextureRect" parent="." unique_id=353366259]
 modulate = Color(1, 1, 1, 0.1882353)

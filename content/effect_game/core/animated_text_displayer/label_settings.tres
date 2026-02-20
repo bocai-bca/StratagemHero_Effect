@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://o2gtycplrjoo"]
+
+[ext_resource type="FontFile" uid="uid://ddjmjwoqek0tx" path="res://resources/fonts/FS Sinclair Bold.woff2" id="1_lwdht"]
+
+[resource]
+font = ExtResource("1_lwdht")
+font_size = 64
+font_color = Color(1, 1, 0, 1)

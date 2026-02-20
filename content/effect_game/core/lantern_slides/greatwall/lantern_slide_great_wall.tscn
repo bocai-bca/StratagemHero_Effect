@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://dl6143ud88v5r" path="res://content/effect_game/core/lantern_slides/greatwall/theme.tres" id="1_23klx"]
 [ext_resource type="Script" uid="uid://dcpgikfxt6005" path="res://content/effect_game/core/lantern_slides/greatwall/lantern_slide_great_wall.gd" id="2_egtoh"]
-[ext_resource type="LabelSettings" uid="uid://o2gtycplrjoo" path="res://content/effect_game/core/lantern_slides/greatwall/label_settings_score.tres" id="3_v5wo6"]
+[ext_resource type="PackedScene" uid="uid://0nnv3tch1670" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.tscn" id="3_v5wo6"]
 
 [node name="LanternSlide_GreatWall" type="Panel" unique_id=1705404930]
 anchors_preset = 15
@@ -24,12 +24,5 @@ step = 0.001
 value = 0.5
 show_percentage = false
 
-[node name="Score" type="Label" parent="." unique_id=1357683349]
+[node name="AnimatedTextDisplayer" parent="." unique_id=13880197 instance=ExtResource("3_v5wo6")]
 layout_mode = 0
-offset_top = 216.0
-offset_right = 1280.0
-offset_bottom = 936.0
-text = "0"
-label_settings = ExtResource("3_v5wo6")
-horizontal_alignment = 1
-vertical_alignment = 1

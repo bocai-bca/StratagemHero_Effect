@@ -7,34 +7,29 @@ static func CPS() -> PackedScene:
 
 const WAIT_TIME: float = 0.9
 
-@onready var n_text: RichTextLabel = $RichTextLabel as RichTextLabel
+var n_text: RichTextLabel
 
 var wait_timer: float = WAIT_TIME
+
+func _notification(what: int) -> void:
+	if (what == NOTIFICATION_SCENE_INSTANTIATED):
+		n_text = $RichTextLabel as RichTextLabel
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_text.size = window_size
 
-func _update(delta: float) -> void:
-	# 可修改以下的各个分支代码块(包括DEAD的也可以根据需要修改)
-	match (state):
-		State.DEAD:
-			return
-		State.FOCUS:
-			wait_timer -= delta
-			if (wait_timer <= 0.0):
-				drop_focus()
-		State.MOVEOUT:
-			moveout_timer += delta
-			position.y = lerpf(0.0, -size.y, ease(clampf(moveout_timer / MOVEOUT_TIME, 0.0, 1.0), 0.2))
-			if (moveout_timer >= MOVEOUT_TIME):
-				state = State.DEAD
-				return
-		State.STANDBY:
-			pass
+func _update_focus(delta: float) -> void:
+	wait_timer -= delta
+	if (wait_timer <= 0.0):
+		drop_focus()
 
 func _drop_focus_postfix() -> void:
 	StratagemHeroEffect.instance.audio_playing_music.play()
+
+func _got_focus_postfix() -> void:
+	StratagemHeroEffect.instance.audio_title_music.stop()
+	StratagemHeroEffect.instance.audio_start.play()
 
 ## 设置用于显示的效果模式的特殊模式
 func set_effect_mode_displayed(special_mode: StratagemHeroEffect_EffectGame.SpecialEffectMode) -> void:
