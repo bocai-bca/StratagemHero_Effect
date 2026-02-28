@@ -10,6 +10,7 @@ static func CPS() -> PackedScene:
 const STAY_TIME: float = 1.0
 
 var n_vbc: VBoxContainer
+var n_number: Label
 
 ## 停留计时器
 var stay_timer: float = STAY_TIME
@@ -17,6 +18,7 @@ var stay_timer: float = STAY_TIME
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
 		n_vbc = $VBC as VBoxContainer
+		n_number = $VBC/Number as Label
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
@@ -33,3 +35,7 @@ func _got_focus_postfix() -> void:
 func _drop_focus_postfix() -> void:
 	if (StratagemHeroEffect_EffectGame.special_effect_mode == StratagemHeroEffect_EffectGame.SpecialEffectMode.NONE or StratagemHeroEffect_EffectGame.special_effect_mode == StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION):
 		StratagemHeroEffect_EffectGame.instance.n_game_core.add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_SingleLine.CPS().instantiate())
+
+## 设置回合数
+func set_number(round_number: int) -> void:
+	n_number.text = str(round_number)

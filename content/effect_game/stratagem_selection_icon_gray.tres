@@ -9,7 +9,7 @@ size = Vector2(620, 140)
 expression = "instance uniform bool enable_gray = false;"
 
 [sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_qjdlf"]
-size = Vector2(320, 180)
+size = Vector2(380, 200)
 expression = "output0 = enable_gray;"
 
 [sub_resource type="VisualShaderNodeSwitch" id="VisualShaderNodeSwitch_qjdlf"]
@@ -70,8 +70,8 @@ nodes/fragment/14/input_ports = ""
 nodes/fragment/14/output_ports = ""
 nodes/fragment/14/expression = "instance uniform bool enable_gray = false;"
 nodes/fragment/15/node = SubResource("VisualShaderNodeExpression_qjdlf")
-nodes/fragment/15/position = Vector2(1800, 1520)
-nodes/fragment/15/size = Vector2(320, 180)
+nodes/fragment/15/position = Vector2(1800, 1740)
+nodes/fragment/15/size = Vector2(380, 200)
 nodes/fragment/15/input_ports = ""
 nodes/fragment/15/output_ports = "0,6,output0;"
 nodes/fragment/15/expression = "output0 = enable_gray;"

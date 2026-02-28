@@ -13,3 +13,5 @@ texture = ExtResource("1_fyf4u")
 [node name="Ring" type="Sprite2D" parent="." unique_id=1181046890]
 scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("2_6yfo5")
+
+[node name="Unknown" type="Sprite2D" parent="." unique_id=1915271348]

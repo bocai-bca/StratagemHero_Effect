@@ -1,0 +1,53 @@
+[gd_resource type="VisualShader" format=3 uid="uid://blpx8f8lb41gl"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_7gt1v"]
+expanded_output_ports = [0]
+input_name = "color"
+
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_u3nsf"]
+size = Vector2(700, 460)
+expression = "instance uniform float gray_degree = 0.0;
+
+float lerp(float from, float to) {
+	return from + (to - from) * gray_degree;
+}"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_7gt1v"]
+size = Vector2(840, 580)
+expression = "float avg = (input0[0] + input0[1] + input0[2]) / 3.0;
+
+output0 = vec3(
+	lerp(input0[0], avg),
+	lerp(input0[1], avg),
+	lerp(input0[2], avg)
+);"
+
+[resource]
+mode = 1
+flags/light_only = false
+nodes/fragment/0/position = Vector2(180, 200)
+nodes/fragment/13/node = SubResource("VisualShaderNodeInput_7gt1v")
+nodes/fragment/13/position = Vector2(-1060, 40)
+nodes/fragment/15/node = SubResource("VisualShaderNodeGlobalExpression_u3nsf")
+nodes/fragment/15/position = Vector2(-1380, 300)
+nodes/fragment/15/size = Vector2(700, 460)
+nodes/fragment/15/input_ports = ""
+nodes/fragment/15/output_ports = ""
+nodes/fragment/15/expression = "instance uniform float gray_degree = 0.0;
+
+float lerp(float from, float to) {
+	return from + (to - from) * gray_degree;
+}"
+nodes/fragment/19/node = SubResource("VisualShaderNodeExpression_7gt1v")
+nodes/fragment/19/position = Vector2(-680, 180)
+nodes/fragment/19/size = Vector2(840, 580)
+nodes/fragment/19/input_ports = "0,4,input0;"
+nodes/fragment/19/output_ports = "0,4,output0;"
+nodes/fragment/19/expression = "float avg = (input0[0] + input0[1] + input0[2]) / 3.0;
+
+output0 = vec3(
+	lerp(input0[0], avg),
+	lerp(input0[1], avg),
+	lerp(input0[2], avg)
+);"
+nodes/fragment/connections = PackedInt32Array(13, 0, 19, 0, 19, 0, 0, 0)

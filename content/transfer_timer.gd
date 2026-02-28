@@ -27,6 +27,13 @@ func update(delta: float) -> void:
 func reversal() -> void:
 	current = maximum - current
 
+## 将计时进度拨回到远离计时方向的最远端(如当timing_direct为true时将拨回0，反之拨回maximum)
+func restart() -> void:
+	if (timing_direct):
+		current = 0.0
+	else:
+		current = maximum
+
 ## 构造函数，参数：最大值，变化方向(false负true增)，初始值
 func _init(max_value: float, direct: bool, init_value: float = 0.0 if direct else max_value) -> void:
 	maximum = max_value

@@ -29,14 +29,14 @@ func _process(delta: float) -> void:
 	scale = Vector2.ONE * lerpf(1.0, animation_further_scale_this, ease_value)
 	rotation = lerpf(0.0, animation_further_rotation_this, ease_value)
 
-## 设置文本，同时会设置一个新的大动画
+## 设置文本，同时会设置一个新的大动画。大动画是带放大和旋转的动画，且放大幅度更大
 func set_new_text_large(new_text: String) -> void:
 	text = new_text
 	animation_further_rotation_this = randf_range(ANIMATION_FURTHER_ROTATION.x, ANIMATION_FURTHER_ROTATION.y)
 	animation_further_scale_this = randf_range(ANIMATION_FURTHER_SCALE.x, ANIMATION_FURTHER_SCALE.y)
 	animation_timer = ANIMATION_TIME
 
-## 设置文本，同时会设置一个新的小动画，如果当前大动画正在播放，则不会覆盖大动画
+## 设置文本，同时会设置一个新的小动画，如果当前大动画正在播放，则不会覆盖大动画。小动画是只有放大的动画，且放大幅度较小
 func set_new_text_small(new_text: String) -> void:
 	text = new_text
 	if (animation_timer <= 0.0):

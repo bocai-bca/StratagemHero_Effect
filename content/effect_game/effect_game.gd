@@ -54,10 +54,21 @@ var game_state: GameState = GameState.IDLE:
 						transfer_timers[0].current = 0.0
 						n_menu_text.update_text()
 						n_description_text.update_text()
+					GameState.CORE:
+						n_title.visible = true
+						n_title_line_top.visible = true
+						n_menu_text.visible = true
+						n_description_text.visible = true
+						n_stratagem_selection_panel.visible = true
 			GameState.STRATAGEM_EDIT:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
 			GameState.CORE:
+				n_title.visible = false
+				n_title_line_top.visible = false
+				n_menu_text.visible = false
+				n_description_text.visible = false
+				n_stratagem_selection_panel.visible = false
 				n_game_core.start()
 ## 变换计时器列表
 ##  0 = 战备选择面板动画计时器

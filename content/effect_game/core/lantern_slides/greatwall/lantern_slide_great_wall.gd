@@ -99,7 +99,7 @@ func input_right(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> v
 	StratagemHeroEffect.instance.audio_press.play()
 	arrow_completed += 1
 	time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed ** 0.8), 0.0, INF)) * TIME_LEFT_MAX)
-	n_score.set_new_text(str(arrow_completed))
+	n_score.set_new_text_large(str(arrow_completed))
 
 func input_wrong() -> void:
 	for n_arrow in n_arrows:
