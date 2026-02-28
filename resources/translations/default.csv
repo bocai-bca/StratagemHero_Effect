@@ -14,7 +14,7 @@ main_menu_text_about,"About","关于"
 settings_text_language,"Change Language [English]","Change Language [中文]"
 
 game_text_ready,"GET READY","准备"
-game_text_round,"Round","回合"
+game_text_round,"ROUND","回合"
 game_text_score,"SCORE","得分"
 game_text_high_score,"HIGH SCORE","最高分"
 game_text_rounds_reached,"ROUNDS REACHED","抵达回合"
@@ -65,8 +65,12 @@ effect_text.lantern_slide.generic.mode_none,"No Effect","无特殊效果"
 effect_text.lantern_slide.generic.mode_dictation,"Dictation","默写"
 effect_text.lantern_slide.generic.mode_greatwall,"Great Wall","长城"
 effect_text.lantern_slide.generic.mode_multilines,"Multi-Lines","多行"
+effect_text.lantern_slide.generic.ingame_round,"Round","回合"
+effect_text.lantern_slide.generic.ingame_score,"Score","分数"
 
 effect_text.lantern_slide.intro.title,"Effect Mode","效果模式"
+
+effect_text.lantern_slide.round_ready.round,"Round","回合"
 
 effect_text.lantern_slide.game_over.continue_tip,"Press SPACE to continue","按空格键以继续"
 effect_text.lantern_slide.game_over.effect_mode,"Effect Mode","效果模式"

@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://dl6143ud88v5r" path="res://content/effect_game/core/lantern_slides/greatwall/theme.tres" id="1_23klx"]
 [ext_resource type="Script" uid="uid://dcpgikfxt6005" path="res://content/effect_game/core/lantern_slides/greatwall/lantern_slide_great_wall.gd" id="2_egtoh"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_t21kl"]
 [ext_resource type="PackedScene" uid="uid://0nnv3tch1670" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.tscn" id="3_v5wo6"]
 
 [node name="LanternSlide_GreatWall" type="Panel" unique_id=1705404930]
@@ -12,6 +13,18 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_23klx")
 script = ExtResource("2_egtoh")
+
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=1764717165]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_t21kl")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="TimeLeftBar" type="ProgressBar" parent="." unique_id=78303955]
 layout_mode = 0

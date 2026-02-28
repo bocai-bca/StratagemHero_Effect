@@ -13,7 +13,7 @@ const ANIMATION_TIME: float = 0.15
 ## 箭头图像的宽度，用于缩放时参与计算
 const IMAGE_WIDTH: float = 512.0
 ## 圆环动画时间，与ring_animation_timer关联
-const RING_ANIMATION_TIME: float = 0.8
+const RING_ANIMATION_TIME: float = 0.4
 ## 圆环被缩放到最大的缩放率
 const RING_ANIMATION_MAX_SCALE: float = 3.0
 ## 圆环开始变得透明的最小缩放率(即需要介于0.0与RING_ANIMATION_MAX_SCALE之间)
@@ -21,7 +21,7 @@ const RING_ANIMATION_ALPHA_DECREASE_START_SCALE: float = 2.5
 ## 错误闪红动画时间
 const WRONG_ANIMATION_TIME: float = 0.4
 ## 箭头动画时间，与arrow_animation_timer关联
-const ARROW_ANIMATION_TIME: float = 0.4
+const ARROW_ANIMATION_TIME: float = 0.15
 ## 箭头动画最远位移距离比率，基于IMAGE_WIDTH
 const ARROW_ANIMATION_FAREST_MOVE_DISTANCE_RATE: float = 0.5
 ## 箭头动画曲线切换点位置，起百分比作用。必须位于区间(0.0, 1.0]之内

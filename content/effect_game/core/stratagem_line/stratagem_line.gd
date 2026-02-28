@@ -16,27 +16,38 @@ var n_icon_frame: PanelContainer
 var n_icon: Sprite2D
 var n_arrows: Array[StratagemHeroEffect_EffectGameCore_EffectArrow] = []
 
+## 图标边框标准宽度
+const ICON_BORDER_BASIC_WIDTH: float = 4.0
 ## 图标纹理宽度
 const ICON_IMAGE_WIDTH: float = 512.0
+## 图标标准宽度
+const ICON_BASIC_SCALE: float = 128.0
 ## 亮起动画时间
-const LIGHTING_TIME: float = 0.8
+const LIGHTING_TIME: float = 0.6
 ## 图标动画时间
-const ICON_ANIMATION_TIME: float = 0.5
+const ICON_ANIMATION_TIME: float = 0.4
 ## 图标动画的最大偏斜范围
 const ICON_ANIMATION_MAX_SKEW: float = 0.52
 ## 箭头间距比率，基于箭头大小
 const ARROW_SPACING_RATE: float = 0.25
 ## 箭头起始位置
-const ARROW_START_POSITION_X: float = 128.0
+const ARROW_START_POSITION_X: float = 8.0
 ## 箭头标准宽度
-const ARROW_BASIC_WIDTH: float = 144.0
+const ARROW_BASIC_WIDTH: float = 96.0
+## 淡出动画时间
+const DEATH_TIME: float = 0.4
 
 ## 本实例的战备数据
 var stratagem_data: StratagemData
 ## 当前是否应该亮起(不亮起时呈现灰白)
-var lighting: bool = false
+var lighting: bool = false:
+	get:
+		return lighting
+	set(value):
+		lighting = value
+		lighting_timer.timing_direct = value
 ## 亮起动画计时器
-var lighting_timer: TransferTimer = TransferTimer.new(LIGHTING_TIME, true, 0.0)
+var lighting_timer: TransferTimer = TransferTimer.new(LIGHTING_TIME, false, 0.0)
 ## 窗口尺寸
 var window_size: Vector2 = Vector2(1280.0, 720.0)
 ## 图标动画计时器
@@ -45,13 +56,24 @@ var icon_animation_timer: TransferTimer = TransferTimer.new(ICON_ANIMATION_TIME,
 var icon_animation_timer_last_tick: float = 0.0
 ## 本实例是否处于完成态
 var was_done: bool = false
+## 本实例是否处于淡出状态
+var death: bool = false
+## 淡出动画倒计时器
+var death_timer: TransferTimer = TransferTimer.new(DEATH_TIME, false, DEATH_TIME)
+
+func _notification(what: int) -> void:
+	if (what == NOTIFICATION_SCENE_INSTANTIATED):
+		n_icon_frame = $Icon/IconFrame as PanelContainer
+		n_icon = $Icon as Sprite2D
 
 ## 相当于process，需要由持有并管理本箭头的幻灯片实例调用
 func update(delta: float) -> void:
 	lighting_timer.update(delta)
-	set_instance_shader_parameter(&"gray_degree", lighting_timer.percent)
 	update_icon(delta)
 	update_arrows(delta)
+	if (death):
+		death_timer.update(delta)
+	modulate.a = death_timer.percent
 
 ## 按帧执行的输入检查
 func update_check_input() -> void:
@@ -98,9 +120,9 @@ func press_correct(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow, is
 	emit_signal(&"pressed_correct")
 	if (is_last_one):
 		StratagemHeroEffect.instance.audio_done.play()
+		be_done()
 	else:
 		StratagemHeroEffect.instance.audio_press.play()
-		be_done()
 
 ## 判定按下错误并重置所有箭头，并播放相关音效
 func press_wrong() -> void:
@@ -108,6 +130,7 @@ func press_wrong() -> void:
 
 ## 使本战备行处于完成态，本方法自身不会播放音效，如需播放完成音效请在其他地方执行
 func be_done() -> void:
+	was_done = true
 	emit_signal(&"stratagem_done", stratagem_data.codes.size())
 
 ## 更新箭头
@@ -118,7 +141,6 @@ func update_arrows(delta: float) -> void:
 	for i in n_arrows.size():
 		var n_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = n_arrows[i]
 		n_arrow.update(delta)
-		n_arrow.scale = Vector2.ONE * width_per_arrow / StratagemHeroEffect_EffectGameCore_EffectArrow.IMAGE_WIDTH
 		var this_width: float = width_per_arrow * n_arrow.alive_timer.percent
 		n_arrow.position = Vector2(width_used + this_width * 0.5, 0.0)
 		width_used += this_width
@@ -136,22 +158,28 @@ func update_icon(delta: float) -> void:
 	icon_animation_timer_last_tick = icon_animation_timer.percent
 	var degree: float = ease(absf(icon_animation_timer.percent - 0.5) * 2.0, -2.0)
 	n_icon.scale.y = n_icon.scale.x * degree
-	n_icon.skew = degree * ICON_ANIMATION_MAX_SKEW
+	n_icon.skew = (1.0 - degree) * ICON_ANIMATION_MAX_SKEW
+	n_icon.set_instance_shader_parameter(&"gray_degree", lighting_timer.percent)
+	n_icon_frame.set_instance_shader_parameter(&"gray_degree", lighting_timer.percent)
 
 func fit_size(new_window_size: Vector2) -> void:
 	window_size = new_window_size
 	var panel_stylebox: StyleBoxFlat = n_icon_frame.theme.get_stylebox(&"panel", &"PanelContainer") as StyleBoxFlat
-	panel_stylebox.border_width_top = int(StratagemHeroEffect.instance.get_fit_size(4.0))
-	panel_stylebox.border_width_bottom = int(StratagemHeroEffect.instance.get_fit_size(4.0))
-	panel_stylebox.border_width_left = int(StratagemHeroEffect.instance.get_fit_size(4.0))
-	panel_stylebox.border_width_right = int(StratagemHeroEffect.instance.get_fit_size(4.0))
-	n_icon.scale = Vector2.ONE * StratagemHeroEffect.instance.get_fit_size(192.0) / ICON_IMAGE_WIDTH
+	panel_stylebox.border_width_top = int(StratagemHeroEffect.instance.get_fit_size(ICON_BORDER_BASIC_WIDTH))
+	panel_stylebox.border_width_bottom = int(StratagemHeroEffect.instance.get_fit_size(ICON_BORDER_BASIC_WIDTH))
+	panel_stylebox.border_width_left = int(StratagemHeroEffect.instance.get_fit_size(ICON_BORDER_BASIC_WIDTH))
+	panel_stylebox.border_width_right = int(StratagemHeroEffect.instance.get_fit_size(ICON_BORDER_BASIC_WIDTH))
+	n_icon.scale = Vector2.ONE * StratagemHeroEffect.instance.get_fit_size(ICON_BASIC_SCALE) / ICON_IMAGE_WIDTH
+	for n_arrow in n_arrows:
+		n_arrow.scale = Vector2.ONE * ARROW_BASIC_WIDTH / StratagemHeroEffect_EffectGameCore_EffectArrow.IMAGE_WIDTH
 
 ## 变更战备数据
 func change_stratagem_data_to(new_data: StratagemData) -> void:
 	stratagem_data = new_data
 	while (n_arrows.size() < new_data.codes.size()):
-		n_arrows.append(StratagemHeroEffect_EffectGameCore_EffectArrow.create(StratagemData.random_arrow()))
+		var new_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = StratagemHeroEffect_EffectGameCore_EffectArrow.create(StratagemData.random_arrow())
+		n_arrows.append(new_arrow)
+		add_child(new_arrow)
 	for i in new_data.codes.size():
 		var n_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = n_arrows[i]
 		if (i >= new_data.codes.size()):
@@ -169,6 +197,4 @@ func start_icon_animation() -> void:
 static func create(new_data: StratagemData) -> StratagemHeroEffect_EffectGameCore_StratagemLine:
 	var new_instance: StratagemHeroEffect_EffectGameCore_StratagemLine = CPS().instantiate() as StratagemHeroEffect_EffectGameCore_StratagemLine
 	new_instance.change_stratagem_data_to(new_data)
-	new_instance.n_icon_frame = new_instance.get_node(^"Icon/IconFrame") as PanelContainer
-	new_instance.n_icon = new_instance.get_node(^"Icon") as Sprite2D
 	return new_instance

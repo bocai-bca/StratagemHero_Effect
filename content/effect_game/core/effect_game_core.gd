@@ -33,7 +33,10 @@ func start() -> void:
 	add_lantern_slide(new_intro)
 	match (StratagemHeroEffect_EffectGame.special_effect_mode):
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.NONE:
-			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady.CPS().instantiate())
+			var new_round_ready: StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady = StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady
+			new_round_ready.set_number(1)
+			add_lantern_slide(new_round_ready)
+			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_SingleLine.create_new_singleline(1, 0, 0, 0.0))
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.GREATWALL:
 			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall.CPS().instantiate())
 
@@ -41,8 +44,8 @@ func start() -> void:
 func add_lantern_slide(lantern_slide_node: StratagemHeroEffect_EffectGameCore_LanternSlide) -> void:
 	lantern_slides_standby.append(lantern_slide_node)
 	add_child(lantern_slide_node)
-	lantern_slide_node._fit_size(get_window().size)
 	move_child(lantern_slide_node, 0)
+	lantern_slide_node._fit_size(get_window().size)
 
 ## 用于连接到信号，当有幻灯片节点抛下焦点时被调用，负责转移引用、给下一个幻灯片赋予焦点
 func on_lantern_slide_drop_focus(the_lantern_slide: StratagemHeroEffect_EffectGameCore_LanternSlide) -> void:

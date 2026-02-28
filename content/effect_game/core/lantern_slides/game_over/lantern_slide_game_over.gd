@@ -14,6 +14,7 @@ static var label_settings_one_heart: LabelSettings = preload("res://content/effe
 ## 继续计时，用于阻断空格连发
 const CONTINUE_TIME: float = 0.15
 
+var n_super_earth_logo: TextureRect
 var n_root_container: MarginContainer
 var n_effect_mode_name: Label
 var n_score_name: Label
@@ -31,6 +32,7 @@ var continue_timer: float = CONTINUE_TIME + 1.0
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
+		n_super_earth_logo = $SuperEarthIcon as TextureRect
 		n_root_container = $MC as MarginContainer
 		n_effect_mode_name = $MC/VBC/EffectMode/Name as Label
 		n_score_name = $MC/VBC/Score/Name as Label
@@ -58,6 +60,7 @@ func _fit_size(window_size: Vector2) -> void:
 	label_settings_values.font_size = int(StratagemHeroEffect.instance.get_fit_size(96.0))
 	label_settings_continue_tip.font_size = int(StratagemHeroEffect.instance.get_fit_size(48.0))
 	label_settings_one_heart.font_size = int(StratagemHeroEffect.instance.get_fit_size(64.0))
+	update_logo(n_super_earth_logo, window_size)
 
 func _update_focus(delta: float) -> void:
 	if (Input.is_action_just_pressed(&"space")):

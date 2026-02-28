@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://cgvisphb6fkn6" path="res://content/effect_game/core/lantern_slides/game_over/theme.tres" id="1_8cbb3"]
 [ext_resource type="Script" uid="uid://c5eafd2ge22d6" path="res://content/effect_game/core/lantern_slides/game_over/lantern_slide_game_over.gd" id="2_myohu"]
 [ext_resource type="LabelSettings" uid="uid://bbjcqgqdlt6n" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_names.tres" id="3_17fbc"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_x46ch"]
 [ext_resource type="LabelSettings" uid="uid://db6gj6pdj22hr" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_values.tres" id="4_8kgpr"]
 [ext_resource type="LabelSettings" uid="uid://dgb7pq3okaew0" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_continue_tip.tres" id="5_8kgpr"]
 [ext_resource type="LabelSettings" uid="uid://c02cglry4ngeh" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_one_heart.tres" id="5_l4aea"]
@@ -12,6 +13,18 @@ offset_right = 1280.0
 offset_bottom = 720.0
 theme = ExtResource("1_8cbb3")
 script = ExtResource("2_myohu")
+
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=1046185189]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_x46ch")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="MC" type="MarginContainer" parent="." unique_id=1322522142]
 layout_mode = 0

@@ -1,7 +1,7 @@
 @abstract
 extends Panel
 class_name StratagemHeroEffect_EffectGameCore_LanternSlide
-## 效果模式幻灯片基类
+## 效果模式幻灯片基类(抽象)
 
 static func CPS() -> PackedScene:
 	assert(false, "This class has no CPS.")
@@ -83,3 +83,8 @@ func drop_focus() -> void:
 func got_focus() -> void:
 	state = State.FOCUS
 	_got_focus_postfix()
+
+## 更新logo节点的静态方法，把对应参数输进去就行，通常建议搭配_fit_size执行
+static func update_logo(logo_node: TextureRect, viewport_size: Vector2) -> void:
+	logo_node.size = viewport_size
+	logo_node.position = viewport_size * 0.125

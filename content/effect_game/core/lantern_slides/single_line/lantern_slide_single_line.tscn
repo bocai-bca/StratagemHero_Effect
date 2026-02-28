@@ -4,12 +4,25 @@
 [ext_resource type="Script" uid="uid://ctpoxjxsl6d85" path="res://content/effect_game/core/lantern_slides/single_line/lantern_slide_single_line.gd" id="2_nevos"]
 [ext_resource type="PackedScene" uid="uid://0nnv3tch1670" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.tscn" id="3_1h67r"]
 [ext_resource type="LabelSettings" uid="uid://hwflc2m18w73" path="res://content/effect_game/core/lantern_slides/single_line/label_settings_common.tres" id="3_eo55h"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_igim8"]
 
 [node name="LanternSlide_SingleLine" type="Panel" unique_id=330736235]
 offset_right = 1280.0
 offset_bottom = 720.0
 theme = ExtResource("1_hagtr")
 script = ExtResource("2_nevos")
+
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=1563890825]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_igim8")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="TimeLeftBar" type="ProgressBar" parent="." unique_id=1169616568]
 layout_mode = 0
@@ -28,7 +41,7 @@ offset_left = -512.0
 offset_top = -216.0
 offset_right = 768.0
 offset_bottom = 504.0
-text = "Round"
+text = "effect_text.lantern_slide.generic.ingame_round"
 label_settings = ExtResource("3_eo55h")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -46,7 +59,7 @@ offset_left = 512.0
 offset_top = -216.0
 offset_right = 1792.0
 offset_bottom = 504.0
-text = "Score"
+text = "effect_text.lantern_slide.generic.ingame_score"
 label_settings = ExtResource("3_eo55h")
 horizontal_alignment = 1
 vertical_alignment = 1

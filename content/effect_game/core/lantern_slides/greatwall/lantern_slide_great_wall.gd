@@ -18,8 +18,9 @@ const TIME_REDUCE_WHEN_WRONG: float = 1.0
 ## 时间条上限
 const TIME_LEFT_MAX: float = 15.0
 
-@onready var n_time_left_bar: ProgressBar = $TimeLeftBar as ProgressBar
-@onready var n_score: StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
+var n_super_earth_logo: TextureRect
+var n_time_left_bar: ProgressBar
+var n_score: StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
 var n_arrows: Array[StratagemHeroEffect_EffectGameCore_EffectArrow] = []
 var arrow_completed: int = 0:
@@ -35,6 +36,12 @@ var arrow_max_width: float = 0.0
 ## 计时器，用于计算平均速度
 var total_timer: float = 0.0
 
+func _notification(what: int) -> void:
+	if (what == NOTIFICATION_SCENE_INSTANTIATED):
+		n_super_earth_logo = $SuperEarthIcon as TextureRect
+		n_time_left_bar = $TimeLeftBar as ProgressBar
+		n_score = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
+
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_time_left_bar.size = Vector2(window_size.x * 0.75, window_size.y * 0.0889)
@@ -42,6 +49,7 @@ func _fit_size(window_size: Vector2) -> void:
 	n_score._fit_size(window_size)
 	n_score.position = Vector2(0.0, window_size.y * 0.3)
 	arrow_max_width = (size.x * ARROWS_USABLE_WIDTH_RATE - size.x * ARROWS_SPACING_WIDTH_RATE * MAX_ARROWS_SAME_TIME) / MAX_ARROWS_SAME_TIME
+	update_logo(n_super_earth_logo, window_size)
 
 func _update_focus(delta: float) -> void:
 	if (time_left <= 0.0):
@@ -119,6 +127,9 @@ func positioning_arrows() -> void:
 		var this_width: float = (n_arrow.IMAGE_WIDTH * n_arrow.scale.x + spacing) * ease(n_arrow.modulate.a, -1.6) #计算该箭头实例的实际宽度占用
 		n_arrow.position = Vector2(this_width / 2.0 + start_pos_x + width_used, size.y / 2.0)
 		width_used += this_width
+
+func _got_focus_postfix() -> void:
+	StratagemHeroEffect.instance.audio_playing_music.play()
 
 func _drop_focus_postfix() -> void:
 	if (arrow_completed >= MIN_ARROW_COMPLETED_ABLE_TO_PLAY_LARGE_GAMEOVER_SOUND):

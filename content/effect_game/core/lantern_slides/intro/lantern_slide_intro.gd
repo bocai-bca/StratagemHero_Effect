@@ -7,17 +7,20 @@ static func CPS() -> PackedScene:
 
 const WAIT_TIME: float = 0.9
 
+var n_super_earth_logo: TextureRect
 var n_text: RichTextLabel
 
 var wait_timer: float = WAIT_TIME
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
+		n_super_earth_logo = $SuperEarthIcon as TextureRect
 		n_text = $RichTextLabel as RichTextLabel
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_text.size = window_size
+	update_logo(n_super_earth_logo, window_size)
 
 func _update_focus(delta: float) -> void:
 	wait_timer -= delta
@@ -25,7 +28,7 @@ func _update_focus(delta: float) -> void:
 		drop_focus()
 
 func _drop_focus_postfix() -> void:
-	StratagemHeroEffect.instance.audio_playing_music.play()
+	pass
 
 func _got_focus_postfix() -> void:
 	StratagemHeroEffect.instance.audio_title_music.stop()

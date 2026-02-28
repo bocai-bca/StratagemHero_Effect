@@ -5,20 +5,21 @@
 [ext_resource type="Texture2D" uid="uid://b108kj0svkt8k" path="res://resources/images/airburst_rocket_launcher.svg" id="3_3mren"]
 [ext_resource type="Theme" uid="uid://dtjvkili60pxv" path="res://content/effect_game/core/stratagem_line/theme.tres" id="3_p0pey"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3mren"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p0pey"]
 shader = ExtResource("1_1q16v")
 
 [node name="StratagemLine" type="Node2D" unique_id=1089226850]
-material = SubResource("ShaderMaterial_3mren")
-instance_shader_parameters/gray_degree = 0.0
 script = ExtResource("1_elsx3")
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=803282047]
-position = Vector2(-96, 0)
-scale = Vector2(0.375, 0.375)
+material = SubResource("ShaderMaterial_p0pey")
+instance_shader_parameters/gray_degree = 1.0
+position = Vector2(-64, 0)
+scale = Vector2(0.25, 0.25)
 texture = ExtResource("3_3mren")
 
 [node name="IconFrame" type="PanelContainer" parent="Icon" unique_id=1987898454]
+use_parent_material = true
 offset_left = -256.0
 offset_top = -256.0
 offset_right = 256.0

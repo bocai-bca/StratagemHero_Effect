@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://dhlf5u0vr7ih6" path="res://content/effect_game/core/lantern_slides/intro/theme.tres" id="1_l31gt"]
 [ext_resource type="Script" uid="uid://bb6xe43iln6yu" path="res://content/effect_game/core/lantern_slides/intro/lantern_slide_intro.gd" id="1_v8tsw"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_3uiak"]
 
 [node name="LanternSlide_Intro" type="Panel" unique_id=919662686]
 anchors_preset = 15
@@ -11,6 +12,18 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_l31gt")
 script = ExtResource("1_v8tsw")
+
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=1871453248]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_3uiak")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=1103435685]
 layout_mode = 0
