@@ -24,21 +24,21 @@ texture = ExtResource("3_odc8t")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="VBC" type="VBoxContainer" parent="." unique_id=1440043118]
+[node name="Round" type="Label" parent="." unique_id=1680608622]
 layout_mode = 0
+offset_top = -90.0
 offset_right = 1280.0
-offset_bottom = 720.0
-alignment = 1
-
-[node name="Round" type="Label" parent="VBC" unique_id=1680608622]
-layout_mode = 2
+offset_bottom = 630.0
 text = "Round"
 label_settings = ExtResource("3_3gr33")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Number" type="Label" parent="VBC" unique_id=293472603]
-layout_mode = 2
+[node name="Number" type="Label" parent="." unique_id=293472603]
+layout_mode = 0
+offset_top = 90.0
+offset_right = 1280.0
+offset_bottom = 810.0
 text = "123"
 label_settings = ExtResource("4_enjtt")
 horizontal_alignment = 1

@@ -5,7 +5,7 @@ class_name StratagemHeroEffect_EffectGameCore_LanternSlide_Intro
 static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/lantern_slides/intro/lantern_slide_intro.tscn") as PackedScene
 
-const WAIT_TIME: float = 0.9
+const WAIT_TIME: float = 1.25
 
 var n_super_earth_logo: TextureRect
 var n_text: RichTextLabel

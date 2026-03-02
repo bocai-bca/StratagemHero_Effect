@@ -25,7 +25,7 @@ const ICON_BASIC_SCALE: float = 128.0
 ## 亮起动画时间
 const LIGHTING_TIME: float = 0.6
 ## 图标动画时间
-const ICON_ANIMATION_TIME: float = 0.4
+const ICON_ANIMATION_TIME: float = 0.2
 ## 图标动画的最大偏斜范围
 const ICON_ANIMATION_MAX_SKEW: float = 0.52
 ## 箭头间距比率，基于箭头大小
@@ -35,7 +35,7 @@ const ARROW_START_POSITION_X: float = 8.0
 ## 箭头标准宽度
 const ARROW_BASIC_WIDTH: float = 96.0
 ## 淡出动画时间
-const DEATH_TIME: float = 0.4
+const DEATH_TIME: float = 0.3
 
 ## 本实例的战备数据
 var stratagem_data: StratagemData
@@ -77,6 +77,8 @@ func update(delta: float) -> void:
 
 ## 按帧执行的输入检查
 func update_check_input() -> void:
+	if (death):
+		return
 	var current_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow
 	var is_last_one: bool = false
 	for i in n_arrows.size():
@@ -126,6 +128,10 @@ func press_correct(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow, is
 
 ## 判定按下错误并重置所有箭头，并播放相关音效
 func press_wrong() -> void:
+	StratagemHeroEffect.instance.audio_wrong.play()
+	for n_arrow in n_arrows:
+		n_arrow.set_pressed(false)
+		n_arrow.wrong()
 	emit_signal(&"pressed_wrong")
 
 ## 使本战备行处于完成态，本方法自身不会播放音效，如需播放完成音效请在其他地方执行
@@ -169,9 +175,12 @@ func fit_size(new_window_size: Vector2) -> void:
 	panel_stylebox.border_width_bottom = int(StratagemHeroEffect.instance.get_fit_size(ICON_BORDER_BASIC_WIDTH))
 	panel_stylebox.border_width_left = int(StratagemHeroEffect.instance.get_fit_size(ICON_BORDER_BASIC_WIDTH))
 	panel_stylebox.border_width_right = int(StratagemHeroEffect.instance.get_fit_size(ICON_BORDER_BASIC_WIDTH))
-	n_icon.scale = Vector2.ONE * StratagemHeroEffect.instance.get_fit_size(ICON_BASIC_SCALE) / ICON_IMAGE_WIDTH
+	var icon_width: float = StratagemHeroEffect.instance.get_fit_size(ICON_BASIC_SCALE)
+	n_icon.scale = Vector2.ONE * icon_width / ICON_IMAGE_WIDTH
+	n_icon.position = Vector2(icon_width * -0.5, 0.0)
+	var arrow_scale_rate: float = StratagemHeroEffect.instance.get_fit_size(1.0)
 	for n_arrow in n_arrows:
-		n_arrow.scale = Vector2.ONE * ARROW_BASIC_WIDTH / StratagemHeroEffect_EffectGameCore_EffectArrow.IMAGE_WIDTH
+		n_arrow.scale = Vector2.ONE * ARROW_BASIC_WIDTH / StratagemHeroEffect_EffectGameCore_EffectArrow.IMAGE_WIDTH * arrow_scale_rate
 
 ## 变更战备数据
 func change_stratagem_data_to(new_data: StratagemData) -> void:
