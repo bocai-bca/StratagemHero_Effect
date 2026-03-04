@@ -27,6 +27,7 @@ enum SpecialEffectMode{
 	DICTATION, ## 默写
 	GREATWALL, ## 长城
 	MULTILINES, ## 多行
+	TERMINAL, ## 终端
 }
 
 var game_state: GameState = GameState.IDLE:
@@ -171,6 +172,8 @@ func menu_click() -> void:
 				SpecialEffectMode.GREATWALL:
 					special_effect_mode = SpecialEffectMode.MULTILINES
 				SpecialEffectMode.MULTILINES:
+					special_effect_mode = SpecialEffectMode.TERMINAL
+				SpecialEffectMode.TERMINAL:
 					special_effect_mode = SpecialEffectMode.NONE
 			n_menu_text.update_text()
 			n_description_text.update_text()

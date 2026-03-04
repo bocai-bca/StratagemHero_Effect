@@ -192,6 +192,7 @@ func update_icon(delta: float) -> void:
 	if (icon_animation_timer.percent >= 0.5 && icon_animation_timer_last_tick <= 0.5):
 		n_icon.texture = stratagem_data.icon
 		n_namebar_text.text = tr(stratagem_data.name_key)
+		fit_size(window_size)
 	icon_animation_timer_last_tick = icon_animation_timer.percent
 	var degree: float = ease(absf(icon_animation_timer.percent - 0.5) * 2.0, -2.0)
 	n_icon.scale.y = n_icon.scale.x * degree
