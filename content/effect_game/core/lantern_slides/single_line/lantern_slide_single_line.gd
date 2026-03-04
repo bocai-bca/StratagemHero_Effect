@@ -29,7 +29,7 @@ const BASIC_TIME_DECREASE: float = 0.5
 ## 行阵列的X坐标起始位置比率，基于本节点的横向尺寸
 const LINES_POSITION_X_START_RATE: float = 0.2
 ## 行阵列的Y坐标起始位置比率，基于本节点的纵向尺寸
-const LINES_POSITION_Y_START_RATE: float = 0.3
+const LINES_POSITION_Y_START_RATE: float = 0.28
 ## 行阵列的垂直间隔距离比率，基于行的StratagemHeroEffect.instance.get_fit_size(ICON_BASIC_SCALE)
 const LINES_SPACING_RATE: float = 0.5
 ## 抛下焦点计时器(回合结束后开始计时)
