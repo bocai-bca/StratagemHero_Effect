@@ -60,6 +60,9 @@ var game_state: GameState = GameState.IDLE:
 						n_menu_text.visible = true
 						n_description_text.visible = true
 						n_stratagem_selection_panel.visible = true
+						menu_option_focus = 0
+						n_menu_text.update_text()
+						n_description_text.update_text()
 			GameState.STRATAGEM_EDIT:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
@@ -148,6 +151,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if (event.is_action_released(&"space")):
 				get_viewport().set_input_as_handled()
 				menu_click()
+	_physics_process(0.0)
 
 func stop_game() -> void:
 	game_state = GameState.IDLE

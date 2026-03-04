@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://dfu72hq2vx505"]
+[gd_scene format=3 uid="uid://dfu72hq2vx505"]
 
 [ext_resource type="FontFile" uid="uid://is2tab25h8eg" path="res://resources/fonts/FS Sinclair Medium.woff2" id="1_mekki"]
 [ext_resource type="Script" uid="uid://dahjp2a7pdrdl" path="res://content/effect_game/stratagem_selection_panel.gd" id="2_ay0oy"]
@@ -27,16 +27,16 @@ font_size = 48
 line_spacing = 0.0
 font_size = 36
 
-[node name="StratagemSelectionPanel" type="PanelContainer"]
+[node name="StratagemSelectionPanel" type="PanelContainer" unique_id=1759120380]
 offset_right = 1280.0
 offset_bottom = 720.0
 theme = SubResource("Theme_qk261")
 script = ExtResource("2_ay0oy")
 
-[node name="VBC" type="VBoxContainer" parent="."]
+[node name="VBC" type="VBoxContainer" parent="." unique_id=1659865464]
 layout_mode = 2
 
-[node name="TitleTip" type="Label" parent="VBC"]
+[node name="TitleTip" type="Label" parent="VBC" unique_id=1077300795]
 layout_mode = 2
 text = "effect_text.edit_stratagems.title"
 label_settings = SubResource("LabelSettings_mekki")
@@ -46,17 +46,17 @@ autowrap_trim_flags = 0
 justification_flags = 0
 clip_text = true
 
-[node name="HBC" type="HBoxContainer" parent="VBC"]
+[node name="HBC" type="HBoxContainer" parent="VBC" unique_id=2047916477]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 
-[node name="CommonClass" type="VBoxContainer" parent="VBC/HBC"]
+[node name="CommonClass" type="VBoxContainer" parent="VBC/HBC" unique_id=1549171867]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 
-[node name="Name" type="Label" parent="VBC/HBC/CommonClass"]
+[node name="Name" type="Label" parent="VBC/HBC/CommonClass" unique_id=1210726036]
 layout_mode = 2
 text = "effect_text.edit_stratagems.common"
 label_settings = SubResource("LabelSettings_ay0oy")
@@ -66,18 +66,18 @@ autowrap_trim_flags = 0
 justification_flags = 0
 clip_text = true
 
-[node name="HFC" type="HFlowContainer" parent="VBC/HBC/CommonClass"]
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/CommonClass" unique_id=1173789457]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 last_wrap_alignment = 1
 
-[node name="SupportClass" type="VBoxContainer" parent="VBC/HBC"]
+[node name="SupportClass" type="VBoxContainer" parent="VBC/HBC" unique_id=443664701]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 1.75
 
-[node name="Name" type="Label" parent="VBC/HBC/SupportClass"]
+[node name="Name" type="Label" parent="VBC/HBC/SupportClass" unique_id=2044010204]
 layout_mode = 2
 text = "effect_text.edit_stratagems.support"
 label_settings = SubResource("LabelSettings_ay0oy")
@@ -87,18 +87,18 @@ autowrap_trim_flags = 0
 justification_flags = 0
 clip_text = true
 
-[node name="HFC" type="HFlowContainer" parent="VBC/HBC/SupportClass"]
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/SupportClass" unique_id=222092539]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 last_wrap_alignment = 1
 
-[node name="AttackClass" type="VBoxContainer" parent="VBC/HBC"]
+[node name="AttackClass" type="VBoxContainer" parent="VBC/HBC" unique_id=1845003569]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.8
 
-[node name="Name" type="Label" parent="VBC/HBC/AttackClass"]
+[node name="Name" type="Label" parent="VBC/HBC/AttackClass" unique_id=113995415]
 layout_mode = 2
 text = "effect_text.edit_stratagems.attack"
 label_settings = SubResource("LabelSettings_ay0oy")
@@ -108,18 +108,18 @@ autowrap_trim_flags = 0
 justification_flags = 0
 clip_text = true
 
-[node name="HFC" type="HFlowContainer" parent="VBC/HBC/AttackClass"]
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/AttackClass" unique_id=514935751]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 last_wrap_alignment = 1
 
-[node name="DefenceClass" type="VBoxContainer" parent="VBC/HBC"]
+[node name="DefenceClass" type="VBoxContainer" parent="VBC/HBC" unique_id=2114060753]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.8
 
-[node name="Name" type="Label" parent="VBC/HBC/DefenceClass"]
+[node name="Name" type="Label" parent="VBC/HBC/DefenceClass" unique_id=542142957]
 layout_mode = 2
 text = "effect_text.edit_stratagems.defence"
 label_settings = SubResource("LabelSettings_ay0oy")
@@ -129,18 +129,18 @@ autowrap_trim_flags = 0
 justification_flags = 0
 clip_text = true
 
-[node name="HFC" type="HFlowContainer" parent="VBC/HBC/DefenceClass"]
+[node name="HFC" type="HFlowContainer" parent="VBC/HBC/DefenceClass" unique_id=1344968641]
 layout_mode = 2
 size_flags_vertical = 3
 alignment = 1
 last_wrap_alignment = 1
 
-[node name="Buttons" type="VBoxContainer" parent="VBC/HBC"]
+[node name="Buttons" type="VBoxContainer" parent="VBC/HBC" unique_id=1875681055]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.65
 
-[node name="SwitchAll" type="Button" parent="VBC/HBC/Buttons"]
+[node name="SwitchAll" type="Button" parent="VBC/HBC/Buttons" unique_id=1468197677]
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
@@ -149,7 +149,7 @@ text = "effect_text.edit_stratagems.switch_all"
 autowrap_trim_flags = 0
 clip_text = true
 
-[node name="SwitchCommons" type="Button" parent="VBC/HBC/Buttons"]
+[node name="SwitchCommons" type="Button" parent="VBC/HBC/Buttons" unique_id=1928572675]
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
@@ -158,7 +158,7 @@ text = "effect_text.edit_stratagems.switch_commons"
 autowrap_trim_flags = 0
 clip_text = true
 
-[node name="SwitchSupports" type="Button" parent="VBC/HBC/Buttons"]
+[node name="SwitchSupports" type="Button" parent="VBC/HBC/Buttons" unique_id=1525991801]
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
@@ -167,7 +167,7 @@ text = "effect_text.edit_stratagems.switch_supports"
 autowrap_trim_flags = 0
 clip_text = true
 
-[node name="SwitchAttacks" type="Button" parent="VBC/HBC/Buttons"]
+[node name="SwitchAttacks" type="Button" parent="VBC/HBC/Buttons" unique_id=754387814]
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
@@ -176,7 +176,7 @@ text = "effect_text.edit_stratagems.switch_attacks"
 autowrap_trim_flags = 0
 clip_text = true
 
-[node name="SwitchDefences" type="Button" parent="VBC/HBC/Buttons"]
+[node name="SwitchDefences" type="Button" parent="VBC/HBC/Buttons" unique_id=244137326]
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
@@ -185,7 +185,7 @@ text = "effect_text.edit_stratagems.switch_defences"
 autowrap_trim_flags = 0
 clip_text = true
 
-[node name="SwitchWarbonds" type="Button" parent="VBC/HBC/Buttons"]
+[node name="SwitchWarbonds" type="Button" parent="VBC/HBC/Buttons" unique_id=82418441]
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
@@ -194,7 +194,7 @@ text = "effect_text.edit_stratagems.switch_warbonds"
 autowrap_trim_flags = 0
 clip_text = true
 
-[node name="Apply" type="Button" parent="VBC/HBC/Buttons"]
+[node name="Apply" type="Button" parent="VBC/HBC/Buttons" unique_id=1077433797]
 layout_mode = 2
 focus_mode = 0
 mouse_filter = 2
@@ -203,8 +203,9 @@ text = "effect_text.edit_stratagems.apply"
 autowrap_trim_flags = 0
 clip_text = true
 
-[node name="Cancel" type="Button" parent="VBC/HBC/Buttons"]
+[node name="Cancel" type="Button" parent="VBC/HBC/Buttons" unique_id=590191528]
 layout_mode = 2
+focus_neighbor_bottom = NodePath(".")
 focus_mode = 0
 mouse_filter = 2
 button_mask = 0

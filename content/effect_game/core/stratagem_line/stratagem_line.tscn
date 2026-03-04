@@ -1,27 +1,81 @@
 [gd_scene format=3 uid="uid://bv2e1xw5flunf"]
 
-[ext_resource type="Shader" uid="uid://blpx8f8lb41gl" path="res://content/effect_game/core/stratagem_line/shader.tres" id="1_1q16v"]
-[ext_resource type="Script" uid="uid://bqxn44w7e7yy4" path="res://content/effect_game/core/stratagem_line/stratagem_line.gd" id="1_elsx3"]
-[ext_resource type="Texture2D" uid="uid://b108kj0svkt8k" path="res://resources/images/airburst_rocket_launcher.svg" id="3_3mren"]
-[ext_resource type="Theme" uid="uid://dtjvkili60pxv" path="res://content/effect_game/core/stratagem_line/theme.tres" id="3_p0pey"]
+[ext_resource type="Theme" uid="uid://biiek22pb3wm3" path="res://content/effect_game/core/lantern_slides/single_line/theme.tres" id="1_vvuyl"]
+[ext_resource type="Script" uid="uid://ctpoxjxsl6d85" path="res://content/effect_game/core/lantern_slides/single_line/lantern_slide_single_line.gd" id="2_181yg"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_jvap2"]
+[ext_resource type="LabelSettings" uid="uid://hwflc2m18w73" path="res://content/effect_game/core/lantern_slides/single_line/label_settings_common.tres" id="4_g7i3b"]
+[ext_resource type="PackedScene" uid="uid://0nnv3tch1670" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.tscn" id="5_irlgs"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_p0pey"]
-shader = ExtResource("1_1q16v")
+[node name="LanternSlide_SingleLine" type="Panel" unique_id=330736235]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("1_vvuyl")
+script = ExtResource("2_181yg")
 
-[node name="StratagemLine" type="Node2D" unique_id=1089226850]
-script = ExtResource("1_elsx3")
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=1563890825]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_jvap2")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="Icon" type="Sprite2D" parent="." unique_id=803282047]
-material = SubResource("ShaderMaterial_p0pey")
-instance_shader_parameters/gray_degree = 1.0
-position = Vector2(-64, 0)
-scale = Vector2(0.25, 0.25)
-texture = ExtResource("3_3mren")
+[node name="TimeLeftBar" type="ProgressBar" parent="." unique_id=1169616568]
+layout_mode = 0
+offset_left = 224.0
+offset_top = 28.8
+offset_right = 1056.0
+offset_bottom = 92.8
+max_value = 1.0
+step = 0.001
+value = 0.5
+show_percentage = false
 
-[node name="IconFrame" type="PanelContainer" parent="Icon" unique_id=1987898454]
-use_parent_material = true
-offset_left = -256.0
-offset_top = -256.0
-offset_right = 256.0
-offset_bottom = 256.0
-theme = ExtResource("3_p0pey")
+[node name="RoundText" type="Label" parent="." unique_id=1360197040]
+layout_mode = 0
+offset_left = -512.0
+offset_top = -288.0
+offset_right = 768.0
+offset_bottom = 432.0
+text = "effect_text.lantern_slide.generic.ingame_round"
+label_settings = ExtResource("4_g7i3b")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundNum" parent="." unique_id=13880197 instance=ExtResource("5_irlgs")]
+layout_mode = 0
+offset_left = -512.0
+offset_top = -216.0
+offset_right = 768.0
+offset_bottom = 504.0
+
+[node name="ScoreText" type="Label" parent="." unique_id=821108781]
+layout_mode = 0
+offset_left = 512.0
+offset_top = -288.0
+offset_right = 1792.0
+offset_bottom = 432.0
+text = "effect_text.lantern_slide.generic.ingame_score"
+label_settings = ExtResource("4_g7i3b")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreNum" parent="." unique_id=853778072 instance=ExtResource("5_irlgs")]
+layout_mode = 0
+offset_left = 512.0
+offset_top = -216.0
+offset_right = 1792.0
+offset_bottom = 504.0
+
+[node name="RoundFinishText" type="Label" parent="." unique_id=1161876215]
+layout_mode = 0
+offset_top = 144.0
+offset_right = 1280.0
+offset_bottom = 864.0
+label_settings = ExtResource("4_g7i3b")
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,12 @@
+[gd_resource type="Theme" format=3 uid="uid://lqd6unb3b403"]
+
+[ext_resource type="FontFile" uid="uid://is2tab25h8eg" path="res://resources/fonts/FS Sinclair Medium.woff2" id="1_ni4iq"]
+[ext_resource type="StyleBox" uid="uid://cnrrowe7c8bbm" path="res://content/effect_game/core/stratagem_line/stylebox_namebar.tres" id="2_ic7u7"]
+
+[resource]
+resource_local_to_scene = true
+Label/colors/font_color = Color(0, 0, 0, 1)
+Label/constants/line_spacing = 0
+Label/font_sizes/font_size = 32
+Label/fonts/font = ExtResource("1_ni4iq")
+PanelContainer/styles/panel = ExtResource("2_ic7u7")

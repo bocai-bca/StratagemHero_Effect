@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://7ob6cytr5qoo" path="res://content/effect_game/core/effect_arrow/effect_arrow.gd" id="1_6yfo5"]
 [ext_resource type="Texture2D" uid="uid://c0a2vro0hvi1k" path="res://resources/images/arrow_v.svg" id="1_fyf4u"]
 [ext_resource type="Texture2D" uid="uid://b6c6boumhnxa8" path="res://resources/images/ring.svg" id="2_6yfo5"]
+[ext_resource type="Texture2D" uid="uid://cdjcrvm43lugs" path="res://resources/images/unknown_code.svg" id="4_22ph0"]
 
 [node name="EffectArrow" type="Node2D" unique_id=1188483728]
 script = ExtResource("1_6yfo5")
@@ -15,3 +16,5 @@ scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("2_6yfo5")
 
 [node name="Unknown" type="Sprite2D" parent="." unique_id=1915271348]
+visible = false
+texture = ExtResource("4_22ph0")

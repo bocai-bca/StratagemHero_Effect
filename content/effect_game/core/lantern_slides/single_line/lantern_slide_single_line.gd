@@ -27,15 +27,15 @@ const BASIC_TIME_REVIVE: float = 4.0
 ## 基本计时器扣除值
 const BASIC_TIME_DECREASE: float = 0.5
 ## 行阵列的X坐标起始位置比率，基于本节点的横向尺寸
-const LINES_POSITION_X_START_RATE: float = 0.25
+const LINES_POSITION_X_START_RATE: float = 0.2
 ## 行阵列的Y坐标起始位置比率，基于本节点的纵向尺寸
 const LINES_POSITION_Y_START_RATE: float = 0.3
 ## 行阵列的垂直间隔距离比率，基于行的StratagemHeroEffect.instance.get_fit_size(ICON_BASIC_SCALE)
-const LINES_SPACING_RATE: float = 0.1
-## 抛下焦点计时器
-const FOCUS_DROP_TIME: float = 4.0
+const LINES_SPACING_RATE: float = 0.5
+## 抛下焦点计时器(回合结束后开始计时)
+const FOCUS_DROP_TIME: float = 3.5
 ## 回合结束文本显现过程时间
-const ROUND_FINISH_TEXT_DISPLAYING_TIME: float = 2.0
+const ROUND_FINISH_TEXT_DISPLAYING_TIME: float = 1.5
 ## 剩余时间条背景样式盒默认颜色
 const STYLEBOX_TIMEBAR_BACKGROUND_DEFAULT_COLOR: Color = Color(0.25, 0.25, 0.25, 1.0)
 ## 剩余时间条背景样式盒警告颜色
@@ -52,6 +52,10 @@ const TIMEBAR_REVIVE_EFFECT_TIME: float = 0.5
 const TIMEBAR_WARNING_RATIO: float = 0.6
 ## 剩余时间条背景警告效果时间
 const TIMEBAR_BACKGROUND_WARNING_EFFECT_TIME: float = 0.2
+## 默写模式的计时器乘数，影响回合总时间和回复时间
+const DICTATION_TIMER_MULTIPLIER: float = 6.0
+## 默写模式的惩罚时间乘数，影响按错时扣除的时间
+const DICTATION_TIMER_DECREASE_MULTIPLIER: float = 5.0
 
 ## 剩余时间条回复效果计时器
 var timebar_revive_effect_timer: float = 0.0
@@ -126,6 +130,7 @@ func _fit_size(window_size: Vector2) -> void:
 	n_round_finish_text.position = Vector2(0.0, size.y * 0.2)
 	n_round_finish_text.size = window_size
 	label_settings_common.font_size = int(StratagemHeroEffect.instance.get_fit_size(48.0))
+	#StratagemHeroEffect_EffectGameCore_StratagemLine.static_fit_size(window_size)
 
 func _update_focus(delta: float) -> void:
 	if (not is_going_to_drop_focus):
@@ -198,11 +203,13 @@ func next_line() -> void:
 	arrow_completed += code_num
 	arrow_completed_this_round += code_num
 	current_score += code_num
-	timer = move_toward(timer, timer_max, time_revive_this_round)
+	timer = move_toward(timer, timer_max, time_revive_this_round if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION else time_revive_this_round * DICTATION_TIMER_MULTIPLIER)
 	timebar_revive_effect_timer = TIMEBAR_REVIVE_EFFECT_TIME
 	n_lines_fadeouting.append(the_one_moving)
 	if (n_lines.is_empty()):
 		to_next_round()
+		return
+	n_lines[0].lighting = true
 
 ## 触发到游戏结束
 func to_game_over() -> void:
@@ -247,10 +254,12 @@ func to_next_round() -> void:
 ## 通过给定战备列表创建所有战备行节点，同时添加节点到列表
 func stratagems_to_nodes(stratagems: Array[StratagemData]) -> void:
 	for stratagem in stratagems:
-		var new_line: StratagemHeroEffect_EffectGameCore_StratagemLine = StratagemHeroEffect_EffectGameCore_StratagemLine.create(stratagem)
+		var new_line: StratagemHeroEffect_EffectGameCore_StratagemLine = StratagemHeroEffect_EffectGameCore_StratagemLine.create(stratagem, StratagemHeroEffect_EffectGame.special_effect_mode == StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION)
 		n_lines.append(new_line)
 		new_line.pressed_wrong.connect(on_line_wrong)
 		add_child(new_line)
+	if (not n_lines.is_empty()):
+		n_lines[0].lighting = true
 
 func _got_focus_postfix() -> void:
 	StratagemHeroEffect.instance.audio_playing_music.play()
@@ -259,7 +268,8 @@ func _drop_focus_postfix() -> void:
 	pass
 
 func on_line_wrong() -> void:
-	timer -= BASIC_TIME_DECREASE
+	var time_decrease: float = timer_max if StratagemHeroEffect_EffectGame.one_heart else BASIC_TIME_DECREASE
+	timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
 	timebar_background_warning_effect_timer = TIMEBAR_BACKGROUND_WARNING_EFFECT_TIME
 	is_perfect = false
 
@@ -274,6 +284,8 @@ static func create_new_singleline(round_num: int, new_score: int, new_arrow_comp
 	new_single_line.current_score = new_score
 	new_single_line.arrow_completed = new_arrow_completed
 	new_single_line.timer_max = get_timer_max_for_round(round_num)
+	if (StratagemHeroEffect_EffectGame.special_effect_mode == StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION):
+		new_single_line.timer_max *= DICTATION_TIMER_MULTIPLIER
 	new_single_line.timer = new_single_line.timer_max
 	new_single_line.total_timer = new_total_timer
 	new_single_line.stratagems_to_nodes(make_stratagems_list(get_stratagems_count_for_round(new_single_line.current_round)))

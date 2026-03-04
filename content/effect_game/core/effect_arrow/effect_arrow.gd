@@ -5,8 +5,10 @@ class_name StratagemHeroEffect_EffectGameCore_EffectArrow
 static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/effect_arrow/effect_arrow.tscn") as PackedScene
 
-var n_arrow: Sprite2D # 由创建函数(create)赋值
-var n_ring: Sprite2D # 由创建函数赋值
+#下方节点变量由创建函数(create)赋值
+var n_arrow: Sprite2D
+var n_ring: Sprite2D
+var n_unknown: Sprite2D
 
 ## 动画时间，用于旋转、淡入淡出、位移
 const ANIMATION_TIME: float = 0.15
@@ -57,6 +59,13 @@ var wrong_timer: float = 0.0
 var arrow_animation_timer: TransferTimer = TransferTimer.new(ARROW_ANIMATION_TIME, true, ARROW_ANIMATION_TIME)
 ## 记录箭头动画的运动方向
 var arrow_animation_direction: StratagemData.CodeArrow
+## 当前箭头是否已知，主要用于默写模式
+var is_unknown: bool = false:
+	get:
+		return is_unknown
+	set(value):
+		n_arrow.visible = not value
+		n_unknown.visible = value
 
 ## 相当于process，需要由持有并管理本箭头的幻灯片实例调用
 func update(delta: float) -> void:
@@ -143,5 +152,6 @@ static func create(new_direction: StratagemData.CodeArrow) -> StratagemHeroEffec
 	var new_instance: StratagemHeroEffect_EffectGameCore_EffectArrow = CPS().instantiate() as StratagemHeroEffect_EffectGameCore_EffectArrow
 	new_instance.n_arrow = new_instance.get_node(^"Arrow") as Sprite2D
 	new_instance.n_ring = new_instance.get_node(^"Ring") as Sprite2D
+	new_instance.n_unknown = new_instance.get_node(^"Unknown") as Sprite2D
 	new_instance.change_direction_to(new_direction)
 	return new_instance

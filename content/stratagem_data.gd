@@ -138,6 +138,30 @@ static var list: Dictionary[StringName, StratagemData]:
 					StratagemClass.SUPPORT,
 					false
 				),
+			&"bastion_mk_xvi":
+				StratagemData.new(
+					preload("res://resources/images/bastion_mk_xvi.svg"),
+					"stratagem_name.bastion_mk_xvi",
+					"<v>v<v^v^",
+					StratagemClass.SUPPORT,
+					false
+				),
+			&"c4_pack":
+				StratagemData.new(
+					preload("res://resources/images/c4_pack.svg"),
+					"stratagem_name.c4_pack",
+					"v>^^>^",
+					StratagemClass.SUPPORT,
+					true
+				),
+			&"call_in_super_destroyer":
+				StratagemData.new(
+					preload("res://resources/images/call_in_super_destroyer.svg"),
+					"stratagem_name.call_in_super_destroyer",
+					"^^vv<><>",
+					StratagemClass.COMMON,
+					false
+				),
 			&"cargo_container":
 				StratagemData.new(
 					preload("res://resources/images/cargo_container.svg"),
@@ -153,6 +177,14 @@ static var list: Dictionary[StringName, StratagemData]:
 					"v<^v>",
 					StratagemClass.SUPPORT,
 					false
+				),
+			&"cqc_20":
+				StratagemData.new(
+					preload("res://resources/images/cqc_20.svg"),
+					"stratagem_name.cqc_20",
+					"v<><^",
+					StratagemClass.SUPPORT,
+					true
 				),
 			&"dark_fluid_vessel":
 				StratagemData.new(
@@ -214,7 +246,7 @@ static var list: Dictionary[StringName, StratagemData]:
 				StratagemData.new(
 					preload("res://resources/images/eagle_napalm_airstrike.svg"),
 					"stratagem_name.eagle_napalm_airstrike",
-					"^>V^",
+					"^>v^",
 					StratagemClass.ATTACK,
 					false
 				),
@@ -241,6 +273,14 @@ static var list: Dictionary[StringName, StratagemData]:
 					"^>>",
 					StratagemClass.ATTACK,
 					false
+				),
+			&"eat_411":
+				StratagemData.new(
+					preload("res://resources/images/eat_411.svg"),
+					"stratagem_name.eat_411",
+					"vv<^v",
+					StratagemClass.SUPPORT,
+					true
 				),
 			&"emancipator_exosuit":
 				StratagemData.new(
@@ -321,6 +361,14 @@ static var list: Dictionary[StringName, StratagemData]:
 					"v^><",
 					StratagemClass.DEFENCE,
 					false
+				),
+			&"gl_28":
+				StratagemData.new(
+					preload("res://resources/images/gl_28.svg"),
+					"stratagem_name.gl_28",
+					"v<^<^^",
+					StratagemClass.SUPPORT,
+					true
 				),
 			&"gl_52_de_escalator":
 				StratagemData.new(

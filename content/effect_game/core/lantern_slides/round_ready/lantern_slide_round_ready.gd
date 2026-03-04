@@ -7,7 +7,7 @@ static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/lantern_slides/round_ready/lantern_slide_round_ready.tscn") as PackedScene
 
 ## 停留时间
-const STAY_TIME: float = 1.0
+const STAY_TIME: float = 0.8
 
 var label_settings_number: LabelSettings = preload("res://content/effect_game/core/lantern_slides/round_ready/label_settings_number.tres") as LabelSettings
 var label_settings_round: LabelSettings = preload("res://content/effect_game/core/lantern_slides/round_ready/label_settings_round.tres") as LabelSettings

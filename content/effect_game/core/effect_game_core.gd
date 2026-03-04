@@ -32,7 +32,7 @@ func start() -> void:
 	new_intro.set_effect_mode_displayed(StratagemHeroEffect_EffectGame.special_effect_mode)
 	add_lantern_slide(new_intro)
 	match (StratagemHeroEffect_EffectGame.special_effect_mode):
-		StratagemHeroEffect_EffectGame.SpecialEffectMode.NONE:
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.NONE, StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION:
 			var new_round_ready: StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady = StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_RoundReady
 			new_round_ready.set_number(1)
 			add_lantern_slide(new_round_ready)
