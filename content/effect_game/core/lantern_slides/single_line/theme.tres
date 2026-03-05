@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://biiek22pb3wm3"]
 
-[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/panel_stylebox.tres" id="1_328bt"]
+[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_328bt"]
 [ext_resource type="StyleBox" uid="uid://u7fl7ko6d7fa" path="res://content/effect_game/core/lantern_slides/single_line/stylebox_timebar_background.tres" id="2_bpy6u"]
 [ext_resource type="FontFile" uid="uid://ddjmjwoqek0tx" path="res://resources/fonts/FS Sinclair Bold.woff2" id="2_ti1en"]
 [ext_resource type="StyleBox" uid="uid://dtr5jhujwalky" path="res://content/effect_game/core/lantern_slides/single_line/stylebox_timebar_fill.tres" id="3_mhkoa"]

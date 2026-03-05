@@ -1,0 +1,10 @@
+[gd_resource type="Theme" format=3 uid="uid://ceavqd6h72cli"]
+
+[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_teprv"]
+[ext_resource type="StyleBox" uid="uid://crqnukryvtgkc" path="res://content/effect_game/core/lantern_slides/stylebox_timebar_background.tres" id="2_lloeo"]
+[ext_resource type="StyleBox" uid="uid://c6qywfmn65rds" path="res://content/effect_game/core/lantern_slides/stylebox_timebar_fill.tres" id="3_iawn4"]
+
+[resource]
+Panel/styles/panel = ExtResource("1_teprv")
+ProgressBar/styles/background = ExtResource("2_lloeo")
+ProgressBar/styles/fill = ExtResource("3_iawn4")

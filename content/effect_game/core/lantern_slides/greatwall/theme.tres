@@ -1,15 +1,10 @@
 [gd_resource type="Theme" format=3 uid="uid://dl6143ud88v5r"]
 
-[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/panel_stylebox.tres" id="1_1nq60"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okqgy"]
-bg_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1nq60"]
-bg_color = Color(1, 1, 0, 1)
-anti_aliasing = false
+[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_1nq60"]
+[ext_resource type="StyleBox" uid="uid://crqnukryvtgkc" path="res://content/effect_game/core/lantern_slides/stylebox_timebar_background.tres" id="2_e8252"]
+[ext_resource type="StyleBox" uid="uid://c6qywfmn65rds" path="res://content/effect_game/core/lantern_slides/stylebox_timebar_fill.tres" id="3_g3o5b"]
 
 [resource]
 Panel/styles/panel = ExtResource("1_1nq60")
-ProgressBar/styles/background = SubResource("StyleBoxFlat_okqgy")
-ProgressBar/styles/fill = SubResource("StyleBoxFlat_1nq60")
+ProgressBar/styles/background = ExtResource("2_e8252")
+ProgressBar/styles/fill = ExtResource("3_g3o5b")

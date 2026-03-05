@@ -1,6 +1,6 @@
 [gd_resource type="Theme" format=3 uid="uid://cgvisphb6fkn6"]
 
-[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/panel_stylebox.tres" id="1_lgfqx"]
+[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_lgfqx"]
 
 [resource]
 MarginContainer/constants/margin_bottom = 64
