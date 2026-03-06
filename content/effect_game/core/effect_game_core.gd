@@ -38,7 +38,13 @@ func start() -> void:
 			add_lantern_slide(new_round_ready)
 			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_SingleLine.create_new_singleline(1, 0, 0, 0.0))
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.GREATWALL:
-			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall.CPS().instantiate())
+			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall)
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.MULTILINES:
+			pass
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.TERMINAL:
+			var new_terminal: StratagemHeroEffect_EffectGameCore_LanternSlide_Terminal = StratagemHeroEffect_EffectGameCore_LanternSlide_Terminal.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_Terminal
+			new_terminal.next_line()
+			add_lantern_slide(new_terminal)
 
 ## 在幻灯片列表最末尾添加一个新幻灯片，同时将该幻灯片节点添加至场景树
 func add_lantern_slide(lantern_slide_node: StratagemHeroEffect_EffectGameCore_LanternSlide) -> void:

@@ -46,4 +46,6 @@ func set_effect_mode_displayed(special_mode: StratagemHeroEffect_EffectGame.Spec
 			mode_name = tr(&"effect_text.lantern_slide.generic.mode_greatwall")
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.MULTILINES:
 			mode_name = tr(&"effect_text.lantern_slide.generic.mode_multilines")
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.TERMINAL:
+			mode_name = tr(&"effect_text.lantern_slide.generic.mode_terminal")
 	n_text.text = tr(&"effect_text.lantern_slide.intro.title") + "\n[color=yellow][b]" + mode_name + "[/b][/color]"

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://0nnv3tch1670" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.tscn" id="3_1h67r"]
 [ext_resource type="LabelSettings" uid="uid://hwflc2m18w73" path="res://content/effect_game/core/lantern_slides/single_line/label_settings_common.tres" id="3_eo55h"]
 [ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_igim8"]
+[ext_resource type="PackedScene" uid="uid://btl5gko7xovsc" path="res://content/effect_game/core/time_left_bar/time_left_bar.tscn" id="4_31so5"]
 
 [node name="LanternSlide_SingleLine" type="Panel" unique_id=330736235]
 offset_right = 1280.0
@@ -24,16 +25,12 @@ texture = ExtResource("3_igim8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TimeLeftBar" type="ProgressBar" parent="." unique_id=1169616568]
+[node name="TimeLeftBar" parent="." unique_id=1371415554 instance=ExtResource("4_31so5")]
 layout_mode = 0
-offset_left = 224.0
-offset_top = 28.8
-offset_right = 1056.0
-offset_bottom = 92.8
-max_value = 1.0
-step = 0.001
-value = 0.5
-show_percentage = false
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 832.0
+offset_bottom = 64.0
 
 [node name="RoundText" type="Label" parent="." unique_id=1360197040]
 layout_mode = 0

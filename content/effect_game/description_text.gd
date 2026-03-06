@@ -15,6 +15,8 @@ func update_text() -> void:
 					text = tr(&"effect_description.effect_mode.greatwall")
 				StratagemHeroEffect_EffectGame.SpecialEffectMode.MULTILINES:
 					text = tr(&"effect_description.effect_mode.multilines")
+				StratagemHeroEffect_EffectGame.SpecialEffectMode.TERMINAL:
+					text = tr(&"effect_description.effect_mode.terminal")
 		2: #编辑战备
 			text = tr(&"effect_description.effect_option.edit_stratagems")
 		3: #一命模式

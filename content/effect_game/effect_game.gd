@@ -212,4 +212,6 @@ static func get_special_mode_name_translated() -> String:
 			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_greatwall")
 		SpecialEffectMode.MULTILINES:
 			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_multilines")
+		SpecialEffectMode.TERMINAL:
+			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_terminal")
 	return ""

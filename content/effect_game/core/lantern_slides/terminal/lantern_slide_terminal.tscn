@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://ceavqd6h72cli" path="res://content/effect_game/core/lantern_slides/terminal/theme.tres" id="1_d70ro"]
 [ext_resource type="Script" uid="uid://brelciy1py48t" path="res://content/effect_game/core/lantern_slides/terminal/lantern_slide_terminal.gd" id="2_u6v4e"]
 [ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_k6f30"]
+[ext_resource type="PackedScene" uid="uid://btl5gko7xovsc" path="res://content/effect_game/core/time_left_bar/time_left_bar.tscn" id="4_b074c"]
 [ext_resource type="PackedScene" uid="uid://0nnv3tch1670" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.tscn" id="4_y051c"]
 
 [node name="LanternSlide_Terminal" type="Panel" unique_id=147425425]
@@ -23,16 +24,8 @@ texture = ExtResource("3_k6f30")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="TimeLeftBar" type="ProgressBar" parent="." unique_id=1088146119]
+[node name="TimeLeftBar" parent="." unique_id=1371415554 instance=ExtResource("4_b074c")]
 layout_mode = 0
-offset_left = 160.0
-offset_top = 28.8
-offset_right = 1120.0
-offset_bottom = 92.8
-max_value = 1.0
-step = 0.001
-value = 0.5
-show_percentage = false
 
 [node name="AnimatedTextDisplayer" parent="." unique_id=13880197 instance=ExtResource("4_y051c")]
 layout_mode = 0

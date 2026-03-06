@@ -11,7 +11,7 @@ var stylebox_timebar_background: StyleBoxFlat = preload("res://content/effect_ga
 var stylebox_timebar_fill: StyleBoxFlat = preload("res://content/effect_game/core/lantern_slides/single_line/stylebox_timebar_fill.tres") as StyleBoxFlat
 
 var n_super_earth_logo: TextureRect
-var n_time_left_bar: ProgressBar
+var n_time_left_bar: StratagemHeroEffect_EffectGameCore_TimeLeftBar
 var n_round_text: Label
 var n_round_num: StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 var n_score_text: Label
@@ -36,31 +36,12 @@ const LINES_SPACING_RATE: float = 0.5
 const FOCUS_DROP_TIME: float = 3.5
 ## 回合结束文本显现过程时间
 const ROUND_FINISH_TEXT_DISPLAYING_TIME: float = 1.5
-## 剩余时间条背景样式盒默认颜色
-const STYLEBOX_TIMEBAR_BACKGROUND_DEFAULT_COLOR: Color = Color(0.25, 0.25, 0.25, 1.0)
-## 剩余时间条背景样式盒警告颜色
-const STYLEBOX_TIMEBAR_BACKGROUND_WARNING_COLOR: Color = Color(1.0, 0.0, 0.0, 1.0)
-## 剩余时间条填充样式盒默认颜色
-const STYLEBOX_TIMEBAR_FILL_DEFAULT_COLOR: Color = Color(1.0, 1.0, 0.0, 1.0)
-## 剩余时间条填充样式盒警告颜色
-const STYLEBOX_TIMEBAR_FILL_WARNING_COLOR: Color = Color(1.0, 0.3, 0.0, 1.0)
-## 剩余时间条填充样式盒回复颜色
-const STYLEBOX_TIMEBAR_FILL_REVIVE_COLOR: Color = Color(1.0, 1.0, 1.0, 1.0)
-## 剩余时间条回复效果时间
-const TIMEBAR_REVIVE_EFFECT_TIME: float = 0.5
-## 剩余时间条警告过渡开始点比率
-const TIMEBAR_WARNING_RATIO: float = 0.6
-## 剩余时间条背景警告效果时间
-const TIMEBAR_BACKGROUND_WARNING_EFFECT_TIME: float = 0.2
+
 ## 默写模式的计时器乘数，影响回合总时间和回复时间
 const DICTATION_TIMER_MULTIPLIER: float = 6.0
 ## 默写模式的惩罚时间乘数，影响按错时扣除的时间
 const DICTATION_TIMER_DECREASE_MULTIPLIER: float = 5.0
 
-## 剩余时间条回复效果计时器
-var timebar_revive_effect_timer: float = 0.0
-## 剩余时间条背景警告效果计时器
-var timebar_background_warning_effect_timer: float = 0.0
 ## 回合计数
 var current_round: int = 1:
 	get:
@@ -100,7 +81,7 @@ var round_finish_displaying_timer: TransferTimer = TransferTimer.new(ROUND_FINIS
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
 		n_super_earth_logo = $SuperEarthIcon as TextureRect
-		n_time_left_bar = $TimeLeftBar as ProgressBar
+		n_time_left_bar = $TimeLeftBar as StratagemHeroEffect_EffectGameCore_TimeLeftBar
 		n_round_text = $RoundText as Label
 		n_round_num = $RoundNum as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 		n_score_text = $ScoreText as Label
@@ -136,9 +117,10 @@ func _update_focus(delta: float) -> void:
 	if (not is_going_to_drop_focus):
 		timer -= delta
 		total_timer += delta
-		n_time_left_bar.value = timer / timer_max
+		n_time_left_bar.update(delta, timer / total_timer)
 		if (timer <= 0.0):
 			to_game_over()
+			return
 	for i in n_lines.size():
 		var n_line: StratagemHeroEffect_EffectGameCore_StratagemLine = n_lines[i]
 		n_line.update(delta)
@@ -156,26 +138,6 @@ func _update_focus(delta: float) -> void:
 		focus_drop_timer.update(delta)
 		if (focus_drop_timer.percent >= 1.0):
 			drop_focus()
-	timebar_revive_effect_timer = move_toward(timebar_revive_effect_timer, 0.0, delta)
-	timebar_background_warning_effect_timer = move_toward(timebar_background_warning_effect_timer, 0.0, delta)
-	var timebar_background_warning_effect_timing_percent: float = timebar_background_warning_effect_timer / TIMEBAR_BACKGROUND_WARNING_EFFECT_TIME
-	stylebox_timebar_background.bg_color = Color(
-		lerpf(STYLEBOX_TIMEBAR_BACKGROUND_DEFAULT_COLOR.r, STYLEBOX_TIMEBAR_BACKGROUND_WARNING_COLOR.r, timebar_background_warning_effect_timing_percent),
-		lerpf(STYLEBOX_TIMEBAR_BACKGROUND_DEFAULT_COLOR.g, STYLEBOX_TIMEBAR_BACKGROUND_WARNING_COLOR.g, timebar_background_warning_effect_timing_percent),
-		lerpf(STYLEBOX_TIMEBAR_BACKGROUND_DEFAULT_COLOR.b, STYLEBOX_TIMEBAR_BACKGROUND_WARNING_COLOR.b, timebar_background_warning_effect_timing_percent),
-	)
-	var timebar_fill_warning_weight: float = clampf(timer / timer_max / TIMEBAR_WARNING_RATIO, 0.0, 1.0)
-	var timebar_basic_current_fill_color: Color = Color(
-		lerpf(STYLEBOX_TIMEBAR_FILL_WARNING_COLOR.r, STYLEBOX_TIMEBAR_FILL_DEFAULT_COLOR.r, timebar_fill_warning_weight),
-		lerpf(STYLEBOX_TIMEBAR_FILL_WARNING_COLOR.g, STYLEBOX_TIMEBAR_FILL_DEFAULT_COLOR.g, timebar_fill_warning_weight),
-		lerpf(STYLEBOX_TIMEBAR_FILL_WARNING_COLOR.b, STYLEBOX_TIMEBAR_FILL_DEFAULT_COLOR.b, timebar_fill_warning_weight),
-	)
-	var timebar_revive_effect_timing_percent: float = timebar_revive_effect_timer / TIMEBAR_REVIVE_EFFECT_TIME
-	stylebox_timebar_fill.bg_color = Color(
-		lerpf(timebar_basic_current_fill_color.r, STYLEBOX_TIMEBAR_FILL_REVIVE_COLOR.r, timebar_revive_effect_timing_percent),
-		lerpf(timebar_basic_current_fill_color.g, STYLEBOX_TIMEBAR_FILL_REVIVE_COLOR.g, timebar_revive_effect_timing_percent),
-		lerpf(timebar_basic_current_fill_color.b, STYLEBOX_TIMEBAR_FILL_REVIVE_COLOR.b, timebar_revive_effect_timing_percent),
-	)
 	round_finish_displaying_timer.update(delta)
 	n_round_finish_text.visible_ratio = round_finish_displaying_timer.percent
 	update_lines_position()
@@ -204,7 +166,7 @@ func next_line() -> void:
 	arrow_completed_this_round += code_num
 	current_score += code_num
 	timer = move_toward(timer, timer_max, time_revive_this_round if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION else time_revive_this_round * DICTATION_TIMER_MULTIPLIER)
-	timebar_revive_effect_timer = TIMEBAR_REVIVE_EFFECT_TIME
+	n_time_left_bar.play_revive_effect()
 	n_lines_fadeouting.append(the_one_moving)
 	if (n_lines.is_empty()):
 		to_next_round()
@@ -270,7 +232,7 @@ func _drop_focus_postfix() -> void:
 func on_line_wrong() -> void:
 	var time_decrease: float = timer_max if StratagemHeroEffect_EffectGame.one_heart else BASIC_TIME_DECREASE
 	timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
-	timebar_background_warning_effect_timer = TIMEBAR_BACKGROUND_WARNING_EFFECT_TIME
+	n_time_left_bar.play_warning_effect()
 	is_perfect = false
 
 func start_is_going_to_drop_focus() -> void:

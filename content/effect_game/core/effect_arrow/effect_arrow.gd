@@ -124,6 +124,7 @@ func wrong() -> void:
 ## 设置按下状态
 func set_pressed(value: bool) -> void:
 	pressed = value
+	#箭头动画的计时设置会在pressed的赋值方法中进行
 
 ## 设置存活状态
 func set_alive(value: bool) -> void:

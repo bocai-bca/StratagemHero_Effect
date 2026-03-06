@@ -1,8 +1,8 @@
 [gd_resource type="Theme" format=3 uid="uid://dl6143ud88v5r"]
 
 [ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_1nq60"]
-[ext_resource type="StyleBox" uid="uid://crqnukryvtgkc" path="res://content/effect_game/core/lantern_slides/stylebox_timebar_background.tres" id="2_e8252"]
-[ext_resource type="StyleBox" uid="uid://c6qywfmn65rds" path="res://content/effect_game/core/lantern_slides/stylebox_timebar_fill.tres" id="3_g3o5b"]
+[ext_resource type="StyleBox" uid="uid://crqnukryvtgkc" path="res://content/effect_game/core/time_left_bar/stylebox_background.tres" id="2_e8252"]
+[ext_resource type="StyleBox" uid="uid://c6qywfmn65rds" path="res://content/effect_game/core/time_left_bar/stylebox_fill.tres" id="3_g3o5b"]
 
 [resource]
 Panel/styles/panel = ExtResource("1_1nq60")

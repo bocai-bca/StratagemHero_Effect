@@ -1,0 +1,8 @@
+[gd_resource type="Theme" format=3 uid="uid://bk2m8bgwmkl0g"]
+
+[ext_resource type="StyleBox" uid="uid://crqnukryvtgkc" path="res://content/effect_game/core/time_left_bar/stylebox_background.tres" id="1_vjydv"]
+[ext_resource type="StyleBox" uid="uid://c6qywfmn65rds" path="res://content/effect_game/core/time_left_bar/stylebox_fill.tres" id="2_udr74"]
+
+[resource]
+ProgressBar/styles/background = ExtResource("1_vjydv")
+ProgressBar/styles/fill = ExtResource("2_udr74")

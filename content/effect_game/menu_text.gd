@@ -13,6 +13,8 @@ func update_text() -> void:
 			text += "\n[color=yellow][b]" + tr(&"effect_mode.greatwall") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 1) else "\n" + tr(&"effect_mode.greatwall")
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.MULTILINES:
 			text += "\n[color=yellow][b]" + tr(&"effect_mode.multilines") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 1) else "\n" + tr(&"effect_mode.multilines")
+		StratagemHeroEffect_EffectGame.SpecialEffectMode.TERMINAL:
+			text += "\n[color=yellow][b]" + tr(&"effect_mode.terminal") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 1) else "\n" + tr(&"effect_mode.terminal")
 	text += "\n[color=yellow][b]" + tr(&"effect_option.edit_stratagems") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 2) else "\n" + tr(&"effect_option.edit_stratagems")
 	if (StratagemHeroEffect_EffectGame.one_heart):
 		text += "\n[color=yellow][b]" + tr(&"effect_option.oneheart") + " ON[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 3) else "\n" + tr(&"effect_option.oneheart") + " ON"
