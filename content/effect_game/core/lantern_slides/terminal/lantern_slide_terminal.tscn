@@ -26,6 +26,10 @@ stretch_mode = 5
 
 [node name="TimeLeftBar" parent="." unique_id=1371415554 instance=ExtResource("4_b074c")]
 layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 832.0
+offset_bottom = 64.0
 
 [node name="AnimatedTextDisplayer" parent="." unique_id=13880197 instance=ExtResource("4_y051c")]
 layout_mode = 0

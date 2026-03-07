@@ -7,7 +7,7 @@ static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/lantern_slides/terminal/lantern_slide_terminal.tscn") as PackedScene
 
 var n_super_earth_logo: TextureRect
-var n_time_left_bar: ProgressBar
+var n_time_left_bar: StratagemHeroEffect_EffectGameCore_TimeLeftBar
 var n_score: StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 var n_arrows: Array[StratagemHeroEffect_EffectGameCore_EffectArrow] = []
 
@@ -65,6 +65,7 @@ func _fit_size(window_size: Vector2) -> void:
 	n_score.size = window_size
 	n_score.position = Vector2(0.0, window_size.y * 0.3)
 	update_logo(n_super_earth_logo, window_size)
+	n_time_left_bar.fit_size(window_size)
 	var arrow_scale: float = StratagemHeroEffect.instance.get_fit_size(WIDTH_PER_ARROW) / StratagemHeroEffect_EffectGameCore_EffectArrow.IMAGE_WIDTH
 	for n_arrow in n_arrows:
 		n_arrow.scale = Vector2.ONE * arrow_scale
@@ -73,7 +74,7 @@ func _fit_size(window_size: Vector2) -> void:
 func _update_focus(delta: float) -> void:
 	timer.update(delta)
 	total_timer += delta
-	n_time_left_bar.value = timer.percent
+	n_time_left_bar.update(delta, timer.percent)
 	update_arrows(delta)
 	check_input()
 	if (timer.current <= 0.0):
@@ -122,6 +123,7 @@ func press_correct(this_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -
 		next_line()
 		StratagemHeroEffect.instance.audio_done.play()
 		timer.current = move_toward(timer.current, TIMER_MAX, get_revive_time_for_line(lines_completed))
+		n_time_left_bar.play_revive_effect()
 		lines_completed += 1
 		arrow_completed += code_cache.size()
 		return
@@ -135,7 +137,8 @@ func press_wrong() -> void:
 	next_arrow_index_cache = 0
 	next_code_cache = code_cache[0]
 	StratagemHeroEffect.instance.audio_wrong.play()
-	timer.current -= TIME_DECREASE_BASIC
+	n_time_left_bar.play_warning_effect()
+	timer.current -= TIMER_MAX if StratagemHeroEffect_EffectGame.one_heart else TIME_DECREASE_BASIC
 
 ## 虚方法覆写-当本幻灯片实例抛下焦点后调用，本方法将于广播节点和设置状态之后调用
 func _drop_focus_postfix() -> void:
@@ -160,6 +163,7 @@ func next_line() -> void:
 		if i >= n_arrows.size():
 			var new_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = StratagemHeroEffect_EffectGameCore_EffectArrow.create(this_code)
 			new_arrow.scale = Vector2.ONE * arrow_scale
+			new_arrow.position = Vector2(-114514.0, 0.0)
 			n_arrows.append(new_arrow)
 			add_child(new_arrow)
 		else:

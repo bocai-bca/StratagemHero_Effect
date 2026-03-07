@@ -71,7 +71,7 @@ effect_text.lantern_slide.generic.mode_terminal,"Terminal","终端"
 effect_text.lantern_slide.generic.ingame_round,"Round","回合"
 effect_text.lantern_slide.generic.ingame_score,"Score","分数"
 
-effect_text.lantern_slide.intro.title,"Effect Mode","效果模式"
+effect_text.lantern_slide.intro.title,"Special Effect","特殊效果"
 
 effect_text.lantern_slide.round_ready.round,"Round","回合"
 
@@ -81,7 +81,7 @@ effect_text.lantern_slide.single_line.perfect_bonus,"Perfect Bonus +","完美奖
 effect_text.lantern_slide.single_line.game_over,"Times Up and Game Over","时间耗尽 游戏结束"
 
 effect_text.lantern_slide.game_over.continue_tip,"Press SPACE to continue","按空格键以继续"
-effect_text.lantern_slide.game_over.effect_mode,"Effect Mode","效果模式"
+effect_text.lantern_slide.game_over.effect_mode,"Special Effect","特殊效果"
 effect_text.lantern_slide.game_over.one_heart_shortname,"+OH","+一命"
 effect_text.lantern_slide.game_over.score,"Score","得分"
 effect_text.lantern_slide.game_over.level_reached,"Level Reached","抵达等级"

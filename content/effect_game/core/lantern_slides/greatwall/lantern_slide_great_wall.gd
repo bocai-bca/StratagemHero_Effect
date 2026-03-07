@@ -19,7 +19,7 @@ const TIME_REDUCE_WHEN_WRONG: float = 1.0
 const TIME_LEFT_MAX: float = 15.0
 
 var n_super_earth_logo: TextureRect
-var n_time_left_bar: ProgressBar
+var n_time_left_bar: StratagemHeroEffect_EffectGameCore_TimeLeftBar
 var n_score: StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
 var n_arrows: Array[StratagemHeroEffect_EffectGameCore_EffectArrow] = []
@@ -39,13 +39,12 @@ var total_timer: float = 0.0
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
 		n_super_earth_logo = $SuperEarthIcon as TextureRect
-		n_time_left_bar = $TimeLeftBar as ProgressBar
+		n_time_left_bar = $TimeLeftBar as StratagemHeroEffect_EffectGameCore_TimeLeftBar
 		n_score = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
-	n_time_left_bar.size = Vector2(window_size.x * 0.75, window_size.y * 0.0889)
-	n_time_left_bar.position = Vector2(window_size.x * 0.125, window_size.y * 0.04)
+	n_time_left_bar.fit_size(window_size)
 	n_score._fit_size(window_size)
 	n_score.position = Vector2(0.0, window_size.y * 0.3)
 	arrow_max_width = (size.x * ARROWS_USABLE_WIDTH_RATE - size.x * ARROWS_SPACING_WIDTH_RATE * MAX_ARROWS_SAME_TIME) / MAX_ARROWS_SAME_TIME
@@ -66,7 +65,7 @@ func _update_focus(delta: float) -> void:
 		n_arrow.update(delta)
 	time_left -= delta
 	total_timer += delta
-	n_time_left_bar.value = time_left / TIME_LEFT_MAX
+	n_time_left_bar.update(delta, time_left / TIME_LEFT_MAX)
 	positioning_arrows()
 	while (true):
 		if (n_arrows.is_empty()): break
@@ -114,6 +113,7 @@ func input_wrong() -> void:
 		if (not n_arrow.pressed):
 			n_arrow.wrong()
 	StratagemHeroEffect.instance.audio_wrong.play()
+	n_time_left_bar.play_warning_effect()
 	time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
 
 ## 排列箭头，将设置它们的坐标和缩放

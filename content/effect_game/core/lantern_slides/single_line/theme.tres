@@ -1,15 +1,11 @@
 [gd_resource type="Theme" format=3 uid="uid://biiek22pb3wm3"]
 
 [ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_328bt"]
-[ext_resource type="StyleBox" uid="uid://u7fl7ko6d7fa" path="res://content/effect_game/core/lantern_slides/single_line/stylebox_timebar_background.tres" id="2_bpy6u"]
 [ext_resource type="FontFile" uid="uid://ddjmjwoqek0tx" path="res://resources/fonts/FS Sinclair Bold.woff2" id="2_ti1en"]
-[ext_resource type="StyleBox" uid="uid://dtr5jhujwalky" path="res://content/effect_game/core/lantern_slides/single_line/stylebox_timebar_fill.tres" id="3_mhkoa"]
 [ext_resource type="FontFile" uid="uid://is2tab25h8eg" path="res://resources/fonts/FS Sinclair Medium.woff2" id="3_sbwah"]
 
 [resource]
 Panel/styles/panel = ExtResource("1_328bt")
-ProgressBar/styles/background = ExtResource("2_bpy6u")
-ProgressBar/styles/fill = ExtResource("3_mhkoa")
 RichTextLabel/font_sizes/bold_font_size = 96
 RichTextLabel/font_sizes/normal_font_size = 64
 RichTextLabel/fonts/bold_font = ExtResource("2_ti1en")

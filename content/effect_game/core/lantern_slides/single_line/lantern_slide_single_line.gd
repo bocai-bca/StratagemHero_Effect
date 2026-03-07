@@ -7,8 +7,6 @@ static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/lantern_slides/single_line/lantern_slide_single_line.tscn") as PackedScene
 
 var label_settings_common: LabelSettings = preload("res://content/effect_game/core/lantern_slides/single_line/label_settings_common.tres") as LabelSettings
-var stylebox_timebar_background: StyleBoxFlat = preload("res://content/effect_game/core/lantern_slides/single_line/stylebox_timebar_background.tres") as StyleBoxFlat
-var stylebox_timebar_fill: StyleBoxFlat = preload("res://content/effect_game/core/lantern_slides/single_line/stylebox_timebar_fill.tres") as StyleBoxFlat
 
 var n_super_earth_logo: TextureRect
 var n_time_left_bar: StratagemHeroEffect_EffectGameCore_TimeLeftBar
@@ -93,8 +91,7 @@ func _ready() -> void:
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
-	n_time_left_bar.position = Vector2(size.x * 0.175, size.y * 0.09)
-	n_time_left_bar.size = Vector2(size.x * 0.65, size.y * 0.09)
+	n_time_left_bar.fit_size(window_size)
 	n_round_text.position = Vector2(size.x * -0.4, size.y * -0.4)
 	n_round_text.size = window_size
 	n_score_text.position = Vector2(size.x * 0.4, size.y * -0.4)
@@ -117,10 +114,10 @@ func _update_focus(delta: float) -> void:
 	if (not is_going_to_drop_focus):
 		timer -= delta
 		total_timer += delta
-		n_time_left_bar.update(delta, timer / total_timer)
 		if (timer <= 0.0):
 			to_game_over()
 			return
+	n_time_left_bar.update(delta, timer / timer_max)
 	for i in n_lines.size():
 		var n_line: StratagemHeroEffect_EffectGameCore_StratagemLine = n_lines[i]
 		n_line.update(delta)
@@ -191,7 +188,7 @@ func to_game_over() -> void:
 
 ## 触发到下一回合
 func to_next_round() -> void:
-	n_time_left_bar.value = timer / timer_max
+	n_time_left_bar.update(0.0, timer / timer_max)
 	var time_bonus: int = int(timer / timer_max * 10.0)
 	var perfect_bonus: int = arrow_completed_this_round if is_perfect else 0
 	current_score += time_bonus + perfect_bonus
