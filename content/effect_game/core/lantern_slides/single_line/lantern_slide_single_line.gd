@@ -185,6 +185,8 @@ func to_game_over() -> void:
 	else:
 		StratagemHeroEffect.instance.audio_game_over.play()
 	start_is_going_to_drop_focus()
+	if (StratagemHeroEffect_EffectGame_StratagemSelectionPanel.stratagems_enabled.size() >= StratagemHeroEffect_EffectGame.MINIMUM_STRATAGEMS_ENABLED_ABLE_TO_RECORD_HIGH_SCORE):
+		StratagemHeroEffect_SaveAccess.check_and_save_effect_score(StratagemHeroEffect_EffectGame.instance.special_effect_mode, current_score, current_round, arrow_completed * 60.0 / total_timer)
 
 ## 触发到下一回合
 func to_next_round() -> void:

@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8bvqqnktsxwj" path="res://content/effect_game/effect_game.gd" id="1_vkigj"]
 [ext_resource type="Theme" uid="uid://cnbeyduhjvl7o" path="res://content/effect_game/effect_game.tres" id="1_y5e8c"]
+[ext_resource type="FontFile" uid="uid://ddjmjwoqek0tx" path="res://resources/fonts/FS Sinclair Bold.woff2" id="3_4lir2"]
 [ext_resource type="PackedScene" uid="uid://dfu72hq2vx505" path="res://content/effect_game/stratagem_selection_panel.tscn" id="3_q3pke"]
 [ext_resource type="Script" uid="uid://d33ubvbkeqppo" path="res://content/effect_game/menu_text.gd" id="3_r6mra"]
 [ext_resource type="Script" uid="uid://drxfj1lvtqfwg" path="res://content/effect_game/description_text.gd" id="5_s1rfw"]
@@ -9,6 +10,7 @@
 
 [sub_resource type="LabelSettings" id="LabelSettings_j8sgq"]
 line_spacing = 0.0
+font = ExtResource("3_4lir2")
 font_size = 72
 
 [sub_resource type="LabelSettings" id="LabelSettings_s1rfw"]

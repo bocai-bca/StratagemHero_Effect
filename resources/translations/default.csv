@@ -1,17 +1,35 @@
 keys,en,zh
 
 title,"Stratagem Hero: Effect","战略配备英雄: 效果"
-title_tip,"Press space to continue","按空格键以继续"
+title_tip,"Press SPACE or ENTER to continue","按空格或回车键以继续"
 
 menu_general_text_back,"Back","返回"
 
 main_menu_text_classic,"Classic Mode","经典模式"
 main_menu_text_effects,"Effect Mode","效果模式"
 main_menu_text_settings,"Settings","设置"
-main_menu_text_statistic,"Statistics","统计信息"
+main_menu_text_helps,"Helps","帮助"
+main_menu_text_high_scores,"High Scores","高分记录"
 main_menu_text_about,"About","关于"
 
-settings_text_language,"Change Language [English]","Change Language [中文]"
+settings_text.language,"Change Language [English]","Change Language [中文]"
+settings_text.music_volume,"Music Volume","音乐音量"
+settings_text.sfx_volume,"SFX Volume","音效音量"
+settings_text.clear_score,"Clear High Scores","清除高分记录"
+settings_text.clear_score_confirm,"Are you sure?","确定吗?"
+settings_text.clear_score_already,"High Scores was cleared","高分记录已清除"
+
+helps_text,"Use WASD/IJKL/↑←↓→ to input directions.\nUse SPACE and ENTER to input confirm.","按WASD/IJKL/↑←↓→输入方向\n按空格或回车进行确定"
+
+about_text,"Copyright (C) 2025-2026 Bocai_BCA. Open source with MIT License.\nhttps://github.com/bocai-bca/StratagemHero_Effect\n\n"""Helldivers2""" is the trademark owned by Arrowhead Game Studios.\nCopyright exclude images and audios resources.\nThis part is owned by Arrowhead Game Studios.\n\nThis project was made with Godot Engine.\nhttps://godotengine.org/\n\nSpecial Thanks:\nhttps://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg\nAnd my friends who given help on this project","Copyright (C) 2025-2026 BCASoft. 按照MIT协议开源\nhttps://github.com/bocai-bca/StratagemHero_Effect\n\n"""绝地潜兵2"""是由Arrowhead Game Studios所拥有的商标\n版权声明排除图像和音频资源\n该部分版权属于Arrowhead Game Studios\n\n本项目使用Godot Engine制作\nhttps://godotengine.org\n\n特别感谢：\nhttps://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg\n和对本项目的开发提供帮助的朋友们"
+
+high_scores.number_name_line,"[cell]    Score    [/cell][cell]    Reached Level    [/cell][cell]    Avg Speed    [/cell]","[cell]    分数    [/cell][cell]    抵达等级    [/cell][cell]    平均速度    [/cell]"
+high_scores.type.classic,"Classic","经典"
+high_scores.type.effect_none,"Effect - None","效果模式 - 无"
+high_scores.type.effect_dictation,"Effect - Dictation","效果模式 - 默写"
+high_scores.type.effect_greatwall,"Effect - Great Wall","效果模式 - 长城"
+high_scores.type.effect_multilines,"Effect - Multi-Lines","效果模式 - 多行"
+high_scores.type.effect_terminal,"Effect - Terminal","效果模式 - 终端"
 
 game_text_ready,"GET READY","准备"
 game_text_round,"ROUND","回合"
@@ -49,6 +67,7 @@ effect_text.edit_stratagems.switch_defences,"I/O Defences","切换防御"
 effect_text.edit_stratagems.switch_warbonds,"I/O Warbonds","切换债券"
 effect_text.edit_stratagems.apply,"Apply","应用"
 effect_text.edit_stratagems.cancel,"Cancel","取消"
+effect_text.edit_stratagems.wont_record_tip,"High score won't record while the count of stratagems enabled is less than 16.","启用的战备数量少于16个时不会记录成绩"
 
 effect_start,"Start Effect Mode","开始效果模式"
 effect_cannot_start,"No stratagem enabled","没有启用任何战备"

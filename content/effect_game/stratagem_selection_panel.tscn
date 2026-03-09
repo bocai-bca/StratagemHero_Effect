@@ -17,6 +17,7 @@ Button/font_sizes/font_size = 32
 HBoxContainer/constants/separation = 2
 HFlowContainer/constants/h_separation = 4
 HFlowContainer/constants/v_separation = 4
+Label/font_sizes/font_size = 32
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_ay0oy")
 
 [sub_resource type="LabelSettings" id="LabelSettings_mekki"]
@@ -212,6 +213,13 @@ button_mask = 0
 text = "effect_text.edit_stratagems.cancel"
 autowrap_trim_flags = 0
 clip_text = true
+
+[node name="WontRecordTip" type="Label" parent="." unique_id=690122096]
+layout_mode = 2
+size_flags_vertical = 1
+text = "effect_text.edit_stratagems.wont_record_tip"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchAll" to="." method="on_button_focus_entered"]
 [connection signal="pressed" from="VBC/HBC/Buttons/SwitchAll" to="." method="on_switch_all_pressed"]

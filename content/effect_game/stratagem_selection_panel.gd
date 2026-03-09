@@ -43,6 +43,7 @@ func physics_process() -> void:
 	StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.icon_frame_stylebox_focus.border_width_right = border_width
 	StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.icon_frame_stylebox_focus.border_width_top = border_width
 	StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.icon_frame_stylebox_focus.border_width_bottom = border_width
+	theme.set_font_size(&"font_size", &"Label", int(StratagemHeroEffect.instance.get_fit_size(32.0)))
 
 ## 放置图标
 func place_icons() -> void:

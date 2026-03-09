@@ -34,7 +34,7 @@ const ARROWS_POSITION_Y_RATIO: float = 0.5
 var timer: TransferTimer = TransferTimer.new(TIMER_MAX, false, TIMER_MAX)
 ## 当前已完成的行数，本值+1即代表当前所在的回合数
 var lines_completed: int = 0
-## 当前获得的分数
+## 当前获得的分数(分数其实就是arrow_completed)
 #var score: int:
 	#get:
 		#return arrow_completed
@@ -179,6 +179,7 @@ func to_game_over() -> void:
 	game_over_lantern_slide.update_text_str(tr(&"effect_text.lantern_slide.generic.mode_terminal"), str(arrow_completed), str(lines_completed), str(snappedf(arrow_completed * 60.0 / total_timer, 0.1)) + "/min")
 	StratagemHeroEffect_EffectGame.instance.n_game_core.add_lantern_slide(game_over_lantern_slide)
 	drop_focus()
+	StratagemHeroEffect_SaveAccess.check_and_save_effect_score(StratagemHeroEffect_EffectGame.instance.special_effect_mode, arrow_completed, lines_completed + 1, arrow_completed * 60.0 / total_timer)
 
 ## 获取给定行号的回复时间
 static func get_revive_time_for_line(num_of_line_completed: int) -> float:

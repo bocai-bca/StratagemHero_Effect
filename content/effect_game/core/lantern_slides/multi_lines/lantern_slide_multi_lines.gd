@@ -131,7 +131,6 @@ func _fit_size(window_size: Vector2) -> void:
 		var n_line: StratagemHeroEffect_EffectGameCore_StratagemLine = n_lines[i]
 		n_line.fit_size(window_size)
 		n_line.position = Vector2(lines_pos_x, lines_pos_y_start + window_size.y * i * LINES_POS_Y_DELTA_RATIO)
-		n_line.scale = Vector2.ONE * StratagemHeroEffect.instance.get_fit_size(0.8)
 	update_logo(n_super_earth_logo, window_size)
 	n_round_finish_text.position = Vector2(0.0, size.y * 0.2)
 	n_round_finish_text.size = window_size
@@ -241,6 +240,8 @@ func to_game_over() -> void:
 	else:
 		StratagemHeroEffect.instance.audio_game_over.play()
 	start_is_going_to_drop_focus()
+	if (StratagemHeroEffect_EffectGame_StratagemSelectionPanel.stratagems_enabled.size() >= StratagemHeroEffect_EffectGame.MINIMUM_STRATAGEMS_ENABLED_ABLE_TO_RECORD_HIGH_SCORE):
+		StratagemHeroEffect_SaveAccess.check_and_save_effect_score(StratagemHeroEffect_EffectGame.instance.special_effect_mode, current_score, current_round, arrow_completed * 60.0 / total_timer)
 
 ## 触发到下一回合
 func to_next_round() -> void:

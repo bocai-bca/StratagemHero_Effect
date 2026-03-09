@@ -81,8 +81,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
 theme = ExtResource("1_gsidl")
 color = Color(0, 0, 0, 1)
 script = ExtResource("1_yqvsc")
@@ -212,6 +210,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 justification_flags = 0
 script = ExtResource("12_81m4s")
+
+[node name="AboutText" type="RichTextLabel" parent="." unique_id=2143215444]
+visible = false
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+theme_override_constants/line_separation = -12
+theme_override_font_sizes/normal_font_size = 36
+text = "about_text"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ClassicGame" parent="." unique_id=142871471 instance=ExtResource("18_toben")]
 visible = false

@@ -211,6 +211,7 @@ var game_state: GameState = GameState.IDLE:
 				n_score_text.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 				n_score_number.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
 				_physics_process(0.0)
+				StratagemHeroEffect_SaveAccess.check_and_save_classic_score(score, rounds)
 ## 回合计数
 var rounds: int = 0
 ## 分数

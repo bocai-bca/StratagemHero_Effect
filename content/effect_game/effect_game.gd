@@ -31,6 +31,9 @@ enum SpecialEffectMode{
 	DICTATION_MULTILINES, ## 多行默写
 }
 
+## 允许记录分数的最少战备启用数
+const MINIMUM_STRATAGEMS_ENABLED_ABLE_TO_RECORD_HIGH_SCORE: int = 16
+
 var game_state: GameState = GameState.IDLE:
 	get:
 		return game_state

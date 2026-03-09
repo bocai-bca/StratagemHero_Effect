@@ -136,3 +136,4 @@ func _drop_focus_postfix() -> void:
 		StratagemHeroEffect.instance.audio_game_over_large.play()
 	else:
 		StratagemHeroEffect.instance.audio_game_over.play()
+	StratagemHeroEffect_SaveAccess.check_and_save_effect_score(StratagemHeroEffect_EffectGame.SpecialEffectMode.GREATWALL, arrow_completed, -1, arrow_completed * 60.0 / total_timer)
