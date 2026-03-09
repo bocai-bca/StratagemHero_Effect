@@ -1,0 +1,120 @@
+[gd_scene format=3 uid="uid://doms6iuvdpdhc"]
+
+[ext_resource type="Theme" uid="uid://fq2wwcnd2phx" path="res://content/effect_game/core/lantern_slides/multi_lines/theme.tres" id="1_22km6"]
+[ext_resource type="Script" uid="uid://cqromyb0s14vw" path="res://content/effect_game/core/lantern_slides/multi_lines/lantern_slide_multi_lines.gd" id="1_tpt1w"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="2_4jerr"]
+[ext_resource type="PackedScene" uid="uid://btl5gko7xovsc" path="res://content/effect_game/core/time_left_bar/time_left_bar.tscn" id="3_3kiyg"]
+[ext_resource type="LabelSettings" uid="uid://hwflc2m18w73" path="res://content/effect_game/core/lantern_slides/single_line/label_settings_common.tres" id="4_qb7ln"]
+[ext_resource type="PackedScene" uid="uid://0nnv3tch1670" path="res://content/effect_game/core/animated_text_displayer/animated_text_displayer.tscn" id="5_22km6"]
+[ext_resource type="PackedScene" uid="uid://bv2e1xw5flunf" path="res://content/effect_game/core/stratagem_line/stratagem_line.tscn" id="6_3kiyg"]
+[ext_resource type="LabelSettings" uid="uid://b1dvxpqmttk68" path="res://content/effect_game/core/lantern_slides/multi_lines/label_settings_common.tres" id="6_qb7ln"]
+
+[node name="LanternSlide_MultiLines" type="Panel" unique_id=46016210]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("1_22km6")
+script = ExtResource("1_tpt1w")
+
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=1327774516]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_4jerr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TimeLeftBar" parent="." unique_id=1371415554 instance=ExtResource("3_3kiyg")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 832.0
+offset_bottom = 64.0
+pos_ratio = Vector2(0.175, 0.05)
+
+[node name="RoundText" type="Label" parent="." unique_id=38032204]
+layout_mode = 0
+offset_left = -512.0
+offset_top = -288.0
+offset_right = 768.0
+offset_bottom = 432.0
+text = "effect_text.lantern_slide.generic.ingame_round"
+label_settings = ExtResource("4_qb7ln")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RoundNum" parent="." unique_id=13880197 instance=ExtResource("5_22km6")]
+layout_mode = 0
+offset_left = -512.0
+offset_top = -216.0
+offset_right = 768.0
+offset_bottom = 504.0
+
+[node name="ScoreText" type="Label" parent="." unique_id=280733842]
+layout_mode = 0
+offset_left = -512.0
+offset_top = -144.0
+offset_right = 768.0
+offset_bottom = 576.0
+text = "effect_text.lantern_slide.generic.ingame_score"
+label_settings = ExtResource("4_qb7ln")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreNum" parent="." unique_id=944925987 instance=ExtResource("5_22km6")]
+layout_mode = 0
+offset_left = -512.0
+offset_top = -72.0
+offset_right = 768.0
+offset_bottom = 648.0
+
+[node name="RoundFinishText" type="Label" parent="." unique_id=1228448565]
+layout_mode = 0
+offset_top = 144.0
+offset_right = 1280.0
+offset_bottom = 864.0
+label_settings = ExtResource("6_qb7ln")
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="StratagemLine_0" parent="." unique_id=1089226850 instance=ExtResource("6_3kiyg")]
+position = Vector2(352, 216)
+scale = Vector2(0.8, 0.8)
+dont_warn_when_wrong = true
+silent = true
+
+[node name="StratagemLine_1" parent="." unique_id=1819122781 instance=ExtResource("6_3kiyg")]
+position = Vector2(352, 360)
+scale = Vector2(0.8, 0.8)
+dont_warn_when_wrong = true
+silent = true
+
+[node name="StratagemLine_2" parent="." unique_id=1513273372 instance=ExtResource("6_3kiyg")]
+position = Vector2(352, 504)
+scale = Vector2(0.8, 0.8)
+dont_warn_when_wrong = true
+silent = true
+
+[node name="StratagemLine_3" parent="." unique_id=595988850 instance=ExtResource("6_3kiyg")]
+position = Vector2(352, 648)
+scale = Vector2(0.8, 0.8)
+dont_warn_when_wrong = true
+silent = true
+
+[connection signal="pressed_correct" from="StratagemLine_0" to="." method="on_line_correct"]
+[connection signal="pressed_wrong" from="StratagemLine_0" to="." method="on_line_wrong"]
+[connection signal="stratagem_done" from="StratagemLine_0" to="." method="on_line_done"]
+[connection signal="pressed_correct" from="StratagemLine_1" to="." method="on_line_correct"]
+[connection signal="pressed_wrong" from="StratagemLine_1" to="." method="on_line_wrong"]
+[connection signal="stratagem_done" from="StratagemLine_1" to="." method="on_line_done"]
+[connection signal="pressed_correct" from="StratagemLine_2" to="." method="on_line_correct"]
+[connection signal="pressed_wrong" from="StratagemLine_2" to="." method="on_line_wrong"]
+[connection signal="stratagem_done" from="StratagemLine_2" to="." method="on_line_done"]
+[connection signal="pressed_correct" from="StratagemLine_3" to="." method="on_line_correct"]
+[connection signal="pressed_wrong" from="StratagemLine_3" to="." method="on_line_wrong"]
+[connection signal="stratagem_done" from="StratagemLine_3" to="." method="on_line_done"]

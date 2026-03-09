@@ -1,0 +1,6 @@
+[gd_resource type="Theme" format=3 uid="uid://fq2wwcnd2phx"]
+
+[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_wtm1d"]
+
+[resource]
+Panel/styles/panel = ExtResource("1_wtm1d")

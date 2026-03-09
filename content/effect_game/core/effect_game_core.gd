@@ -40,7 +40,7 @@ func start() -> void:
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.GREATWALL:
 			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_GreatWall)
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.MULTILINES:
-			pass
+			add_lantern_slide(StratagemHeroEffect_EffectGameCore_LanternSlide_MultiLines.create_new_multiline(1, 0, 0, 0.0))
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.TERMINAL:
 			var new_terminal: StratagemHeroEffect_EffectGameCore_LanternSlide_Terminal = StratagemHeroEffect_EffectGameCore_LanternSlide_Terminal.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_Terminal
 			new_terminal.next_line()

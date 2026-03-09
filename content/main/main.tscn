@@ -89,48 +89,62 @@ script = ExtResource("1_yqvsc")
 
 [node name="Audio_TitleMusic" type="AudioStreamPlayer" parent="." unique_id=1313029484]
 stream = SubResource("AudioStreamPlaylist_628aj")
+bus = &"Music"
 
 [node name="Audio_Ready" type="AudioStreamPlayer" parent="." unique_id=1880212934]
 stream = ExtResource("7_628aj")
+bus = &"SFX"
 
 [node name="Audio_MenuClick" type="AudioStreamPlayer" parent="." unique_id=1841862915]
 stream = ExtResource("5_ekokd")
+bus = &"SFX"
 
 [node name="Audio_Press" type="AudioStreamPlayer" parent="." unique_id=2106098976]
 stream = SubResource("AudioStreamRandomizer_ju0h2")
 max_polyphony = 6
+bus = &"SFX"
 
 [node name="Audio_Done" type="AudioStreamPlayer" parent="." unique_id=1522041337]
 stream = SubResource("AudioStreamRandomizer_ncevx")
 max_polyphony = 2
+bus = &"SFX"
 
 [node name="Audio_Wrong" type="AudioStreamPlayer" parent="." unique_id=1463339233]
 stream = SubResource("AudioStreamRandomizer_kgycb")
 max_polyphony = 4
+bus = &"SFX"
 
 [node name="Audio_Start" type="AudioStreamPlayer" parent="." unique_id=1212607280]
 stream = ExtResource("10_toben")
+bus = &"SFX"
 
 [node name="Audio_PlayingMusic" type="AudioStreamPlayer" parent="." unique_id=329039221]
 stream = SubResource("AudioStreamPlaylist_r3puh")
+bus = &"Music"
 
 [node name="Audio_RoundComplete_0" type="AudioStreamPlayer" parent="." unique_id=1218187385]
 stream = ExtResource("20_khwcr")
+bus = &"Music"
 
 [node name="Audio_RoundComplete_1" type="AudioStreamPlayer" parent="." unique_id=1125663682]
 stream = ExtResource("21_ivav3")
+bus = &"Music"
 
 [node name="Audio_RoundComplete_2" type="AudioStreamPlayer" parent="." unique_id=1058437137]
 stream = ExtResource("22_s41ws")
+bus = &"Music"
 
 [node name="Audio_RoundComplete_3" type="AudioStreamPlayer" parent="." unique_id=121656536]
 stream = ExtResource("23_3wr52")
+bus = &"Music"
 
 [node name="Audio_GameOver" type="AudioStreamPlayer" parent="." unique_id=558509028]
 stream = ExtResource("12_ju0h2")
+bus = &"Music"
 
 [node name="Audio_GameOverLarge" type="AudioStreamPlayer" parent="." unique_id=158094692]
 stream = ExtResource("13_6tfuj")
+bus = &"Music"
 
 [node name="SuperEarthBackground" type="TextureRect" parent="." unique_id=353366259]
 modulate = Color(1, 1, 1, 0.1882353)

@@ -88,3 +88,10 @@ func got_focus() -> void:
 static func update_logo(logo_node: TextureRect, viewport_size: Vector2) -> void:
 	logo_node.size = viewport_size
 	logo_node.position = viewport_size * 0.125
+
+## 从给定战备范围中随机生成指定长度的战备列表
+static func make_stratagems_list(target_count: int, stratagems_enabled: Array[StringName] = StratagemHeroEffect_EffectGame_StratagemSelectionPanel.stratagems_enabled) -> Array[StratagemData]:
+	var result: Array[StratagemData] = []
+	while (result.size() < target_count):
+		result.append(StratagemData.list[stratagems_enabled[randi_range(0, stratagems_enabled.size() - 1)]])
+	return result

@@ -28,6 +28,7 @@ enum SpecialEffectMode{
 	GREATWALL, ## 长城
 	MULTILINES, ## 多行
 	TERMINAL, ## 终端
+	DICTATION_MULTILINES, ## 多行默写
 }
 
 var game_state: GameState = GameState.IDLE:

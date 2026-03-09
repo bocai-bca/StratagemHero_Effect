@@ -226,7 +226,7 @@ func _got_focus_postfix() -> void:
 func _drop_focus_postfix() -> void:
 	pass
 
-func on_line_wrong() -> void:
+func on_line_wrong(_line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine) -> void:
 	var time_decrease: float = timer_max if StratagemHeroEffect_EffectGame.one_heart else BASIC_TIME_DECREASE
 	timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
 	n_time_left_bar.play_warning_effect()
@@ -261,10 +261,3 @@ static func get_timer_max_for_round(round_num: int) -> float:
 ## 获取给定回合数的时间回复值
 static func get_time_revive_for_round(round_num: int) -> float:
 	return BASIC_TIME_REVIVE / round_num ** 0.5
-
-## 从给定战备范围中随机生成指定长度的战备列表
-static func make_stratagems_list(target_count: int, stratagems_enabled: Array[StringName] = StratagemHeroEffect_EffectGame_StratagemSelectionPanel.stratagems_enabled) -> Array[StratagemData]:
-	var result: Array[StratagemData] = []
-	while (result.size() < target_count):
-		result.append(StratagemData.list[stratagems_enabled[randi_range(0, stratagems_enabled.size() - 1)]])
-	return result

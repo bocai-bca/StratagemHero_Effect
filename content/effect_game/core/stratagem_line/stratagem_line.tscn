@@ -2,7 +2,6 @@
 
 [ext_resource type="Shader" uid="uid://blpx8f8lb41gl" path="res://content/effect_game/core/stratagem_line/shader.tres" id="1_1q16v"]
 [ext_resource type="Script" uid="uid://bqxn44w7e7yy4" path="res://content/effect_game/core/stratagem_line/stratagem_line.gd" id="1_elsx3"]
-[ext_resource type="Texture2D" uid="uid://b108kj0svkt8k" path="res://resources/images/airburst_rocket_launcher.svg" id="3_3mren"]
 [ext_resource type="Theme" uid="uid://dtjvkili60pxv" path="res://content/effect_game/core/stratagem_line/theme.tres" id="3_p0pey"]
 [ext_resource type="Theme" uid="uid://lqd6unb3b403" path="res://content/effect_game/core/stratagem_line/theme_namebar.tres" id="5_vvuyl"]
 
@@ -17,7 +16,6 @@ material = SubResource("ShaderMaterial_p0pey")
 instance_shader_parameters/gray_degree = 1.0
 position = Vector2(-64, 0)
 scale = Vector2(0.25, 0.25)
-texture = ExtResource("3_3mren")
 
 [node name="IconFrame" type="PanelContainer" parent="Icon" unique_id=1987898454]
 use_parent_material = true
