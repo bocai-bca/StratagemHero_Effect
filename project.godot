@@ -36,6 +36,10 @@ window/size/viewport_height=720
 
 project/assembly_name="StratagemHero_Effect"
 
+[gui]
+
+theme/custom_font="uid://is2tab25h8eg"
+
 [input]
 
 ui_left={

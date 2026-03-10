@@ -130,7 +130,7 @@ func _update_focus(delta: float) -> void:
 		else:
 			n_lines[0].update_check_input()
 	while (n_lines_fadeouting.size() > 0 and n_lines_fadeouting[0].death_timer.percent == 0.0):
-		n_lines_fadeouting.pop_front().queue_free()
+		(n_lines_fadeouting.pop_front() as StratagemHeroEffect_EffectGameCore_StratagemLine).queue_free()
 	if (is_going_to_drop_focus):
 		focus_drop_timer.update(delta)
 		if (focus_drop_timer.percent >= 1.0):
