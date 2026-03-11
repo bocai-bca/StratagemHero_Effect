@@ -18,7 +18,7 @@ config/name="Stratagem Hero: Effect"
 config/name_localized={
 "zh": "战略配备英雄: 效果"
 }
-config/version="0.1.0"
+config/version="0.2.0"
 run/main_scene="uid://c6fiic2gbpokq"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="BCASoft/StratagemHero_Effect"
