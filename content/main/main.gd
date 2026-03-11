@@ -30,6 +30,7 @@ const BASE_SIZE: Vector2 = Vector2(1280.0, 720.0)
 @onready var n_title_line_top: ColorRect = $TitleLineTop as ColorRect
 @onready var n_title_line_bottom: ColorRect = $TitleLineBottom as ColorRect
 @onready var n_main_menu_text: MainMenu_Text = $MainMenu_Text as MainMenu_Text
+@onready var n_help_text: RichTextLabel = $HelpText as RichTextLabel
 @onready var n_about_text: RichTextLabel = $AboutText as RichTextLabel
 
 @onready var classic_game: StratagemHeroEffect_ClassicGame = $ClassicGame as StratagemHeroEffect_ClassicGame
@@ -94,6 +95,7 @@ var game_state: GameState = GameState.Init:
 						audio_menu_click.play()
 						menu_option_focus = 3
 						n_main_menu_text.update_text()
+						n_help_text.visible = false
 					GameState.HighScores:
 						audio_menu_click.play()
 						menu_option_focus = 4
@@ -124,6 +126,7 @@ var game_state: GameState = GameState.Init:
 				audio_menu_click.play()
 				menu_option_focus = 0
 				n_main_menu_text.update_text()
+				n_help_text.visible = true
 			GameState.HighScores:
 				audio_menu_click.play()
 				menu_option_focus = 0
@@ -333,6 +336,10 @@ func _process(delta: float) -> void:
 
 func _physics_process(_delta: float) -> void:
 	var window_size: Vector2 = get_window().size
+	n_help_text.size = window_size
+	n_help_text.position = Vector2(0.0, window_size.y * 0.1)
+	n_help_text.add_theme_font_size_override(&"normal_font_size", int(get_fit_size(36.0)))
+	n_help_text.add_theme_constant_override(&"line_separation", int(get_fit_size(-12.0)))
 	n_about_text.size = window_size
 	n_about_text.position = Vector2(0.0, window_size.y * 0.1)
 	n_about_text.add_theme_font_size_override(&"normal_font_size", int(get_fit_size(36.0)))

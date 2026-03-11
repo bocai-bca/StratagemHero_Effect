@@ -355,8 +355,8 @@ func _physics_process(_delta: float) -> void:
 				n_icon_nodes[i].size = Vector2.ONE * small_icon_width
 				n_icon_nodes[i].position = n_name_color_rect.position + Vector2(large_icon_width + (i - 1) * small_icon_width, -n_icon_nodes[i].size.y)
 			n_icon_0_panel.size = n_icon_nodes[0].size
-			n_arrows.size = Vector2(window.size.x, window.size.y * 0.175)
-			n_arrows.position = Vector2(0.0, window.size.y * 0.6)
+			n_arrows.size = Vector2(window.size.x, window.size.y * 0.125)
+			n_arrows.position = Vector2(0.0, window.size.y * 0.625)
 		GameState.ROUND_SCORE:
 			var font_size: int = int(StratagemHeroEffect.instance.get_font_size(48.0))
 			var label_size: Vector2 = Vector2(window.size.x * 0.75, window.size.y)
@@ -420,6 +420,8 @@ func start_game() -> void:
 	n_name_color_rect.visible = false
 	n_name_text.visible = false
 	n_icons.visible = false
+	StratagemHeroEffect_EscExitBar.is_now_able_to_exit = true
+	StratagemHeroEffect_EscExitBar.instance.exit_emit.connect(on_esc_exit, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
 
 ## 将界面切换至下一个战备，或者本回合完成
 func next_stratagem() -> void:
@@ -454,6 +456,7 @@ func stop_game() -> void:
 	game_state = GameState.IDLE
 	StratagemHeroEffect.instance.audio_game_over.stop()
 	StratagemHeroEffect.instance.audio_game_over_large.stop()
+	StratagemHeroEffect_EscExitBar.is_now_able_to_exit = false
 	emit_signal(&"game_end")
 
 ## 创建一个箭头TextureRect节点，用于作为$Arrows的子节点
@@ -493,3 +496,8 @@ static func get_round_time(round_num: int) -> float:
 ## 获取给定回合下完成一个战备的回复时间
 static func get_round_revive(round_num: int) -> float:
 	return TIME_REVIVE_AFTER_A_COMPLETE / clampf(round_num ** 0.5, 0.01, INF)
+
+## 在长按ESC退出时由信号调用
+func on_esc_exit() -> void:
+	game_state = GameState.GAME_OVER
+	StratagemHeroEffect_EscExitBar.is_now_able_to_exit = false

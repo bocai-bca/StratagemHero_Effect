@@ -40,6 +40,7 @@ static func create(new_name: StringName, icon_texture: Texture2D) -> StratagemHe
 func on_focus_entered() -> void:
 	add_theme_stylebox_override(&"panel", icon_frame_stylebox_focus)
 	StratagemHeroEffect.instance.audio_press.play()
+	StratagemHeroEffect_EffectGame_StratagemSelectionPanel.focus_stratagem_name = stratagem_name
 
 func on_focus_exited() -> void:
 	add_theme_stylebox_override(&"panel", icon_frame_stylebox_normal)

@@ -49,3 +49,6 @@ func set_effect_mode_displayed(special_mode: StratagemHeroEffect_EffectGame.Spec
 		StratagemHeroEffect_EffectGame.SpecialEffectMode.TERMINAL:
 			mode_name = tr(&"effect_text.lantern_slide.generic.mode_terminal")
 	n_text.text = tr(&"effect_text.lantern_slide.intro.title") + "\n[color=yellow][b]" + mode_name + "[/b][/color]"
+
+func get_exitable() -> bool:
+	return false

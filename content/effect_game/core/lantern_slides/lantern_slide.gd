@@ -26,6 +26,10 @@ var state: State = State.STANDBY
 ## 移出计时器，用于幻灯片的出场动画
 var moveout_timer: float = 0.0
 
+## 虚方法-当ESC退出栏执行ESC退出时要执行的操作
+func _on_esc_exit() -> void:
+	pass
+
 ## 抽象方法-适配窗口尺寸，需要实现使该幻灯片节点缩放至窗口尺寸的操作，本方法将由效果游戏核心调用
 @abstract func _fit_size(window_size: Vector2) -> void
 
@@ -82,7 +86,14 @@ func drop_focus() -> void:
 ## 当本幻灯片实例获得焦点时应被效果游戏核心调用此方法以告知，如需要实现特殊功能可以在子类中覆写_got_focus_postfix方法
 func got_focus() -> void:
 	state = State.FOCUS
+	if (get_exitable()):
+		StratagemHeroEffect_EscExitBar.instance.exit_emit.connect(on_esc_exit, CONNECT_ONE_SHOT | CONNECT_DEFERRED)
+		StratagemHeroEffect_EscExitBar.is_now_able_to_exit = true
 	_got_focus_postfix()
+
+func on_esc_exit() -> void:
+	StratagemHeroEffect_EscExitBar.is_now_able_to_exit = false
+	_on_esc_exit()
 
 ## 更新logo节点的静态方法，把对应参数输进去就行，通常建议搭配_fit_size执行
 static func update_logo(logo_node: TextureRect, viewport_size: Vector2) -> void:
@@ -95,3 +106,6 @@ static func make_stratagems_list(target_count: int, stratagems_enabled: Array[St
 	while (result.size() < target_count):
 		result.append(StratagemData.list[stratagems_enabled[randi_range(0, stratagems_enabled.size() - 1)]])
 	return result
+
+## 抽象方法-获取本幻灯片类是否是可退出的
+@abstract func get_exitable() -> bool

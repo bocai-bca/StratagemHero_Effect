@@ -103,7 +103,7 @@ func start() -> void:
 func _process(delta: float) -> void:
 	for transfer_timer in transfer_timers:
 		transfer_timer.update(delta)
-	n_stratagem_selection_panel.process()
+	n_stratagem_selection_panel.process(delta)
 	n_game_core.process(delta)
 
 func _physics_process(_delta: float) -> void:

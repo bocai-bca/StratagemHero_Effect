@@ -93,3 +93,6 @@ func update_text_str(mode_name: String, the_score: String, level_reached: String
 	n_avg_speed_value.text = avg_speed
 	n_effect_mode_oneheart.visible = StratagemHeroEffect_EffectGame.one_heart
 	n_effect_mode_oneheart.text = tr(&"effect_text.lantern_slide.game_over.one_heart_shortname")
+
+func get_exitable() -> bool:
+	return false

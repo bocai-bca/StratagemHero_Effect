@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c1m7gvmmdido1"]
+
+[ext_resource type="Theme" uid="uid://c7aumbc0um4cw" path="res://content/esc_exit_bar/theme.tres" id="1_iyaev"]
+[ext_resource type="Script" uid="uid://c076xt3lfl1wg" path="res://content/esc_exit_bar/esc_exit_bar.gd" id="1_wc72r"]
+[ext_resource type="LabelSettings" uid="uid://b8tituon2ji0f" path="res://content/esc_exit_bar/label_settings.tres" id="2_s7by4"]
+
+[node name="EscExitBar" type="ProgressBar" unique_id=350222987]
+offset_right = 256.0
+offset_bottom = 54.0
+theme = ExtResource("1_iyaev")
+max_value = 1.0
+step = 0.001
+value = 0.5
+show_percentage = false
+script = ExtResource("1_wc72r")
+
+[node name="Label" type="Label" parent="." unique_id=1654424986]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 54.0
+text = "esc_exit_bar.text"
+label_settings = ExtResource("2_s7by4")
+horizontal_alignment = 1
+vertical_alignment = 1

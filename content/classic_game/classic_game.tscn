@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://dmm7sji51u4gi"]
+[gd_scene format=3 uid="uid://dmm7sji51u4gi"]
 
 [ext_resource type="Theme" uid="uid://rlx03g7wychq" path="res://content/common_theme.tres" id="1_j0dt2"]
 [ext_resource type="Script" uid="uid://cqbkk6sdifg1i" path="res://content/classic_game/classic_game.gd" id="2_7r8fn"]
@@ -56,7 +56,7 @@ line_spacing = 0.0
 font_size = 48
 font_color = Color(0, 0, 0, 1)
 
-[node name="ClassicGame" type="Control"]
+[node name="ClassicGame" type="Control" unique_id=2119729643]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1280.0
@@ -64,7 +64,7 @@ offset_bottom = 720.0
 theme = ExtResource("1_j0dt2")
 script = ExtResource("2_7r8fn")
 
-[node name="TitleText" type="Label" parent="."]
+[node name="TitleText" type="Label" parent="." unique_id=401001003]
 layout_mode = 0
 offset_top = -72.0
 offset_right = 1280.0
@@ -74,7 +74,7 @@ label_settings = SubResource("LabelSettings_7r8fn")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RoundText" type="Label" parent="."]
+[node name="RoundText" type="Label" parent="." unique_id=1792835326]
 layout_mode = 0
 offset_top = 144.0
 offset_right = 1280.0
@@ -84,7 +84,7 @@ label_settings = SubResource("LabelSettings_j0dt2")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RoundNumber" type="Label" parent="."]
+[node name="RoundNumber" type="Label" parent="." unique_id=1313647664]
 auto_translate_mode = 2
 layout_mode = 0
 offset_top = 216.0
@@ -95,7 +95,7 @@ label_settings = SubResource("LabelSettings_pl0ml")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreText" type="Label" parent="."]
+[node name="ScoreText" type="Label" parent="." unique_id=488054988]
 layout_mode = 0
 offset_left = -64.0
 offset_top = -180.0
@@ -106,7 +106,7 @@ label_settings = SubResource("LabelSettings_dydj6")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="ScoreNumber" type="Label" parent="."]
+[node name="ScoreNumber" type="Label" parent="." unique_id=1575166573]
 auto_translate_mode = 2
 layout_mode = 0
 offset_left = -64.0
@@ -118,7 +118,7 @@ label_settings = SubResource("LabelSettings_2fuic")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TotalScoreText" type="Label" parent="."]
+[node name="TotalScoreText" type="Label" parent="." unique_id=565460838]
 layout_mode = 0
 offset_top = 144.0
 offset_right = 1280.0
@@ -128,7 +128,7 @@ label_settings = SubResource("LabelSettings_j0dt2")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PerfectBonusNumber" type="Label" parent="."]
+[node name="PerfectBonusNumber" type="Label" parent="." unique_id=1603619309]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 144.0
@@ -139,7 +139,7 @@ label_settings = SubResource("LabelSettings_wgs0r")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TotalScoreNumber" type="Label" parent="."]
+[node name="TotalScoreNumber" type="Label" parent="." unique_id=1576122970]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 144.0
@@ -150,7 +150,7 @@ label_settings = SubResource("LabelSettings_2qnp0")
 horizontal_alignment = 2
 vertical_alignment = 1
 
-[node name="TimeLeftBar" type="ProgressBar" parent="."]
+[node name="TimeLeftBar" type="ProgressBar" parent="." unique_id=1952784503]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 576.0
@@ -161,7 +161,7 @@ max_value = 1.0
 step = 0.0
 show_percentage = false
 
-[node name="BackToTitleTip" type="Label" parent="."]
+[node name="BackToTitleTip" type="Label" parent="." unique_id=1409150449]
 layout_mode = 0
 offset_right = 1280.0
 offset_bottom = 720.0
@@ -170,7 +170,7 @@ label_settings = SubResource("LabelSettings_w3hah")
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="NameColorRect" type="ColorRect" parent="."]
+[node name="NameColorRect" type="ColorRect" parent="." unique_id=1084031629]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 360.0
@@ -178,7 +178,7 @@ offset_right = 1152.0
 offset_bottom = 414.0
 color = Color(1, 1, 0, 1)
 
-[node name="NameText" type="Label" parent="."]
+[node name="NameText" type="Label" parent="." unique_id=1911904142]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 355.0
@@ -189,10 +189,10 @@ label_settings = SubResource("LabelSettings_r07ce")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Icons" type="Control" parent="."]
+[node name="Icons" type="Control" parent="." unique_id=522957315]
 anchors_preset = 0
 
-[node name="Icon_0" type="TextureRect" parent="Icons"]
+[node name="Icon_0" type="TextureRect" parent="Icons" unique_id=952402893]
 layout_mode = 0
 offset_left = 128.0
 offset_top = 72.0
@@ -201,12 +201,12 @@ offset_bottom = 360.0
 texture = ExtResource("3_7r8fn")
 expand_mode = 1
 
-[node name="Panel" type="Panel" parent="Icons/Icon_0"]
+[node name="Panel" type="Panel" parent="Icons/Icon_0" unique_id=1488281719]
 layout_mode = 0
 offset_right = 288.0
 offset_bottom = 288.0
 
-[node name="Icon_1" type="TextureRect" parent="Icons"]
+[node name="Icon_1" type="TextureRect" parent="Icons" unique_id=1021368924]
 layout_mode = 0
 offset_left = 416.0
 offset_top = 180.0
@@ -215,7 +215,7 @@ offset_bottom = 360.0
 texture = ExtResource("4_pl0ml")
 expand_mode = 1
 
-[node name="Icon_2" type="TextureRect" parent="Icons"]
+[node name="Icon_2" type="TextureRect" parent="Icons" unique_id=1340489848]
 layout_mode = 0
 offset_left = 596.0
 offset_top = 180.0
@@ -224,7 +224,7 @@ offset_bottom = 360.0
 texture = ExtResource("4_pl0ml")
 expand_mode = 1
 
-[node name="Icon_3" type="TextureRect" parent="Icons"]
+[node name="Icon_3" type="TextureRect" parent="Icons" unique_id=555352768]
 layout_mode = 0
 offset_left = 776.0
 offset_top = 180.0
@@ -233,7 +233,7 @@ offset_bottom = 360.0
 texture = ExtResource("4_pl0ml")
 expand_mode = 1
 
-[node name="Icon_4" type="TextureRect" parent="Icons"]
+[node name="Icon_4" type="TextureRect" parent="Icons" unique_id=1304884600]
 layout_mode = 0
 offset_left = 956.0
 offset_top = 180.0
@@ -242,14 +242,14 @@ offset_bottom = 360.0
 texture = ExtResource("4_pl0ml")
 expand_mode = 1
 
-[node name="Arrows" type="HBoxContainer" parent="."]
+[node name="Arrows" type="HBoxContainer" parent="." unique_id=1519550634]
 layout_mode = 0
-offset_top = 432.0
+offset_top = 450.0
 offset_right = 1280.0
-offset_bottom = 558.0
+offset_bottom = 540.0
 alignment = 1
 
-[node name="TextureRect" type="TextureRect" parent="Arrows"]
+[node name="TextureRect" type="TextureRect" parent="Arrows" unique_id=1961328559]
 layout_mode = 2
 texture = ExtResource("5_dydj6")
 expand_mode = 3

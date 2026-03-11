@@ -112,6 +112,10 @@ func _notification(what: int) -> void:
 func _ready() -> void:
 	n_round_num.text = str(current_round)
 
+func _on_esc_exit() -> void:
+	to_game_over()
+	focus_drop_timer.complete()
+
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_time_left_bar.fit_size(window_size)
@@ -300,3 +304,6 @@ static func get_timer_max_for_round(round_num: int) -> float:
 ## 获取给定回合数的时间回复值
 static func get_time_revive_for_round(round_num: int) -> float:
 	return BASIC_TIME_REVIVE / round_num ** 0.5
+
+func get_exitable() -> bool:
+	return true

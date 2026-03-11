@@ -42,6 +42,9 @@ func _notification(what: int) -> void:
 		n_time_left_bar = $TimeLeftBar as StratagemHeroEffect_EffectGameCore_TimeLeftBar
 		n_score = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
+func _on_esc_exit() -> void:
+	time_left -= TIME_LEFT_MAX
+
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_time_left_bar.fit_size(window_size)
@@ -137,3 +140,6 @@ func _drop_focus_postfix() -> void:
 	else:
 		StratagemHeroEffect.instance.audio_game_over.play()
 	StratagemHeroEffect_SaveAccess.check_and_save_effect_score(StratagemHeroEffect_EffectGame.SpecialEffectMode.GREATWALL, arrow_completed, -1, arrow_completed * 60.0 / total_timer)
+
+func get_exitable() -> bool:
+	return true

@@ -51,3 +51,6 @@ func _drop_focus_postfix() -> void:
 ## 设置回合数
 func set_number(round_number: int) -> void:
 	n_number.text = str(round_number)
+
+func get_exitable() -> bool:
+	return false

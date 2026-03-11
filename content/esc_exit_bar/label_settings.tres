@@ -1,0 +1,9 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://b8tituon2ji0f"]
+
+[ext_resource type="FontFile" uid="uid://ddjmjwoqek0tx" path="res://resources/fonts/FS Sinclair Bold.woff2" id="1_girdc"]
+
+[resource]
+line_spacing = 0.0
+font = ExtResource("1_girdc")
+font_size = 20
+font_color = Color(0, 0, 0, 1)

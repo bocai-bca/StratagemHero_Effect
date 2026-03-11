@@ -28,7 +28,17 @@ font_size = 48
 line_spacing = 0.0
 font_size = 36
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mekki"]
+bg_color = Color(0.05882353, 0.05882353, 0.05882353, 1)
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="Theme" id="Theme_ay0oy"]
+Label/font_sizes/font_size = 32
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_mekki")
+
 [node name="StratagemSelectionPanel" type="PanelContainer" unique_id=1759120380]
+clip_contents = true
 offset_right = 1280.0
 offset_bottom = 720.0
 theme = SubResource("Theme_qk261")
@@ -220,6 +230,23 @@ size_flags_vertical = 1
 text = "effect_text.edit_stratagems.wont_record_tip"
 horizontal_alignment = 1
 vertical_alignment = 2
+
+[node name="DetailBar" type="Node2D" parent="." unique_id=1498965119]
+
+[node name="PC" type="PanelContainer" parent="DetailBar" unique_id=446432953]
+offset_right = 1280.0
+offset_bottom = 72.0
+theme = SubResource("Theme_ay0oy")
+
+[node name="HBC" type="HBoxContainer" parent="DetailBar/PC" unique_id=2109041921]
+layout_mode = 2
+alignment = 1
+
+[node name="Name" type="Label" parent="DetailBar/PC/HBC" unique_id=949490770]
+layout_mode = 2
+text = "name"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="focus_entered" from="VBC/HBC/Buttons/SwitchAll" to="." method="on_button_focus_entered"]
 [connection signal="pressed" from="VBC/HBC/Buttons/SwitchAll" to="." method="on_switch_all_pressed"]

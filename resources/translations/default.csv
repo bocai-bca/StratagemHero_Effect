@@ -3,6 +3,8 @@ keys,en,zh
 title,"Stratagem Hero: Effect","战略配备英雄: 效果"
 title_tip,"Press SPACE or ENTER to continue","按空格或回车键以继续"
 
+esc_exit_bar.text,"Hold to gameover","长按结束游戏"
+
 menu_general_text_back,"Back","返回"
 
 main_menu_text_classic,"Classic Mode","经典模式"
@@ -19,7 +21,7 @@ settings_text.clear_score,"Clear High Scores","清除高分记录"
 settings_text.clear_score_confirm,"Are you sure?","确定吗?"
 settings_text.clear_score_already,"High Scores was cleared","高分记录已清除"
 
-helps_text,"Use WASD/IJKL/↑←↓→ to input directions.\nUse SPACE and ENTER to confirm.\nFor gamepads, samely ↑←↓→ and use\nA(Xbox) or Cross(PS) to confirm.","按WASD/IJKL/↑←↓→输入方向\n按空格或回车进行确定\n手柄同样是↑←↓→输入方向\n按A(Xbox)或叉叉(PlayStation)进行确定"
+helps_text,"WASD/IJKL/↑←↓→ for directions.\nSPACE/ENTER for confirm.\nHold ESC or Backspace in game for fast gameover.\n\nFor gamepads, samely ↑←↓→ and use A(Xbox) or Cross(PS) to confirm.\nHold anyone of two menu button in game for fast gameover.","按WASD/IJKL/↑←↓→输入方向\n按空格或回车进行确定\n局内长按ESC或Backspace以快速结束游戏\n\n手柄同样是↑←↓→输入方向\n按A(Xbox)或叉叉(PlayStation)进行确定\n局内长按两个菜单键中任意一个以快速结束游戏"
 
 about_text,"Copyright (C) 2025-2026 Bocai_BCA. Open source with MIT License.\nhttps://github.com/bocai-bca/StratagemHero_Effect\n\n"""Helldivers2""" is the trademark owned by Arrowhead Game Studios.\nCopyright declaration exclude fonts, images and audios resources.\nThis part is owned by Arrowhead Game Studios or other actually owner.\n\nThis project was made with Godot Engine.\nhttps://godotengine.org/\n\nSpecial Thanks:\nhttps://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg\nAnd my friends who given help on this project","Copyright (C) 2025-2026 BCASoft. 按照MIT协议开源\nhttps://github.com/bocai-bca/StratagemHero_Effect\n\n"""绝地潜兵2"""是由Arrowhead Game Studios所拥有的商标\n版权声明排除字体、图像和音频资源\n该部分版权属于Arrowhead Game Studios或其他实际持有方\n\n本项目使用Godot Engine制作\nhttps://godotengine.org\n\n特别感谢：\nhttps://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg\n和对本项目的开发提供帮助的朋友们"
 
@@ -59,12 +61,12 @@ effect_text.edit_stratagems.common,"COMMON","通用"
 effect_text.edit_stratagems.support,"SUPPORT","支援型"
 effect_text.edit_stratagems.attack,"ATTACK","攻击型"
 effect_text.edit_stratagems.defence,"DEFENCE","防御型"
-effect_text.edit_stratagems.switch_all,"I/O All","切换全部"
-effect_text.edit_stratagems.switch_commons,"I/O Commons","切换通用"
-effect_text.edit_stratagems.switch_supports,"I/O Supports","切换支援"
-effect_text.edit_stratagems.switch_attacks,"I/O Attacks","切换攻击"
-effect_text.edit_stratagems.switch_defences,"I/O Defences","切换防御"
-effect_text.edit_stratagems.switch_warbonds,"I/O Warbonds","切换债券"
+effect_text.edit_stratagems.switch_all,"Switch All","切换全部"
+effect_text.edit_stratagems.switch_commons,"Swc Comms","切换通用"
+effect_text.edit_stratagems.switch_supports,"Swc Sprts","切换支援"
+effect_text.edit_stratagems.switch_attacks,"Swc Atcks","切换攻击"
+effect_text.edit_stratagems.switch_defences,"Swc Dfens","切换防御"
+effect_text.edit_stratagems.switch_warbonds,"Swc Wrbds","切换债券"
 effect_text.edit_stratagems.apply,"Apply","应用"
 effect_text.edit_stratagems.cancel,"Cancel","取消"
 effect_text.edit_stratagems.wont_record_tip,"High score won't record while the count of stratagems enabled is less than 16.","启用的战备数量少于16个时不会记录成绩"

@@ -31,7 +31,7 @@ func update_text() -> void:
 			text += "\n[color=yellow][b]" + score_clear_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 4) else "\n" + score_clear_text
 		StratagemHeroEffect.GameState.Helps:
 			text += "[color=yellow][b]" + tr(&"menu_general_text_back") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back")
-			text += "\n\n" + tr(&"helps_text")
+			text += "\n\n\n\n\n\n\n"
 		StratagemHeroEffect.GameState.HighScores:
 			text += "[color=yellow][b]" + tr(&"menu_general_text_back") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back")
 			var type_line: String

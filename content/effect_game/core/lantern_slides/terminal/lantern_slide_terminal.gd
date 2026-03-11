@@ -188,3 +188,6 @@ static func get_revive_time_for_line(num_of_line_completed: int) -> float:
 ## 获取给定行号的箭头数量
 static func get_arrows_num_for_line(the_line_num: int) -> int:
 	return clampi(int(log(the_line_num) * 1.5) + ARROWS_NUM_INITIAL_VALUE, ARROWS_NUM_INITIAL_VALUE, ARROWS_NUM_MAXIMUM)
+
+func get_exitable() -> bool:
+	return true
