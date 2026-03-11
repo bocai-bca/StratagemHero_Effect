@@ -19,7 +19,7 @@ settings_text.clear_score,"Clear High Scores","清除高分记录"
 settings_text.clear_score_confirm,"Are you sure?","确定吗?"
 settings_text.clear_score_already,"High Scores was cleared","高分记录已清除"
 
-helps_text,"Use WASD/IJKL/↑←↓→ to input directions.\nUse SPACE and ENTER to input confirm.","按WASD/IJKL/↑←↓→输入方向\n按空格或回车进行确定"
+helps_text,"Use WASD/IJKL/↑←↓→ to input directions.\nUse SPACE and ENTER to confirm.\nFor gamepads, samely ↑←↓→ and use\nA(Xbox) or Cross(PS) to confirm.","按WASD/IJKL/↑←↓→输入方向\n按空格或回车进行确定\n手柄同样是↑←↓→输入方向\n按A(Xbox)或叉叉(PlayStation)进行确定"
 
 about_text,"Copyright (C) 2025-2026 Bocai_BCA. Open source with MIT License.\nhttps://github.com/bocai-bca/StratagemHero_Effect\n\n"""Helldivers2""" is the trademark owned by Arrowhead Game Studios.\nCopyright declaration exclude fonts, images and audios resources.\nThis part is owned by Arrowhead Game Studios or other actually owner.\n\nThis project was made with Godot Engine.\nhttps://godotengine.org/\n\nSpecial Thanks:\nhttps://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg\nAnd my friends who given help on this project","Copyright (C) 2025-2026 BCASoft. 按照MIT协议开源\nhttps://github.com/bocai-bca/StratagemHero_Effect\n\n"""绝地潜兵2"""是由Arrowhead Game Studios所拥有的商标\n版权声明排除字体、图像和音频资源\n该部分版权属于Arrowhead Game Studios或其他实际持有方\n\n本项目使用Godot Engine制作\nhttps://godotengine.org\n\n特别感谢：\nhttps://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg\n和对本项目的开发提供帮助的朋友们"
 
