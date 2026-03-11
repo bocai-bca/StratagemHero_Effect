@@ -21,9 +21,9 @@ static func load_save() -> bool:
 		push_error("StratagemHeroEffect_SaveAccess: Failed to parse save data, parsed data is not Dictionary")
 		return false
 	if (data_dictionary.has("volume_music")):
-		save_struct_in_memory.volume_music = data_dictionary.get("volume_music", 0.8)
+		save_struct_in_memory.volume_music = data_dictionary.get("volume_music", 0.8) as float
 	if (data_dictionary.has("volume_sfx")):
-		save_struct_in_memory.volume_music = data_dictionary.get("volume_sfx", 0.8)
+		save_struct_in_memory.volume_sfx = data_dictionary.get("volume_sfx", 0.8) as float
 	if (data_dictionary.has("classic_high_score")):
 		save_struct_in_memory.classic_high_score = HighScoreStruct.from_dictionary(data_dictionary.get("classic_high_score", null))
 	if (data_dictionary.has("classic_high_level")):
