@@ -60,6 +60,9 @@ func _notification(what: int) -> void:
 		n_time_left_bar = $TimeLeftBar as ProgressBar
 		n_score = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
+func _on_esc_exit() -> void:
+	to_game_over()
+
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_score.size = window_size
