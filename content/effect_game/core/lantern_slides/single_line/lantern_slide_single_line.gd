@@ -23,7 +23,7 @@ const BASIC_TIMER_MAX: float = 8.0
 ## 基本计时器回复值
 const BASIC_TIME_REVIVE: float = 4.0
 ## 基本计时器扣除值
-const BASIC_TIME_DECREASE: float = 0.5
+const BASIC_TIME_DECREASE: float = 0.3
 ## 行阵列的X坐标起始位置比率，基于本节点的横向尺寸
 const LINES_POSITION_X_START_RATE: float = 0.2
 ## 行阵列的Y坐标起始位置比率，基于本节点的纵向尺寸
@@ -34,6 +34,8 @@ const LINES_SPACING_RATE: float = 0.5
 const FOCUS_DROP_TIME: float = 3.5
 ## 回合结束文本显现过程时间
 const ROUND_FINISH_TEXT_DISPLAYING_TIME: float = 1.5
+## 连错保护时间
+const WRONG_PROTECT_TIME: float = 0.6
 
 ## 默写模式的计时器乘数，影响回合总时间和回复时间
 const DICTATION_TIMER_MULTIPLIER: float = 6.0
@@ -75,6 +77,8 @@ var is_going_to_drop_focus: bool = false
 var focus_drop_timer: TransferTimer = TransferTimer.new(FOCUS_DROP_TIME, true, 0.0)
 ## 回合结束文本显现计时器
 var round_finish_displaying_timer: TransferTimer = TransferTimer.new(ROUND_FINISH_TEXT_DISPLAYING_TIME, true, 0.0)
+## 连错保护计时器
+var wrong_protect_timer: TransferTimer = TransferTimer.new(WRONG_PROTECT_TIME, false, 0.0)
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -142,6 +146,7 @@ func _update_focus(delta: float) -> void:
 	round_finish_displaying_timer.update(delta)
 	n_round_finish_text.visible_ratio = round_finish_displaying_timer.percent
 	update_lines_position()
+	wrong_protect_timer.update(delta)
 
 func update_lines_position() -> void:
 	var lines_list: Array[StratagemHeroEffect_EffectGameCore_StratagemLine] = n_lines_fadeouting + n_lines
@@ -234,7 +239,9 @@ func _drop_focus_postfix() -> void:
 
 func on_line_wrong(_line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine) -> void:
 	var time_decrease: float = timer_max if StratagemHeroEffect_EffectGame.one_heart else BASIC_TIME_DECREASE
-	timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
+	if (wrong_protect_timer.percent <= 0.01):
+		wrong_protect_timer.restart()
+		timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
 	n_time_left_bar.play_warning_effect()
 	is_perfect = false
 

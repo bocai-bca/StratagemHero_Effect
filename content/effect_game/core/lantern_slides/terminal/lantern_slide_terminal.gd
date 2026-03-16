@@ -20,7 +20,7 @@ const TIMER_MAX: float = 20.0
 ## 摁完一行的回复时间的基础值
 const TIME_REVIVE_BASIC: float = 15.0
 ## 摁错扣除时间的基础值
-const TIME_DECREASE_BASIC: float = 1.0
+const TIME_DECREASE_BASIC: float = 0.75
 ## 能够播放大型结束音效所需达成的最少完成行数
 const MIN_LINES_COMPLETED_ABLE_TO_PLAY_LARGE_GAMEOVER_SOUND: int = 5
 ## 每个箭头的标准宽度
@@ -29,6 +29,8 @@ const WIDTH_PER_ARROW: float = 96.0
 const SPACING_WIDTH_BETWEEN_ARROW: float = 8.0
 ## 箭头Y坐标比率，基于屏幕纵向长度
 const ARROWS_POSITION_Y_RATIO: float = 0.5
+## 连错保护时间
+const WRONG_PROTECT_TIME: float = 0.6
 
 ## 剩余时间
 var timer: TransferTimer = TransferTimer.new(TIMER_MAX, false, TIMER_MAX)
@@ -53,6 +55,8 @@ var code_cache: Array[StratagemData.CodeArrow] = []
 var next_code_cache: StratagemData.CodeArrow
 ## 下一个箭头在n_arrows中的索引缓存
 var next_arrow_index_cache: int
+## 连错保护计时器
+var wrong_protect_timer: TransferTimer = TransferTimer.new(WRONG_PROTECT_TIME, false, 0.0)
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -80,6 +84,7 @@ func _update_focus(delta: float) -> void:
 	n_time_left_bar.update(delta, timer.percent)
 	update_arrows(delta)
 	check_input()
+	wrong_protect_timer.update(delta)
 	if (timer.current <= 0.0):
 		to_game_over()
 
@@ -141,7 +146,9 @@ func press_wrong() -> void:
 	next_code_cache = code_cache[0]
 	StratagemHeroEffect.instance.audio_wrong.play()
 	n_time_left_bar.play_warning_effect()
-	timer.current -= TIMER_MAX if StratagemHeroEffect_EffectGame.one_heart else TIME_DECREASE_BASIC
+	if (wrong_protect_timer.percent <= 0.01):
+		wrong_protect_timer.restart()
+		timer.current -= TIMER_MAX if StratagemHeroEffect_EffectGame.one_heart else TIME_DECREASE_BASIC
 
 ## 虚方法覆写-当本幻灯片实例抛下焦点后调用，本方法将于广播节点和设置状态之后调用
 func _drop_focus_postfix() -> void:

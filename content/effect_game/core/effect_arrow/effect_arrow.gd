@@ -28,6 +28,8 @@ const ARROW_ANIMATION_TIME: float = 0.15
 const ARROW_ANIMATION_FAREST_MOVE_DISTANCE_RATE: float = 0.5
 ## 箭头动画曲线切换点位置，起百分比作用。必须位于区间(0.0, 1.0]之内
 const ARROW_ANIMATION_CURVE_SWITCH_POINT: float = 1.0 / 3.0
+## 错误闪红颜色
+const WRONG_COLOR: Color = Color(0.9, 0.0, 0.0)
 
 ## 表示本箭头是否存活，存活时本箭头会开始执行淡入过程，不再存活时本箭头会开始执行淡出过程，并在淡出完毕后将根节点的visible设为false以便外部调用queue_free()和清除
 var alive: bool = true
@@ -85,11 +87,7 @@ func update(delta: float) -> void:
 	n_ring.scale = Vector2.ONE * ring_scale_rate
 	n_ring.modulate.a = clampf((RING_ANIMATION_ALPHA_DECREASE_START_SCALE - ring_scale_rate) / (RING_ANIMATION_MAX_SCALE - RING_ANIMATION_ALPHA_DECREASE_START_SCALE), 0.0, 1.0)
 	wrong_timer = move_toward(wrong_timer, 0.0, delta)
-	var wrong_modulate: float = 1.0 - (wrong_timer / WRONG_ANIMATION_TIME)
-	if (pressed):
-		modulate = Color(1.0, wrong_modulate, 0.0, modulate.a)
-	else:
-		modulate = Color(1.0, wrong_modulate, wrong_modulate, modulate.a)
+	modulate = Color(lerpf(1.0, WRONG_COLOR.r, wrong_timer / WRONG_ANIMATION_TIME), lerpf(1.0, WRONG_COLOR.g, wrong_timer / WRONG_ANIMATION_TIME), lerpf(0.0 if pressed else 1.0, WRONG_COLOR.b, wrong_timer / WRONG_ANIMATION_TIME), modulate.a)
 	update_arrow_animation()
 
 ## 更新箭头动画，注意箭头动画计时器的更新由update()承担

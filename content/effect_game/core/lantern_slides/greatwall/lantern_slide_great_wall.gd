@@ -14,9 +14,11 @@ const ARROWS_SPACING_WIDTH_RATE: float = 0.02
 ## 播放大型游戏结束音效所需完成的箭头数量
 const MIN_ARROW_COMPLETED_ABLE_TO_PLAY_LARGE_GAMEOVER_SOUND: int = 12
 ## 按错时扣除的时间
-const TIME_REDUCE_WHEN_WRONG: float = 1.0
+const TIME_REDUCE_WHEN_WRONG: float = 0.75
 ## 时间条上限
 const TIME_LEFT_MAX: float = 15.0
+## 连错保护时间
+const WRONG_PROTECT_TIME: float = 0.6
 
 var n_super_earth_logo: TextureRect
 var n_time_left_bar: StratagemHeroEffect_EffectGameCore_TimeLeftBar
@@ -35,6 +37,8 @@ var time_left: float = TIME_LEFT_MAX
 var arrow_max_width: float = 0.0
 ## 计时器，用于计算平均速度
 var total_timer: float = 0.0
+## 连错保护计时器
+var wrong_protect_timer: TransferTimer = TransferTimer.new(WRONG_PROTECT_TIME, false, 0.0)
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -80,6 +84,7 @@ func _update_focus(delta: float) -> void:
 		if (not n_arrow.pressed):
 			check_input(n_arrow)
 			break
+	wrong_protect_timer.update(delta)
 
 func check_input(next_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> void:
 	if (Input.is_action_just_pressed(&"up")):
@@ -117,7 +122,9 @@ func input_wrong() -> void:
 			n_arrow.wrong()
 	StratagemHeroEffect.instance.audio_wrong.play()
 	n_time_left_bar.play_warning_effect()
-	time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
+	if (wrong_protect_timer.percent <= 0.01):
+		wrong_protect_timer.restart()
+		time_left -= TIME_REDUCE_WHEN_WRONG if not StratagemHeroEffect_EffectGame.one_heart else TIME_LEFT_MAX
 
 ## 排列箭头，将设置它们的坐标和缩放
 func positioning_arrows() -> void:

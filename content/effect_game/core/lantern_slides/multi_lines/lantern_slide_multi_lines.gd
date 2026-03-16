@@ -13,7 +13,7 @@ const BASIC_TIMER_MAX: float = 8.0
 ## 基本计时器回复值
 const BASIC_TIME_REVIVE: float = 4.0
 ## 基本计时器扣除值
-const BASIC_TIME_DECREASE: float = 0.5
+const BASIC_TIME_DECREASE: float = 0.3
 ## 行列的X坐标的比率，基于屏幕横向尺寸
 const LINES_POS_X_RATIO: float = 0.275
 ## 行列的Y坐标起点的比率，基于屏幕纵向尺寸
@@ -24,6 +24,8 @@ const LINES_POS_Y_DELTA_RATIO: float = 0.2
 const FOCUS_DROP_TIME: float = 3.5
 ## 回合结束文本显现过程时间
 const ROUND_FINISH_TEXT_DISPLAYING_TIME: float = 1.5
+## 连错保护时间
+const WRONG_PROTECT_TIME: float = 0.6
 
 ## 默写模式的计时器乘数，影响回合总时间和回复时间
 const DICTATION_TIMER_MULTIPLIER: float = 6.0
@@ -92,6 +94,8 @@ var is_line_correct_this_tick: bool = false
 var need_to_play_audio_correct: bool = false
 ## 当前是否需要播放完成音效
 var need_to_play_audio_done: bool = false
+## 连错保护计时器
+var wrong_protect_timer: TransferTimer = TransferTimer.new(WRONG_PROTECT_TIME, false, 0.0)
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -177,6 +181,7 @@ func _update_focus(delta: float) -> void:
 			drop_focus()
 	round_finish_displaying_timer.update(delta)
 	n_round_finish_text.visible_ratio = round_finish_displaying_timer.percent
+	wrong_protect_timer.update(delta)
 
 func _got_focus_postfix() -> void:
 	StratagemHeroEffect.instance.audio_playing_music.play()
@@ -223,7 +228,9 @@ func do_wrong() -> void:
 	for n_line_need_to_play_wrong in n_lines_need_to_play_wrong:
 		n_line_need_to_play_wrong.play_wrong()
 	var time_decrease: float = timer_max if StratagemHeroEffect_EffectGame.one_heart else BASIC_TIME_DECREASE
-	timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION_MULTILINES else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
+	if (wrong_protect_timer.percent <= 0.01):
+		wrong_protect_timer.restart()
+		timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION_MULTILINES else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
 	n_time_left_bar.play_warning_effect()
 	StratagemHeroEffect.instance.audio_wrong.play()
 	is_perfect = false

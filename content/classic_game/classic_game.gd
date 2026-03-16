@@ -51,7 +51,7 @@ const TIME_REVIVE_AFTER_A_COMPLETE: float = 2.5
 ## 时间条开始呈现橙色警告的百分比位置
 const TIME_BAR_WARNING_PERCENT: float = 0.4
 ## 按错罚时
-const WRONG_TIME_PENALTY: float = 0.75
+const WRONG_TIME_PENALTY: float = 0.4
 ## 游戏状态
 enum GameState{
 	IDLE, ## 闲置状态，相当于经典游戏主类未开始
@@ -230,6 +230,8 @@ var current_codes: Array[StratagemData.CodeArrow] = []
 var arrow_completed: int = 0
 ## 回合内所有指令数量(用于在回合结算时转换成回合加分，在回合结算之前该值不正确，仍然处于累积过程中)
 var codes_count_this_round: int = 0
+## 按错的输入禁用惩罚计时器
+var input_disable_timer: TransferTimer = TransferTimer.new(WRONG_TIME_PENALTY, false, 0.0)
 
 func _ready() -> void:
 	game_state = GameState.IDLE
@@ -270,7 +272,8 @@ func next_code() -> void:
 func wrong_pressed() -> void:
 	arrow_completed = 0
 	was_wrong_this_round = true
-	timer -= WRONG_TIME_PENALTY
+	#timer -= WRONG_TIME_PENALTY
+	input_disable_timer.restart()
 	wrong_timer.current = WRONG_FLASH_TOTAL_TIME
 	StratagemHeroEffect.instance.audio_wrong.play()
 
@@ -310,7 +313,9 @@ func _process(delta: float) -> void:
 			n_back_to_title_tip.visible = true if timer <= 0.0 else false
 	timer -= delta
 	wrong_timer.update(delta)
-	input_handle()
+	input_disable_timer.update(delta)
+	if (input_disable_timer.percent <= 0.01):
+		input_handle()
 
 func _physics_process(_delta: float) -> void:
 	var window: Window = get_window()
