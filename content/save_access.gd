@@ -38,6 +38,8 @@ static func load_save() -> bool:
 		save_struct_in_memory.effect_high_score_multilines = EffectHighScoreStruct.from_dictionary_deep(data_dictionary.get("effect_high_score_multilines", null))
 	if (data_dictionary.has("effect_high_score_terminal")):
 		save_struct_in_memory.effect_high_score_terminal = EffectHighScoreStruct.from_dictionary_deep(data_dictionary.get("effect_high_score_terminal", null))
+	if (data_dictionary.has("effect_mode_stratagems_enabled")):
+		save_struct_in_memory.effect_mode_stratagems_enabled = SaveStruct.stratagems_enabled_from_var(data_dictionary.get("effect_mode_stratagems_enabled", []))
 	return true
 
 static func store_save() -> bool:
@@ -56,6 +58,7 @@ static func store_save() -> bool:
 		"effect_high_score_greatwall": save_struct_in_memory.effect_high_score_greatwall.to_dictionary_deep(),
 		"effect_high_score_multilines": save_struct_in_memory.effect_high_score_multilines.to_dictionary_deep(),
 		"effect_high_score_terminal": save_struct_in_memory.effect_high_score_terminal.to_dictionary_deep(),
+		"effect_mode_stratagems_enabled": save_struct_in_memory.effect_mode_stratagems_enabled,
 	}
 	if (not file_access.store_string(JSON.stringify(data_dictionary, "\t"))):
 		push_error("StratagemHeroEffect_SaveAccess: Error on storing save data, ErrorCode=", file_access.get_error())
@@ -175,6 +178,18 @@ class SaveStruct extends RefCounted:
 	var effect_high_score_greatwall: EffectHighScoreStruct = EffectHighScoreStruct.new()
 	var effect_high_score_multilines: EffectHighScoreStruct = EffectHighScoreStruct.new()
 	var effect_high_score_terminal: EffectHighScoreStruct = EffectHighScoreStruct.new()
+	var effect_mode_stratagems_enabled: Array[StringName] = StratagemData.list.keys() as Array[StringName]
+	static func stratagems_enabled_from_var(var_data: Variant) -> Array[StringName]:
+		var result: Array[StringName] = []
+		var array_data: Array = var_data as Array
+		if (array_data == null):
+			return result
+		for obj in array_data:
+			var str_obj: String = obj as String
+			if (str_obj == null):
+				continue
+			result.append(StringName(str_obj))
+		return result
 
 ## 高分对象结构类，代表一个最高分记录。每个成员变量的值如果小于0代表该值处于无效作用
 class HighScoreStruct extends RefCounted:

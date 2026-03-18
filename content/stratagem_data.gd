@@ -186,6 +186,14 @@ static var list: Dictionary[StringName, StratagemData]:
 					StratagemClass.SUPPORT,
 					true
 				),
+			&"cremator":
+				StratagemData.new(
+					null,
+					"stratagem_name.cremator",
+					"vv>v^^",
+					StratagemClass.SUPPORT,
+					true
+				),
 			&"dark_fluid_vessel":
 				StratagemData.new(
 					preload("res://resources/images/dark_fluid_vessel.svg"),
@@ -353,6 +361,14 @@ static var list: Dictionary[StringName, StratagemData]:
 					"v<<>",
 					StratagemClass.DEFENCE,
 					false
+				),
+			&"gas_mortar_sentry":
+				StratagemData.new(
+					null,
+					"stratagem_name.gas_mortar_sentry",
+					"v^>v<",
+					StratagemClass.DEFENCE,
+					true
 				),
 			&"gatling_sentry":
 				StratagemData.new(
@@ -851,3 +867,116 @@ static var list: Dictionary[StringName, StratagemData]:
 					true  # LIFT-182 Warp Pack
 				),
 		}
+
+## 通用战备排序
+const STRATAGEM_ORDER_COMMON: Array[StringName] = [
+	"reinforce",
+	"sos_beacon",
+	"resupply",
+	"eagle_rearm",
+	"call_in_super_destroyer",
+	"seaf_artillery",
+	"hellbomb",
+	"super_earth_flag",
+	"upload_data",
+	"seismic_probe",
+	"cargo_container",
+	"dark_fluid_vessel",
+	"tectonic_drill",
+	"hive_breaker_drill",
+	"prospecting_drill",
+]
+## 支援战备排序
+const STRATAGEM_ORDER_SUPPORT: Array[StringName] = [
+	"airburst_rocket_launcher",
+	"solo_silo",
+	"jump_pack",
+	"hover_pack",
+	"directional_shield",
+	"shield_generator_pack",
+	"hellbomb_portable",
+	"c4_pack",
+	"railgun",
+	"arc_thrower",
+	"speargun",
+	"sta_x3_wasp_launcher",
+	"spear",
+	"quasar_cannon",
+	"expendable_anti_tank",
+	"eat_411",
+	"expendable_napalm",
+	"cremator",
+	"flamethrower",
+	"sterilizer",
+	"commando",
+	"heavy_machine_gun",
+	"epoch",
+	"gl_52_de_escalator",
+	"grenade_launcher",
+	"anti_materiel_rifle",
+	"recoilless_rifle",
+	"one_true_flag",
+	"defoliation_tool",
+	"cqc_20",
+	"laser_cannon",
+	"machine_gun",
+	"gl_28",
+	"maxigun",
+	"warp_pack",
+	"supply_pack",
+	"ballistic_shield_backpack",
+	"stalwart",
+	"autocannon",
+	"guard_dog_breath",
+	"guard_dog_rover",
+	"guard_dog",
+	"guard_dog_k_9",
+	"guard_dog_hot_dog",
+	"emancipator_exosuit",
+	"patriot_exosuit",
+	"fast_recon_vehicle",
+	"bastion_mk_xvi",
+]
+## 攻击战备排序
+const STRATAGEM_ORDER_ATTACK: Array[StringName] = [
+	"eagle_strafing_run",
+	"eagle_smoke_strike",
+	"eagle_110mm_rocket_pods",
+	"eagle_napalm_airstrike",
+	"eagle_airstrike",
+	"eagle_cluster_bomb",
+	"eagle_500kg_bomb",
+	"orbital_precision_strike",
+	"orbital_airburst_strike",
+	"orbital_smoke_strike",
+	"orbital_gas_strike",
+	"orbital_ems_strike",
+	"orbital_napalm_barrage",
+	"orbital_120mm_he_barrage",
+	"orbital_380mm_he_barrage",
+	"orbital_laser",
+	"orbital_walking_barrage",
+	"orbital_gatling_barrage",
+	"orbital_railcannon_strike",
+]
+## 防御战备排序
+const STRATAGEM_ORDER_DEFENCE: Array[StringName] = [
+	"gatling_sentry",
+	"machine_gun_sentry",
+	"mortar_sentry",
+	"ems_mortar_sentry",
+	"gas_mortar_sentry",
+	"rocket_sentry",
+	"autocannon_sentry",
+	"flame_sentry",
+	"laser_sentry",
+	"anti_tank_emplacement",
+	"hmg_emplacement",
+	"tesla_tower",
+	"grenadier_battlement",
+	"shield_generator_relay",
+	"anti_tank_mines",
+	"anti_personnel_minefield",
+	"gas_mine",
+	"incendiary_mines",
+]

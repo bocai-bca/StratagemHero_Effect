@@ -44,8 +44,10 @@ static var focus_stratagem_name: StringName:
 			instance.update_detail_bar_to_new_stratagem()
 
 func _enter_tree() -> void:
-	stratagems_enabled = StratagemData.list.keys() as Array[StringName]
 	instance = self
+
+func _ready() -> void:
+	stratagems_enabled = StratagemHeroEffect_SaveAccess.save_struct_in_memory.effect_mode_stratagems_enabled
 
 func process(delta: float) -> void:
 	stratagem_stay_timer += delta
@@ -68,10 +70,10 @@ func physics_process() -> void:
 	var window: Window = get_window()
 	size = Vector2(window.size)
 	position_y_when_hidden = window.size.y
-	n_title_tip.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(48.0))
-	n_support_class_name.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(36.0))
-	theme.set_font_size(&"font_size", &"Button", int(StratagemHeroEffect.instance.get_font_size(32.0)))
-	var border_width: int = int(StratagemHeroEffect.instance.get_font_size(4.0))
+	n_title_tip.label_settings.font_size = int(StratagemHeroEffect.instance.get_fit_size(48.0))
+	n_support_class_name.label_settings.font_size = int(StratagemHeroEffect.instance.get_fit_size(36.0))
+	theme.set_font_size(&"font_size", &"Button", int(StratagemHeroEffect.instance.get_fit_size(32.0)))
+	var border_width: int = int(StratagemHeroEffect.instance.get_fit_size(4.0))
 	StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.icon_frame_stylebox_normal.border_width_left = border_width
 	StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.icon_frame_stylebox_normal.border_width_right = border_width
 	StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.icon_frame_stylebox_normal.border_width_top = border_width
@@ -84,8 +86,8 @@ func physics_process() -> void:
 	(n_detail_bar_panel.theme.get_stylebox(&"panel", &"PanelContainer") as StyleBoxFlat).border_width_bottom = int(StratagemHeroEffect.instance.get_fit_size(4.0))
 	n_detail_bar_panel.theme.set_font_size(&"font_size", &"Label", int(StratagemHeroEffect.instance.get_fit_size(32.0)))
 
-## 放置图标
-func place_icons() -> void:
+## 放置图标(旧版)，现在请改用place_icons()
+func place_icons_old() -> void:
 	for stratagem_data_name in (StratagemData.list.keys() as Array[StringName]):
 		var stratagem_data: StratagemData = StratagemData.list[stratagem_data_name]
 		match (stratagem_data.stratagem_class):
@@ -97,6 +99,25 @@ func place_icons() -> void:
 				n_defence_class_icons_container.add_child(StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.create(stratagem_data_name, stratagem_data.icon))
 			StratagemData.StratagemClass.COMMON:
 				n_common_class_icons_container.add_child(StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.create(stratagem_data_name, stratagem_data.icon))
+
+## 放置图标
+func place_icons() -> void:
+	for stratagem_data_name in StratagemData.STRATAGEM_ORDER_COMMON:
+		var stratagem_data: StratagemData = StratagemData.list.get(stratagem_data_name, null)
+		if (stratagem_data == null): continue
+		n_common_class_icons_container.add_child(StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.create(stratagem_data_name, stratagem_data.icon))
+	for stratagem_data_name in StratagemData.STRATAGEM_ORDER_SUPPORT:
+		var stratagem_data: StratagemData = StratagemData.list.get(stratagem_data_name, null)
+		if (stratagem_data == null): continue
+		n_support_class_icons_container.add_child(StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.create(stratagem_data_name, stratagem_data.icon))
+	for stratagem_data_name in StratagemData.STRATAGEM_ORDER_ATTACK:
+		var stratagem_data: StratagemData = StratagemData.list.get(stratagem_data_name, null)
+		if (stratagem_data == null): continue
+		n_attack_class_icons_container.add_child(StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.create(stratagem_data_name, stratagem_data.icon))
+	for stratagem_data_name in StratagemData.STRATAGEM_ORDER_DEFENCE:
+		var stratagem_data: StratagemData = StratagemData.list.get(stratagem_data_name, null)
+		if (stratagem_data == null): continue
+		n_defence_class_icons_container.add_child(StratagemHeroEffect_EffectGame_StratagemSelectionPanel_IconButton.create(stratagem_data_name, stratagem_data.icon))
 
 ## 移除图标
 func remove_icons() -> void:
@@ -117,6 +138,9 @@ func close_panel(is_cancel: bool) -> void:
 		button.focus_mode = Control.FOCUS_NONE
 	if (is_cancel):
 		stratagems_enabled = stratagems_enabled_original
+	else:
+		StratagemHeroEffect_SaveAccess.save_struct_in_memory.effect_mode_stratagems_enabled = stratagems_enabled
+		StratagemHeroEffect_SaveAccess.store_save()
 	StratagemHeroEffect_EffectGame.instance.game_state = StratagemHeroEffect_EffectGame.GameState.MENU
 
 func on_button_focus_entered() -> void:

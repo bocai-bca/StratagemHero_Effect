@@ -156,12 +156,12 @@ func _init() -> void:
 
 func _enter_tree() -> void:
 	get_window().min_size = Vector2i(640, 360)
+	StratagemHeroEffect_SaveAccess.load_save()
 
 func _ready() -> void:
 	classic_game.game_end.connect(on_game_end)
 	effect_game.game_end.connect(on_game_end)
 	game_state = GameState.Title
-	StratagemHeroEffect_SaveAccess.load_save()
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"Music"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music)
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"SFX"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx)
 
