@@ -1,13 +1,9 @@
 # 战略配备英雄：效果
 《战略配备英雄：效果》是按照游戏《绝地潜兵2》中，可在拥有超级公民DLC的玩家的舰船上游玩的"战略配备英雄"小游戏，使用Godot引擎进行的复刻还原并扩展出特色内容的作品。
 
-<div style="overflow-x: auto; white-space: nowrap; padding: 10px 0;">
-  <img src=".github/StratagemHeroEffect_Pic_0.png" alt="StratagemHeroEffect_Pic_0.png" style="display: inline-block; width: 300px; margin-right: 10px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_1.png" alt="StratagemHeroEffect_Pic_1.png" style="display: inline-block; width: 300px; margin-right: 10px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_2.png" alt="StratagemHeroEffect_Pic_2.png" style="display: inline-block; width: 300px; margin-right: 10px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_3.png" alt="StratagemHeroEffect_Pic_3.png" style="display: inline-block; width: 300px; margin-right: 10px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_4.png" alt="StratagemHeroEffect_Pic_4.png" style="display: inline-block; width: 300px; margin-right: 10px; border-radius: 8px;">
-</div>
+| | | | | |
+| --- | --- | --- | --- | --- |
+| ![StratagemHeroEffect_Pic_0.png](.github/StratagemHeroEffect_Pic_0.png) | ![StratagemHeroEffect_Pic_1.png](.github/StratagemHeroEffect_Pic_1.png) | ![StratagemHeroEffect_Pic_2.png](.github/StratagemHeroEffect_Pic_2.png) | ![StratagemHeroEffect_Pic_3.png](.github/StratagemHeroEffect_Pic_3.png) | ![StratagemHeroEffect_Pic_4.png](.github/StratagemHeroEffect_Pic_4.png) |
 
 # 网上早就有同类作品了，本项目有什么特别之处吗？
 有的兄弟，有的。  

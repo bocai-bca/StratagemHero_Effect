@@ -3,13 +3,9 @@
 # Stratagem Hero: Effect
 "Stratagem Hero: Effect" is the minigame "Stratagem Hero" what is able to play on ships which owned by players have "Super Citizen Edition" DLC in the video game "Helldivers2", but made with GodotEngine and contains some extra gameplay.
 
-<div style="display: flex; flex-wrap: nowrap; overflow-x: auto; gap: 10px; padding: 10px 0;">
-  <img src=".github/StratagemHeroEffect_Pic_0.png" alt="StratagemHeroEffect_Pic_0.png" style="flex: 0 0 auto; width: 720px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_1.png" alt="StratagemHeroEffect_Pic_1.png" style="flex: 0 0 auto; width: 720px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_2.png" alt="StratagemHeroEffect_Pic_2.png" style="flex: 0 0 auto; width: 720px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_3.png" alt="StratagemHeroEffect_Pic_3.png" style="flex: 0 0 auto; width: 720px; border-radius: 8px;">
-  <img src=".github/StratagemHeroEffect_Pic_4.png" alt="StratagemHeroEffect_Pic_4.png" style="flex: 0 0 auto; width: 720px; border-radius: 8px;">
-</div>
+| | | | | |
+| --- | --- | --- | --- | --- |
+| ![StratagemHeroEffect_Pic_0.png](.github/StratagemHeroEffect_Pic_0.png) | ![StratagemHeroEffect_Pic_1.png](.github/StratagemHeroEffect_Pic_1.png) | ![StratagemHeroEffect_Pic_2.png](.github/StratagemHeroEffect_Pic_2.png) | ![StratagemHeroEffect_Pic_3.png](.github/StratagemHeroEffect_Pic_3.png) | ![StratagemHeroEffect_Pic_4.png](.github/StratagemHeroEffect_Pic_4.png) |
 
 # There were some duplicated works on Internet already, is this one has any special?
 Of course bro.  
