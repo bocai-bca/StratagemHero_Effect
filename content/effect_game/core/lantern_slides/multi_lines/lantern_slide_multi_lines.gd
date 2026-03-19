@@ -117,8 +117,9 @@ func _ready() -> void:
 	n_round_num.text = str(current_round)
 
 func _on_esc_exit() -> void:
-	to_game_over()
-	focus_drop_timer.complete()
+	if (StratagemHeroEffect_EffectGameCore.lantern_slide_focus == self and not is_going_to_drop_focus):
+		to_game_over()
+		focus_drop_timer.complete()
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size

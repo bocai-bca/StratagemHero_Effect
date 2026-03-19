@@ -47,7 +47,8 @@ func _notification(what: int) -> void:
 		n_score = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
 func _on_esc_exit() -> void:
-	time_left -= TIME_LEFT_MAX
+	if (StratagemHeroEffect_EffectGameCore.lantern_slide_focus == self):
+		time_left -= TIME_LEFT_MAX
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size

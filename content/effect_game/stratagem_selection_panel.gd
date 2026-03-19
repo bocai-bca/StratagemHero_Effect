@@ -85,6 +85,7 @@ func physics_process() -> void:
 	theme.set_font_size(&"font_size", &"Label", int(StratagemHeroEffect.instance.get_fit_size(32.0)))
 	(n_detail_bar_panel.theme.get_stylebox(&"panel", &"PanelContainer") as StyleBoxFlat).border_width_bottom = int(StratagemHeroEffect.instance.get_fit_size(4.0))
 	n_detail_bar_panel.theme.set_font_size(&"font_size", &"Label", int(StratagemHeroEffect.instance.get_fit_size(32.0)))
+	n_detail_bar_panel.size = Vector2(window.size.x, StratagemHeroEffect.instance.get_fit_size(72.0))
 
 ## 放置图标(旧版)，现在请改用place_icons()
 func place_icons_old() -> void:

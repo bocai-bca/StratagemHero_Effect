@@ -65,7 +65,8 @@ func _notification(what: int) -> void:
 		n_score = $AnimatedTextDisplayer as StratagemHeroEffect_EffectGameCore_AnimatedTextDisplayer
 
 func _on_esc_exit() -> void:
-	to_game_over()
+	if (StratagemHeroEffect_EffectGameCore.lantern_slide_focus == self):
+		to_game_over()
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size

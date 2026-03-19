@@ -20,6 +20,8 @@ func _notification(what: int) -> void:
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_text.size = window_size
+	n_text.add_theme_font_size_override(&"normal_font_size", int(StratagemHeroEffect.instance.get_fit_size(64.0)))
+	n_text.add_theme_font_size_override(&"bold_font_size", int(StratagemHeroEffect.instance.get_fit_size(96.0)))
 	update_logo(n_super_earth_logo, window_size)
 
 func _update_focus(delta: float) -> void:
