@@ -150,6 +150,13 @@ static func rotation_normalize(original_rotation: float) -> float:
 static func create(new_direction: StratagemData.CodeArrow) -> StratagemHeroEffect_EffectGameCore_EffectArrow:
 	var new_instance: StratagemHeroEffect_EffectGameCore_EffectArrow = CPS().instantiate() as StratagemHeroEffect_EffectGameCore_EffectArrow
 	new_instance.n_arrow = new_instance.get_node(^"Arrow") as Sprite2D
+	match (StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style):
+		0: #标准
+			new_instance.n_arrow.texture = preload("res://resources/images/arrow_v.svg")
+		1: #清瘦
+			new_instance.n_arrow.texture = preload("res://resources/images/arrow_v_slim.svg")
+		2: #金针菇
+			new_instance.n_arrow.texture = preload("res://resources/images/arrow_v_very_slim.svg")
 	new_instance.n_ring = new_instance.get_node(^"Ring") as Sprite2D
 	new_instance.n_unknown = new_instance.get_node(^"Unknown") as Sprite2D
 	new_instance.change_direction_to(new_direction)

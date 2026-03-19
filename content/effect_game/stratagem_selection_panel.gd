@@ -212,20 +212,58 @@ func update_detail_bar_to_new_stratagem() -> void:
 			continue
 		n_arrow.visible = true
 		var this_code: StratagemData.CodeArrow = stratagem_data.codes[i]
-		match (this_code):
-			StratagemData.CodeArrow.UP:
-				n_arrow.texture = preload("res://resources/images/arrow_v.svg")
-				n_arrow.flip_h = false
-				n_arrow.flip_v = false
-			StratagemData.CodeArrow.DOWN:
-				n_arrow.texture = preload("res://resources/images/arrow_v.svg")
-				n_arrow.flip_h = false
-				n_arrow.flip_v = true
-			StratagemData.CodeArrow.LEFT:
-				n_arrow.texture = preload("res://resources/images/arrow_h.svg")
-				n_arrow.flip_h = false
-				n_arrow.flip_v = false
-			StratagemData.CodeArrow.RIGHT:
-				n_arrow.texture = preload("res://resources/images/arrow_h.svg")
-				n_arrow.flip_h = true
-				n_arrow.flip_v = false
+		match (StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style):
+			0:
+				match (this_code):
+					StratagemData.CodeArrow.UP:
+						n_arrow.texture = preload("res://resources/images/arrow_v.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = false
+					StratagemData.CodeArrow.DOWN:
+						n_arrow.texture = preload("res://resources/images/arrow_v.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = true
+					StratagemData.CodeArrow.LEFT:
+						n_arrow.texture = preload("res://resources/images/arrow_h.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = false
+					StratagemData.CodeArrow.RIGHT:
+						n_arrow.texture = preload("res://resources/images/arrow_h.svg")
+						n_arrow.flip_h = true
+						n_arrow.flip_v = false
+			1:
+				match (this_code):
+					StratagemData.CodeArrow.UP:
+						n_arrow.texture = preload("res://resources/images/arrow_v_slim.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = false
+					StratagemData.CodeArrow.DOWN:
+						n_arrow.texture = preload("res://resources/images/arrow_v_slim.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = true
+					StratagemData.CodeArrow.LEFT:
+						n_arrow.texture = preload("res://resources/images/arrow_h_slim.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = false
+					StratagemData.CodeArrow.RIGHT:
+						n_arrow.texture = preload("res://resources/images/arrow_h_slim.svg")
+						n_arrow.flip_h = true
+						n_arrow.flip_v = false
+			2:
+				match (this_code):
+					StratagemData.CodeArrow.UP:
+						n_arrow.texture = preload("res://resources/images/arrow_v_very_slim.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = false
+					StratagemData.CodeArrow.DOWN:
+						n_arrow.texture = preload("res://resources/images/arrow_v_very_slim.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = true
+					StratagemData.CodeArrow.LEFT:
+						n_arrow.texture = preload("res://resources/images/arrow_h_very_slim.svg")
+						n_arrow.flip_h = false
+						n_arrow.flip_v = false
+					StratagemData.CodeArrow.RIGHT:
+						n_arrow.texture = preload("res://resources/images/arrow_h_very_slim.svg")
+						n_arrow.flip_h = true
+						n_arrow.flip_v = false

@@ -188,7 +188,7 @@ static var list: Dictionary[StringName, StratagemData]:
 				),
 			&"cremator":
 				StratagemData.new(
-					null,
+					preload("res://resources/images/cremator.svg"),
 					"stratagem_name.cremator",
 					"vv>v^^",
 					StratagemClass.SUPPORT,
@@ -364,7 +364,7 @@ static var list: Dictionary[StringName, StratagemData]:
 				),
 			&"gas_mortar_sentry":
 				StratagemData.new(
-					null,
+					preload("res://resources/images/gas_mortar_sentry.svg"),
 					"stratagem_name.gas_mortar_sentry",
 					"v^>v<",
 					StratagemClass.DEFENCE,

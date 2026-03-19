@@ -469,17 +469,43 @@ static func create_arrow(direct: StratagemData.CodeArrow) -> TextureRect:
 	var arrow_node: TextureRect = TextureRect.new()
 	arrow_node.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 	arrow_node.stretch_mode = TextureRect.STRETCH_SCALE
-	match (direct):
-		StratagemData.CodeArrow.UP:
-			arrow_node.texture = preload("res://resources/images/arrow_v.svg")
-		StratagemData.CodeArrow.DOWN:
-			arrow_node.texture = preload("res://resources/images/arrow_v.svg")
-			arrow_node.flip_v = true
-		StratagemData.CodeArrow.LEFT:
-			arrow_node.texture = preload("res://resources/images/arrow_h.svg")
-		StratagemData.CodeArrow.RIGHT:
-			arrow_node.texture = preload("res://resources/images/arrow_h.svg")
-			arrow_node.flip_h = true
+	match (StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style):
+		0:
+			match (direct):
+				StratagemData.CodeArrow.UP:
+					arrow_node.texture = preload("res://resources/images/arrow_v.svg")
+				StratagemData.CodeArrow.DOWN:
+					arrow_node.texture = preload("res://resources/images/arrow_v.svg")
+					arrow_node.flip_v = true
+				StratagemData.CodeArrow.LEFT:
+					arrow_node.texture = preload("res://resources/images/arrow_h.svg")
+				StratagemData.CodeArrow.RIGHT:
+					arrow_node.texture = preload("res://resources/images/arrow_h.svg")
+					arrow_node.flip_h = true
+		1:
+			match (direct):
+				StratagemData.CodeArrow.UP:
+					arrow_node.texture = preload("res://resources/images/arrow_v_slim.svg")
+				StratagemData.CodeArrow.DOWN:
+					arrow_node.texture = preload("res://resources/images/arrow_v_slim.svg")
+					arrow_node.flip_v = true
+				StratagemData.CodeArrow.LEFT:
+					arrow_node.texture = preload("res://resources/images/arrow_h_slim.svg")
+				StratagemData.CodeArrow.RIGHT:
+					arrow_node.texture = preload("res://resources/images/arrow_h_slim.svg")
+					arrow_node.flip_h = true
+		2:
+			match (direct):
+				StratagemData.CodeArrow.UP:
+					arrow_node.texture = preload("res://resources/images/arrow_v_very_slim.svg")
+				StratagemData.CodeArrow.DOWN:
+					arrow_node.texture = preload("res://resources/images/arrow_v_very_slim.svg")
+					arrow_node.flip_v = true
+				StratagemData.CodeArrow.LEFT:
+					arrow_node.texture = preload("res://resources/images/arrow_h_very_slim.svg")
+				StratagemData.CodeArrow.RIGHT:
+					arrow_node.texture = preload("res://resources/images/arrow_h_very_slim.svg")
+					arrow_node.flip_h = true
 	return arrow_node
 
 ## 创建战备序列
@@ -504,5 +530,12 @@ static func get_round_revive(round_num: int) -> float:
 
 ## 在长按ESC退出时由信号调用
 func on_esc_exit() -> void:
+	game_state = GameState.READY
+	game_state = GameState.INROUND
 	game_state = GameState.GAME_OVER
+	StratagemHeroEffect.instance.audio_ready.stop()
+	for n_audio_round_complete in StratagemHeroEffect.instance.audio_round_completes:
+		n_audio_round_complete.stop()
+	StratagemHeroEffect.instance.audio_start.stop()
 	StratagemHeroEffect_EscExitBar.is_now_able_to_exit = false
+	_physics_process(0.0)

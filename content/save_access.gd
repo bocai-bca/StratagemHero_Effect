@@ -24,6 +24,10 @@ static func load_save() -> bool:
 		save_struct_in_memory.volume_music = data_dictionary.get("volume_music", 0.8) as float
 	if (data_dictionary.has("volume_sfx")):
 		save_struct_in_memory.volume_sfx = data_dictionary.get("volume_sfx", 0.8) as float
+	if (data_dictionary.has("element_scale")):
+		save_struct_in_memory.element_scale = data_dictionary.get("element_scale", 1.0) as float
+	if (data_dictionary.has("arrow_style")):
+		save_struct_in_memory.arrow_style = data_dictionary.get("arrow_style", 0) as int
 	if (data_dictionary.has("classic_high_score")):
 		save_struct_in_memory.classic_high_score = HighScoreStruct.from_dictionary(data_dictionary.get("classic_high_score", null))
 	if (data_dictionary.has("classic_high_level")):
@@ -51,6 +55,8 @@ static func store_save() -> bool:
 	var data_dictionary: Dictionary[String, Variant] = {
 		"volume_music": save_struct_in_memory.volume_music,
 		"volume_sfx": save_struct_in_memory.volume_sfx,
+		"element_scale": save_struct_in_memory.element_scale,
+		"arrow_style": save_struct_in_memory.arrow_style,
 		"classic_high_score": save_struct_in_memory.classic_high_score.to_dictionary(),
 		"classic_high_level": save_struct_in_memory.classic_high_level.to_dictionary(),
 		"effect_high_score_none": save_struct_in_memory.effect_high_score_none.to_dictionary_deep(),
@@ -171,6 +177,8 @@ static func clear_score() -> void:
 class SaveStruct extends RefCounted:
 	var volume_music: float = 0.8
 	var volume_sfx: float = 0.8
+	var element_scale: float = 1.0
+	var arrow_style: int = 0
 	var classic_high_score: HighScoreStruct = HighScoreStruct.new()
 	var classic_high_level: HighScoreStruct = HighScoreStruct.new()
 	var effect_high_score_none: EffectHighScoreStruct = EffectHighScoreStruct.new()

@@ -77,6 +77,7 @@ var game_state: GameState = GameState.Init:
 					GameState.Settings:
 						audio_menu_click.play()
 						menu_option_focus = 2
+						settings_menu_page = 0
 						n_main_menu_text.update_text()
 					GameState.Classic:
 						n_title.visible = true
@@ -150,6 +151,8 @@ static var high_scores_showing_type: int = 0
 static var score_clear_comfirm: bool = false
 ## 分数是否在刚刚已清除
 static var score_clear_already: bool = false
+## 设置菜单当前所在页
+static var settings_menu_page: int = 0
 
 func _init() -> void:
 	instance = self
@@ -190,16 +193,26 @@ func _unhandled_input(event: InputEvent) -> void:
 				score_clear_comfirm = false
 				score_clear_already = false
 				menu_option_focus -= 1
-				if (menu_option_focus < 0):
-					menu_option_focus = 4
+				match (settings_menu_page):
+					0:
+						if (menu_option_focus < 0):
+							menu_option_focus = 5
+					1:
+						if (menu_option_focus < 0):
+							menu_option_focus = 1
 				n_main_menu_text.update_text()
 				audio_press.play()
 			if (event.is_action_released(&"down")):
 				score_clear_comfirm = false
 				score_clear_already = false
 				menu_option_focus += 1
-				if (menu_option_focus > 4):
-					menu_option_focus = 0
+				match (settings_menu_page):
+					0:
+						if (menu_option_focus > 5):
+							menu_option_focus = 0
+					1:
+						if (menu_option_focus > 1):
+							menu_option_focus = 0
 				n_main_menu_text.update_text()
 				audio_press.play()
 			if (event.is_action_released(&"space")):
@@ -254,23 +267,36 @@ func menu_click() -> void:
 				5: #关于
 					game_state = GameState.About
 		GameState.Settings:
-			match (menu_option_focus):
-				0: #返回
-					game_state = GameState.MainMenu
-					StratagemHeroEffect_SaveAccess.store_save()
-				3: #更改语言
-					change_language()
-					n_main_menu_text.update_text()
-					audio_press.play()
-				4: #清除分数记录
-					if (not score_clear_already):
-						audio_press.play()
-						if (score_clear_comfirm):
-							clear_score()
-							score_clear_comfirm = false
-						else:
-							score_clear_comfirm = true
-					n_main_menu_text.update_text()
+			match (settings_menu_page):
+				0:
+					match (menu_option_focus):
+						0: #返回
+							game_state = GameState.MainMenu
+							StratagemHeroEffect_SaveAccess.store_save()
+						4: #更换箭头样式
+							StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style += 1
+							if (StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style > 2):
+								StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style = 0
+							n_main_menu_text.update_text()
+							audio_press.play()
+						5: #更改语言
+							change_language()
+							n_main_menu_text.update_text()
+							audio_press.play()
+				1:
+					match (menu_option_focus):
+						0: #返回
+							game_state = GameState.MainMenu
+							StratagemHeroEffect_SaveAccess.store_save()
+						1: #清除分数记录
+							if (not score_clear_already):
+								audio_press.play()
+								if (score_clear_comfirm):
+									clear_score()
+									score_clear_comfirm = false
+								else:
+									score_clear_comfirm = true
+							n_main_menu_text.update_text()
 		GameState.Helps:
 			match (menu_option_focus):
 				0: #返回
@@ -287,17 +313,26 @@ func menu_click() -> void:
 func menu_turn_left() -> void:
 	match (game_state):
 		GameState.Settings:
-			match (menu_option_focus):
-				1: #音乐音量
-					StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music = clampf(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music - 0.1, 0.0, 1.0)
-					AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"Music"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music)
-					n_main_menu_text.update_text()
-					audio_press.play()
-				2: #音效音量
-					StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx = clampf(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx - 0.1, 0.0, 1.0)
-					AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"SFX"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx)
-					n_main_menu_text.update_text()
-					audio_press.play()
+			match (settings_menu_page):
+				0:
+					match (menu_option_focus):
+						1: #音乐音量
+							StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music = clampf(roundf((StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music - 0.1) * 10.0) / 10.0, 0.0, 1.0)
+							AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"Music"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music)
+							n_main_menu_text.update_text()
+							audio_press.play()
+						2: #音效音量
+							StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx = clampf(roundf((StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx - 0.1) * 10.0) / 10.0, 0.0, 1.0)
+							AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"SFX"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx)
+							n_main_menu_text.update_text()
+							audio_press.play()
+						3: #界面元素缩放
+							StratagemHeroEffect_SaveAccess.save_struct_in_memory.element_scale = clampf(roundf((StratagemHeroEffect_SaveAccess.save_struct_in_memory.element_scale - 0.1) * 10.0) / 10.0, 0.2, 1.0)
+							_physics_process(0.0)
+							n_main_menu_text.update_text()
+							audio_press.play()
+				1:
+					pass
 		GameState.HighScores:
 			match (menu_option_focus):
 				1: #切换高分类别
@@ -310,17 +345,34 @@ func menu_turn_left() -> void:
 func menu_turn_right() -> void:
 	match (game_state):
 		GameState.Settings:
-			match (menu_option_focus):
-				1: #音乐音量
-					StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music = clampf(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music + 0.1, 0.0, 1.0)
-					AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"Music"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music)
-					n_main_menu_text.update_text()
-					audio_press.play()
-				2: #音效音量
-					StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx = clampf(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx + 0.1, 0.0, 1.0)
-					AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"SFX"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx)
-					n_main_menu_text.update_text()
-					audio_press.play()
+			match (settings_menu_page):
+				0:
+					match (menu_option_focus):
+						0: #换页
+							settings_menu_page = 1
+							n_main_menu_text.update_text()
+							audio_press.play()
+						1: #音乐音量
+							StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music = clampf(roundf((StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music + 0.1) * 10.0) / 10.0, 0.0, 1.0)
+							AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"Music"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music)
+							n_main_menu_text.update_text()
+							audio_press.play()
+						2: #音效音量
+							StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx = clampf(roundf((StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx + 0.1) * 10.0) / 10.0, 0.0, 1.0)
+							AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"SFX"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx)
+							n_main_menu_text.update_text()
+							audio_press.play()
+						3: #界面元素缩放
+							StratagemHeroEffect_SaveAccess.save_struct_in_memory.element_scale = clampf(roundf((StratagemHeroEffect_SaveAccess.save_struct_in_memory.element_scale + 0.1) * 10.0) / 10.0, 0.2, 1.0)
+							_physics_process(0.0)
+							n_main_menu_text.update_text()
+							audio_press.play()
+				1:
+					match (menu_option_focus):
+						0: #换页
+							settings_menu_page = 0
+							n_main_menu_text.update_text()
+							audio_press.play()
 		GameState.HighScores:
 			match (menu_option_focus):
 				1: #切换高分类别
@@ -348,12 +400,12 @@ func _physics_process(_delta: float) -> void:
 ## 获取当前分辨率下合适的字体大小，需要给定在1280*720尺寸下的原始大小，不建议高频调用本方法，仅基于Y进行缩放
 func get_font_size(original_size: float) -> float:
 	var window: Window = get_window()
-	return (original_size / BASE_SIZE.y) * window.size.y
+	return (original_size / BASE_SIZE.y) * window.size.y * StratagemHeroEffect_SaveAccess.save_struct_in_memory.element_scale
 
 ## get_font_size()的改进型，用于需要同时兼顾X和Y的缩放，也不建议高频调用本方法
 func get_fit_size(original_size: float) -> float:
 	var window: Window = get_window()
-	return minf((original_size / BASE_SIZE.x) * window.size.x, (original_size / BASE_SIZE.y) * window.size.y)
+	return minf((original_size / BASE_SIZE.x) * window.size.x, (original_size / BASE_SIZE.y) * window.size.y) * StratagemHeroEffect_SaveAccess.save_struct_in_memory.element_scale
 
 ## 切换语言
 static func change_language() -> void:

@@ -15,20 +15,36 @@ func update_text() -> void:
 			text += "\n[color=yellow][b]" + tr(&"main_menu_text_high_scores") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 4) else "\n" + tr(&"main_menu_text_high_scores")
 			text += "\n[color=yellow][b]" + tr(&"main_menu_text_about") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 5) else "\n" + tr(&"main_menu_text_about")
 		StratagemHeroEffect.GameState.Settings:
-			text += "[color=yellow][b]" + tr(&"menu_general_text_back") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back")
-			var music_volume_text: String = tr(&"settings_text.music_volume") + " " + str(int(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music * 100.0)) + "%"
-			var sfx_volume_text: String = tr(&"settings_text.sfx_volume") + " " + str(int(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx * 100.0)) + "%"
-			text += "\n[color=yellow][b]- " + music_volume_text + " +[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + music_volume_text
-			text += "\n[color=yellow][b]- " + sfx_volume_text + " +[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 2) else "\n" + sfx_volume_text
-			text += "\n[color=yellow][b]" + tr(&"settings_text.language") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 3) else "\n" + tr(&"settings_text.language")
-			var score_clear_text: String
-			if (StratagemHeroEffect.instance.score_clear_already):
-				score_clear_text = tr(&"settings_text.clear_score_already")
-			elif (StratagemHeroEffect.instance.score_clear_comfirm):
-				score_clear_text = tr(&"settings_text.clear_score_confirm")
-			else:
-				score_clear_text = tr(&"settings_text.clear_score")
-			text += "\n[color=yellow][b]" + score_clear_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 4) else "\n" + score_clear_text
+			match (StratagemHeroEffect.settings_menu_page):
+				0:
+					text += "[color=yellow][b]" + tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text")
+					var music_volume_text: String = tr(&"settings_text.music_volume") + " " + str(int(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music * 100.0)) + "%"
+					var sfx_volume_text: String = tr(&"settings_text.sfx_volume") + " " + str(int(StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx * 100.0)) + "%"
+					var element_scale_text: String = tr(&"settings_text.element_scale") + " " + str(int(StratagemHeroEffect_SaveAccess.save_struct_in_memory.element_scale * 100.0)) + "%"
+					text += "\n[color=yellow][b]- " + music_volume_text + " +[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + music_volume_text
+					text += "\n[color=yellow][b]- " + sfx_volume_text + " +[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 2) else "\n" + sfx_volume_text
+					text += "\n[color=yellow][b]- " + element_scale_text + " +[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 3) else "\n" + element_scale_text
+					var arrow_style_text: String = tr(&"settings_text.arrow_style") + " "
+					match (StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style):
+						0: #标准
+							arrow_style_text += tr(&"settings_text.arrow_style.normal")
+						1: #清瘦
+							arrow_style_text += tr(&"settings_text.arrow_style.slim")
+						2: #金针菇
+							arrow_style_text += tr(&"settings_text.arrow_style.very_slim")
+					text += "\n[color=yellow][b]" + arrow_style_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 4) else "\n" + arrow_style_text
+					text += "\n[color=yellow][b]" + tr(&"settings_text.language") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 5) else "\n" + tr(&"settings_text.language")
+				1:
+					text += "[color=yellow][b]" + tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text")
+					var score_clear_text: String
+					if (StratagemHeroEffect.instance.score_clear_already):
+						score_clear_text = tr(&"settings_text.clear_score_already")
+					elif (StratagemHeroEffect.instance.score_clear_comfirm):
+						score_clear_text = tr(&"settings_text.clear_score_confirm")
+					else:
+						score_clear_text = tr(&"settings_text.clear_score")
+					text += "\n[color=yellow][b]" + score_clear_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + score_clear_text
+					text += "\n\n\n\n\n"
 		StratagemHeroEffect.GameState.Helps:
 			text += "[color=yellow][b]" + tr(&"menu_general_text_back") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back")
 			text += "\n\n\n\n\n\n\n"
