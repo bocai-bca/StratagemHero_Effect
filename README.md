@@ -22,7 +22,7 @@ It is the imitation of the original minigame. Just it.
 ## Effect Mode
 The collection of special effect modes.
 
-### Special Effec Modes
+### Special Effect Modes
 
 #### None
   A normal mode with Effect Mode UI and classic gameplay.  
