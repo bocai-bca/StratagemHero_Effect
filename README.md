@@ -5,7 +5,7 @@
 
 | | | | | |
 | --- | --- | --- | --- | --- |
-| ![StratagemHeroEffect_Pic_0.png](.github/StratagemHeroEffect_Pic_0.png) | ![StratagemHeroEffect_Pic_1.png](.github/StratagemHeroEffect_Pic_1.png) | ![StratagemHeroEffect_Pic_2.png](.github/StratagemHeroEffect_Pic_2.png) | ![StratagemHeroEffect_Pic_3.png](.github/StratagemHeroEffect_Pic_3.png) | ![StratagemHeroEffect_Pic_4.png](.github/StratagemHeroEffect_Pic_4.png) |
+| ![StratagemHeroEffect_Pic_0.png](/.github/StratagemHeroEffect_Pic_0.png) | ![StratagemHeroEffect_Pic_1.png](/.github/StratagemHeroEffect_Pic_1.png) | ![StratagemHeroEffect_Pic_2.png](/.github/StratagemHeroEffect_Pic_2.png) | ![StratagemHeroEffect_Pic_3.png](/.github/StratagemHeroEffect_Pic_3.png) | ![StratagemHeroEffect_Pic_4.png](/.github/StratagemHeroEffect_Pic_4.png) |
 
 # There were some duplicated works on Internet already, is this one has any special?
 Of course bro.  

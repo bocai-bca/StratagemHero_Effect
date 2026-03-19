@@ -3,7 +3,7 @@
 
 | | | | | |
 | --- | --- | --- | --- | --- |
-| ![StratagemHeroEffect_Pic_0.png](.github/StratagemHeroEffect_Pic_0.png) | ![StratagemHeroEffect_Pic_1.png](.github/StratagemHeroEffect_Pic_1.png) | ![StratagemHeroEffect_Pic_2.png](.github/StratagemHeroEffect_Pic_2.png) | ![StratagemHeroEffect_Pic_3.png](.github/StratagemHeroEffect_Pic_3.png) | ![StratagemHeroEffect_Pic_4.png](.github/StratagemHeroEffect_Pic_4.png) |
+| ![StratagemHeroEffect_Pic_0.png](/.github/StratagemHeroEffect_Pic_0.png) | ![StratagemHeroEffect_Pic_1.png](/.github/StratagemHeroEffect_Pic_1.png) | ![StratagemHeroEffect_Pic_2.png](/.github/StratagemHeroEffect_Pic_2.png) | ![StratagemHeroEffect_Pic_3.png](/.github/StratagemHeroEffect_Pic_3.png) | ![StratagemHeroEffect_Pic_4.png](/.github/StratagemHeroEffect_Pic_4.png) |
 
 # 网上早就有同类作品了，本项目有什么特别之处吗？
 有的兄弟，有的。  
