@@ -10,7 +10,11 @@ const BASE_SIZE: Vector2 = Vector2(1280.0, 720.0)
 @onready var audio_title_music: AudioStreamPlayer = $Audio_TitleMusic as AudioStreamPlayer
 @onready var audio_ready: AudioStreamPlayer = $Audio_Ready as AudioStreamPlayer
 @onready var audio_menu_click: AudioStreamPlayer = $Audio_MenuClick as AudioStreamPlayer
-@onready var audio_press: AudioStreamPlayer = $Audio_Press as AudioStreamPlayer
+@onready var audio_press: AudioStreamPlayer = $Audio_Press_OriginalRandom as AudioStreamPlayer
+@onready var audio_press_up: AudioStreamPlayer = $Audio_Press_Up as AudioStreamPlayer
+@onready var audio_press_down: AudioStreamPlayer = $Audio_Press_Down as AudioStreamPlayer
+@onready var audio_press_left: AudioStreamPlayer = $Audio_Press_Left as AudioStreamPlayer
+@onready var audio_press_right: AudioStreamPlayer = $Audio_Press_Right as AudioStreamPlayer
 @onready var audio_done: AudioStreamPlayer = $Audio_Done as AudioStreamPlayer
 @onready var audio_wrong: AudioStreamPlayer = $Audio_Wrong as AudioStreamPlayer
 @onready var audio_start: AudioStreamPlayer = $Audio_Start as AudioStreamPlayer
@@ -165,6 +169,7 @@ func _ready() -> void:
 	classic_game.game_end.connect(on_game_end)
 	effect_game.game_end.connect(on_game_end)
 	game_state = GameState.Title
+	load_sfx_variant(StratagemHeroEffect_SaveAccess.save_struct_in_memory.sfx_variant)
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"Music"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_music)
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"SFX"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx)
 
@@ -199,7 +204,7 @@ func _unhandled_input(event: InputEvent) -> void:
 							menu_option_focus = 5
 					1:
 						if (menu_option_focus < 0):
-							menu_option_focus = 1
+							menu_option_focus = 2
 				n_main_menu_text.update_text()
 				audio_press.play()
 			if (event.is_action_released(&"down")):
@@ -211,7 +216,7 @@ func _unhandled_input(event: InputEvent) -> void:
 						if (menu_option_focus > 5):
 							menu_option_focus = 0
 					1:
-						if (menu_option_focus > 1):
+						if (menu_option_focus > 2):
 							menu_option_focus = 0
 				n_main_menu_text.update_text()
 				audio_press.play()
@@ -279,8 +284,8 @@ func menu_click() -> void:
 								StratagemHeroEffect_SaveAccess.save_struct_in_memory.arrow_style = 0
 							n_main_menu_text.update_text()
 							audio_press.play()
-						5: #更改语言
-							change_language()
+						5: #更改音效变体
+							change_sfx_variant()
 							n_main_menu_text.update_text()
 							audio_press.play()
 				1:
@@ -288,7 +293,11 @@ func menu_click() -> void:
 						0: #返回
 							game_state = GameState.MainMenu
 							StratagemHeroEffect_SaveAccess.store_save()
-						1: #清除分数记录
+						1: #更改语言
+							change_language()
+							n_main_menu_text.update_text()
+							audio_press.play()
+						2: #清除分数记录
 							if (not score_clear_already):
 								audio_press.play()
 								if (score_clear_comfirm):
@@ -424,3 +433,48 @@ func clear_score() -> void:
 	StratagemHeroEffect_SaveAccess.clear_score()
 	StratagemHeroEffect_SaveAccess.store_save()
 	score_clear_already = true
+
+func change_sfx_variant() -> void:
+	var current_variant: String = StratagemHeroEffect_SaveAccess.save_struct_in_memory.sfx_variant
+	if (not SoundManagment.sfx_variants.has(current_variant)):
+		current_variant = "normal"
+	else:
+		var index: int = SoundManagment.sfx_variants.find(current_variant)
+		index = (index + 1) % SoundManagment.sfx_variants.size()
+		current_variant = SoundManagment.sfx_variants[index]
+	StratagemHeroEffect_SaveAccess.save_struct_in_memory.sfx_variant = current_variant
+	load_sfx_variant(current_variant)
+
+func load_sfx_variant(variant: String) -> void:
+	audio_press.stream = SoundManagment.load_sound(variant, "press")
+	audio_press_up.stream = SoundManagment.load_sound(variant, "press_up")
+	audio_press_down.stream = SoundManagment.load_sound(variant, "press_down")
+	audio_press_left.stream = SoundManagment.load_sound(variant, "press_left")
+	audio_press_right.stream = SoundManagment.load_sound(variant, "press_right")
+	audio_done.stream = SoundManagment.load_sound(variant, "done")
+	audio_wrong.stream = SoundManagment.load_sound(variant, "wrong")
+
+## 音频管理
+class SoundManagment:
+	const sfx_variants: PackedStringArray = [
+		"normal",
+		"otto"
+	]
+	## 已加载的音频缓存
+	static var sfx_loaded_cache: Dictionary[String, AudioStream] = {}
+
+	## 加载音频
+	static func load_sound(variant_name: String, sound_name: String) -> AudioStream:
+		var path: String = "res://resources/sounds".path_join(variant_name).path_join(sound_name) + ".tres"
+		if (sfx_loaded_cache.has(path)):
+			return sfx_loaded_cache[path]
+		if (not ResourceLoader.exists(path)):
+			if (variant_name != "normal"):
+				return load_sound("normal", sound_name)
+			else:
+				return null
+		var loaded_audio_stream: AudioStream = ResourceLoader.load(path) as AudioStream
+		if (loaded_audio_stream == null):
+			return null
+		sfx_loaded_cache[path] = loaded_audio_stream
+		return loaded_audio_stream

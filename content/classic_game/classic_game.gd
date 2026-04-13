@@ -245,19 +245,28 @@ func input_handle() -> void:
 		GameState.INROUND:
 			if (arrow_completed >= current_codes.size()):
 				next_code()
+				StratagemHeroEffect.instance.audio_press.play()
 				return
 			var current_code: StratagemData.CodeArrow = current_codes[arrow_completed]
 			if (Input.is_action_just_pressed(&"up")):
-				if (current_code == StratagemData.CodeArrow.UP): next_code()
+				if (current_code == StratagemData.CodeArrow.UP):
+					next_code()
+					StratagemHeroEffect.instance.audio_press_up.play()
 				else: wrong_pressed()
 			if (Input.is_action_just_pressed(&"down")):
-				if (current_code == StratagemData.CodeArrow.DOWN): next_code()
+				if (current_code == StratagemData.CodeArrow.DOWN):
+					next_code()
+					StratagemHeroEffect.instance.audio_press_down.play()
 				else: wrong_pressed()
 			if (Input.is_action_just_pressed(&"left")):
-				if (current_code == StratagemData.CodeArrow.LEFT): next_code()
+				if (current_code == StratagemData.CodeArrow.LEFT):
+					next_code()
+					StratagemHeroEffect.instance.audio_press_left.play()
 				else: wrong_pressed()
 			if (Input.is_action_just_pressed(&"right")):
-				if (current_code == StratagemData.CodeArrow.RIGHT): next_code()
+				if (current_code == StratagemData.CodeArrow.RIGHT):
+					next_code()
+					StratagemHeroEffect.instance.audio_press_right.play()
 				else: wrong_pressed()
 
 ## 使当前的箭头正确，来到下一个箭头或者完成当前战备
@@ -266,7 +275,7 @@ func next_code() -> void:
 	if (arrow_completed >= current_codes.size()):
 		next_stratagem()
 		StratagemHeroEffect.instance.audio_done.play()
-	StratagemHeroEffect.instance.audio_press.play()
+	#StratagemHeroEffect.instance.audio_press.play()
 
 ## 按错时调用，用于重置当前已经按的数量
 func wrong_pressed() -> void:

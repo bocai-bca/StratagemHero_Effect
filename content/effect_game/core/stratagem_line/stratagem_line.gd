@@ -5,9 +5,9 @@ class_name StratagemHeroEffect_EffectGameCore_StratagemLine
 static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/stratagem_line/stratagem_line.tscn") as PackedScene
 
-## 信号-按下且正确时广播，同时附带本实例和本实例
-signal pressed_correct(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine)
-## 信号-按下且错误时广播，同时附带本实例和本实例
+## 信号-按下且正确时广播，同时附带本实例和该次方向
+signal pressed_correct(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, direction: StratagemData.CodeArrow)
+## 信号-按下且错误时广播，同时附带本实例
 signal pressed_wrong(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine)
 ## 信号-战备输入完成时广播，同时附带本实例和本实例战备的箭头数量
 signal stratagem_done(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, arrow_count: int)
@@ -133,40 +133,48 @@ func update_check_input() -> void:
 	var is_last_one: bool = current_index == stratagem_data.codes.size() - 1
 	if (Input.is_action_just_pressed(&"down")):
 		if (current_arrow.direction_now == StratagemData.CodeArrow.DOWN):
-			press_correct(current_arrow, is_last_one)
+			press_correct(current_arrow, is_last_one, current_arrow.direction_now)
 			return
 		press_wrong()
 		return
 	if (Input.is_action_just_pressed(&"up")):
 		if (current_arrow.direction_now == StratagemData.CodeArrow.UP):
-			press_correct(current_arrow, is_last_one)
+			press_correct(current_arrow, is_last_one, current_arrow.direction_now)
 			return
 		press_wrong()
 		return
 	if (Input.is_action_just_pressed(&"left")):
 		if (current_arrow.direction_now == StratagemData.CodeArrow.LEFT):
-			press_correct(current_arrow, is_last_one)
+			press_correct(current_arrow, is_last_one, current_arrow.direction_now)
 			return
 		press_wrong()
 		return
 	if (Input.is_action_just_pressed(&"right")):
 		if (current_arrow.direction_now == StratagemData.CodeArrow.RIGHT):
-			press_correct(current_arrow, is_last_one)
+			press_correct(current_arrow, is_last_one, current_arrow.direction_now)
 			return
 		press_wrong()
 		return
 
 ## 判定按下正确并标记下一个箭头为完成状态，并播放相关音效，同时若is_last_one为true则会调用stratagem_done()并播放完成音效
-func press_correct(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow, is_last_one: bool) -> void:
+func press_correct(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow, is_last_one: bool, direction: StratagemData.CodeArrow) -> void:
 	the_arrow.set_pressed(true)
 	the_arrow.is_unknown = false
-	emit_signal(&"pressed_correct", self)
+	emit_signal(&"pressed_correct", self, direction)
 	if (is_last_one):
 		if (not silent):
 			StratagemHeroEffect.instance.audio_done.play()
 		be_done()
 	elif (not silent):
-		StratagemHeroEffect.instance.audio_press.play()
+		match (direction):
+			StratagemData.CodeArrow.UP:
+				StratagemHeroEffect.instance.audio_press_up.play()
+			StratagemData.CodeArrow.DOWN:
+				StratagemHeroEffect.instance.audio_press_down.play()
+			StratagemData.CodeArrow.LEFT:
+				StratagemHeroEffect.instance.audio_press_left.play()
+			StratagemData.CodeArrow.RIGHT:
+				StratagemHeroEffect.instance.audio_press_right.play()
 
 ## 判定按下错误并重置所有箭头，并播放相关音效。如果dont_warn_when_wrong为true，则不会播放音效和按错动画，只会广播信号并重置箭头进度
 func press_wrong() -> void:

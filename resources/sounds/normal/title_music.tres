@@ -1,0 +1,8 @@
+[gd_resource type="AudioStreamPlaylist" format=3 uid="uid://bkam2trmrigrf"]
+
+[ext_resource type="AudioStream" uid="uid://c0oc0t1tgmrvm" path="res://resources/sounds/normal/music_1.wav" id="1_u8rs4"]
+
+[resource]
+fade_time = 0.0
+stream_count = 1
+stream_0 = ExtResource("1_u8rs4")

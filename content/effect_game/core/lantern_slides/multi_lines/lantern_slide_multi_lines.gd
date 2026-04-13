@@ -92,6 +92,8 @@ var need_to_do_wrong: bool = false:
 var is_line_correct_this_tick: bool = false
 ## 当前是否需要播放正确音效
 var need_to_play_audio_correct: bool = false
+## 正确音效方向
+var correct_audio_direction: StratagemData.CodeArrow
 ## 当前是否需要播放完成音效
 var need_to_play_audio_done: bool = false
 ## 连错保护计时器
@@ -149,7 +151,15 @@ func _fit_size(window_size: Vector2) -> void:
 func _update_focus(delta: float) -> void:
 	if (need_to_play_audio_correct):
 		need_to_play_audio_correct = false
-		StratagemHeroEffect.instance.audio_press.play()
+		match (correct_audio_direction):
+			StratagemData.CodeArrow.UP:
+				StratagemHeroEffect.instance.audio_press_up.play()
+			StratagemData.CodeArrow.DOWN:
+				StratagemHeroEffect.instance.audio_press_down.play()
+			StratagemData.CodeArrow.LEFT:
+				StratagemHeroEffect.instance.audio_press_left.play()
+			StratagemData.CodeArrow.RIGHT:
+				StratagemHeroEffect.instance.audio_press_right.play()
 	if (need_to_play_audio_done):
 		need_to_play_audio_done = false
 		StratagemHeroEffect.instance.audio_done.play()
@@ -192,10 +202,11 @@ func _drop_focus_postfix() -> void:
 	pass
 
 ## 当有行列输入正确时被信号调用
-func on_line_correct(_line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine) -> void:
+func on_line_correct(_line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, direction: StratagemData.CodeArrow) -> void:
 	need_to_do_wrong = false
 	is_line_correct_this_tick = true
 	need_to_play_audio_correct = true
+	correct_audio_direction = direction
 
 ## 当有行列完成时被信号调用
 func on_line_done(line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, code_num: int) -> void:

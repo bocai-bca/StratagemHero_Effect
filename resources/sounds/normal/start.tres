@@ -1,0 +1,7 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://blkg28gdacr1f"]
+
+[ext_resource type="AudioStream" uid="uid://blayh1i2c61ui" path="res://resources/sounds/normal/start_0.wav" id="1_gswxa"]
+
+[resource]
+streams_count = 1
+stream_0/stream = ExtResource("1_gswxa")

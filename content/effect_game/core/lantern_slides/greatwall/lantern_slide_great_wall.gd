@@ -112,7 +112,15 @@ func check_input(next_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> 
 func input_right(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> void:
 	the_arrow.set_alive(false)
 	the_arrow.set_pressed(true)
-	StratagemHeroEffect.instance.audio_press.play()
+	match (the_arrow.direction_now):
+		StratagemData.CodeArrow.UP:
+			StratagemHeroEffect.instance.audio_press_up.play()
+		StratagemData.CodeArrow.DOWN:
+			StratagemHeroEffect.instance.audio_press_down.play()
+		StratagemData.CodeArrow.LEFT:
+			StratagemHeroEffect.instance.audio_press_left.play()
+		StratagemData.CodeArrow.RIGHT:
+			StratagemHeroEffect.instance.audio_press_right.play()
 	arrow_completed += 1
 	time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed ** 0.8), 0.0, INF)) * TIME_LEFT_MAX)
 	n_score.set_new_text_large(str(arrow_completed))

@@ -26,6 +26,9 @@ settings_text.arrow_style,"Arrow Style","箭头样式"
 settings_text.arrow_style.normal,"Normal","标准"
 settings_text.arrow_style.slim,"Slim","清瘦"
 settings_text.arrow_style.very_slim,"VerySlim","金针菇"
+settings_text.sfx_variant,"SFX Variant","音效变体"
+settings_text.sfx_variant.normal,"Normal","标准"
+settings_text.sfx_variant.otto,"电棍otto","电棍otto"
 
 helps_text,"WASD/IJKL/↑←↓→ for directions.\nSPACE/ENTER for confirm.\nHold ESC or Backspace in game for fast gameover.\n\nFor gamepads, samely ↑←↓→ and use A(Xbox) or Cross(PS) to confirm.\nHold anyone of two menu button in game for fast gameover.","按WASD/IJKL/↑←↓→输入方向\n按空格或回车进行确定\n局内长按ESC或Backspace以快速结束游戏\n\n手柄同样是↑←↓→输入方向\n按A(Xbox)或叉叉(PlayStation)进行确定\n局内长按两个菜单键中任意一个以快速结束游戏"
 

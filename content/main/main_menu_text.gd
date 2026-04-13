@@ -33,17 +33,24 @@ func update_text() -> void:
 						2: #金针菇
 							arrow_style_text += tr(&"settings_text.arrow_style.very_slim")
 					text += "\n[color=yellow][b]" + arrow_style_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 4) else "\n" + arrow_style_text
-					text += "\n[color=yellow][b]" + tr(&"settings_text.language") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 5) else "\n" + tr(&"settings_text.language")
+					var sfx_variant_text: String = tr(&"settings_text.sfx_variant") + " "
+					match (StratagemHeroEffect_SaveAccess.save_struct_in_memory.sfx_variant):
+						"normal": #标准
+							sfx_variant_text += tr(&"settings_text.sfx_variant.normal")
+						"otto": #电棍
+							sfx_variant_text += tr(&"settings_text.sfx_variant.otto")
+					text += "\n[color=yellow][b]" + sfx_variant_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 5) else "\n" + sfx_variant_text
 				1:
 					text += "[color=yellow][b]" + tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text")
 					var score_clear_text: String
+					text += "\n[color=yellow][b]" + tr(&"settings_text.language") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + tr(&"settings_text.language")
 					if (StratagemHeroEffect.instance.score_clear_already):
 						score_clear_text = tr(&"settings_text.clear_score_already")
 					elif (StratagemHeroEffect.instance.score_clear_comfirm):
 						score_clear_text = tr(&"settings_text.clear_score_confirm")
 					else:
 						score_clear_text = tr(&"settings_text.clear_score")
-					text += "\n[color=yellow][b]" + score_clear_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + score_clear_text
+					text += "\n[color=yellow][b]" + score_clear_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 2) else "\n" + score_clear_text
 					text += "\n\n\n\n\n"
 		StratagemHeroEffect.GameState.Helps:
 			text += "[color=yellow][b]" + tr(&"menu_general_text_back") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back")

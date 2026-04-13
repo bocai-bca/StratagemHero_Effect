@@ -1,0 +1,7 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://dvxnx7f75vsxi"]
+
+[ext_resource type="AudioStream" uid="uid://dragmxn2rjx53" path="res://resources/sounds/otto/otto_a.wav" id="1_epyee"]
+
+[resource]
+streams_count = 1
+stream_0/stream = ExtResource("1_epyee")
