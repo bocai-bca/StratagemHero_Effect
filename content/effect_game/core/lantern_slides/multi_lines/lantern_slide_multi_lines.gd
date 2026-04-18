@@ -94,6 +94,8 @@ var is_line_correct_this_tick: bool = false
 var need_to_play_audio_correct: bool = false
 ## 正确音效方向
 var correct_audio_direction: StratagemData.CodeArrow
+## 错误音效方向
+var wrong_audio_direction: StratagemData.CodeArrow
 ## 当前是否需要播放完成音效
 var need_to_play_audio_done: bool = false
 ## 连错保护计时器
@@ -151,15 +153,7 @@ func _fit_size(window_size: Vector2) -> void:
 func _update_focus(delta: float) -> void:
 	if (need_to_play_audio_correct):
 		need_to_play_audio_correct = false
-		match (correct_audio_direction):
-			StratagemData.CodeArrow.UP:
-				StratagemHeroEffect.instance.audio_press_up.play()
-			StratagemData.CodeArrow.DOWN:
-				StratagemHeroEffect.instance.audio_press_down.play()
-			StratagemData.CodeArrow.LEFT:
-				StratagemHeroEffect.instance.audio_press_left.play()
-			StratagemData.CodeArrow.RIGHT:
-				StratagemHeroEffect.instance.audio_press_right.play()
+		StratagemHeroEffect.instance.play_audio_press(correct_audio_direction)
 	if (need_to_play_audio_done):
 		need_to_play_audio_done = false
 		StratagemHeroEffect.instance.audio_done.play()
@@ -170,7 +164,7 @@ func _update_focus(delta: float) -> void:
 			to_game_over()
 			return
 	if (need_to_do_wrong):
-		do_wrong()
+		do_wrong(wrong_audio_direction)
 	is_line_correct_this_tick = false
 	n_time_left_bar.update(delta, timer / timer_max)
 	var is_line_start: bool = false
@@ -209,7 +203,7 @@ func on_line_correct(_line_instance: StratagemHeroEffect_EffectGameCore_Stratage
 	correct_audio_direction = direction
 
 ## 当有行列完成时被信号调用
-func on_line_done(line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, code_num: int) -> void:
+func on_line_done(line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, code_num: int, _direction: StratagemData.CodeArrow) -> void:
 	arrow_completed += code_num
 	arrow_completed_this_round += code_num
 	current_score += code_num
@@ -229,14 +223,15 @@ func on_line_done(line_instance: StratagemHeroEffect_EffectGameCore_StratagemLin
 	need_to_play_audio_done = true
 
 ## 当有行列按错时被信号调用
-func on_line_wrong(line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine) -> void:
+func on_line_wrong(line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, _input_direction: StratagemData.CodeArrow, _correct_direction: StratagemData.CodeArrow) -> void:
 	if (is_line_correct_this_tick):
 		return
 	n_lines_need_to_play_wrong.append(line_instance)
 	need_to_do_wrong = true
+	wrong_audio_direction = _input_direction
 
 ## 执行错误播放动画并施加相应时间惩罚，执行完毕后会重置need_to_do_wrong状态
-func do_wrong() -> void:
+func do_wrong(input_direction: StratagemData.CodeArrow) -> void:
 	for n_line_need_to_play_wrong in n_lines_need_to_play_wrong:
 		n_line_need_to_play_wrong.play_wrong()
 	var time_decrease: float = timer_max if StratagemHeroEffect_EffectGame.one_heart else BASIC_TIME_DECREASE
@@ -244,7 +239,7 @@ func do_wrong() -> void:
 		wrong_protect_timer.restart()
 		timer -= time_decrease if StratagemHeroEffect_EffectGame.special_effect_mode != StratagemHeroEffect_EffectGame.SpecialEffectMode.DICTATION_MULTILINES else time_decrease * DICTATION_TIMER_DECREASE_MULTIPLIER
 	n_time_left_bar.play_warning_effect()
-	StratagemHeroEffect.instance.audio_wrong.play()
+	StratagemHeroEffect.instance.play_audio_wrong(input_direction)
 	is_perfect = false
 	need_to_do_wrong = false
 

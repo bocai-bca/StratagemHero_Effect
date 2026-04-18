@@ -92,44 +92,36 @@ func check_input(next_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> 
 		if (next_arrow.direction_now == StratagemData.CodeArrow.UP):
 			input_right(next_arrow)
 		else:
-			input_wrong()
+			input_wrong(StratagemData.CodeArrow.UP)
 	if (Input.is_action_just_pressed(&"down")):
 		if (next_arrow.direction_now == StratagemData.CodeArrow.DOWN):
 			input_right(next_arrow)
 		else:
-			input_wrong()
+			input_wrong(StratagemData.CodeArrow.DOWN)
 	if (Input.is_action_just_pressed(&"left")):
 		if (next_arrow.direction_now == StratagemData.CodeArrow.LEFT):
 			input_right(next_arrow)
 		else:
-			input_wrong()
+			input_wrong(StratagemData.CodeArrow.LEFT)
 	if (Input.is_action_just_pressed(&"right")):
 		if (next_arrow.direction_now == StratagemData.CodeArrow.RIGHT):
 			input_right(next_arrow)
 		else:
-			input_wrong()
+			input_wrong(StratagemData.CodeArrow.RIGHT)
 
 func input_right(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> void:
 	the_arrow.set_alive(false)
 	the_arrow.set_pressed(true)
-	match (the_arrow.direction_now):
-		StratagemData.CodeArrow.UP:
-			StratagemHeroEffect.instance.audio_press_up.play()
-		StratagemData.CodeArrow.DOWN:
-			StratagemHeroEffect.instance.audio_press_down.play()
-		StratagemData.CodeArrow.LEFT:
-			StratagemHeroEffect.instance.audio_press_left.play()
-		StratagemData.CodeArrow.RIGHT:
-			StratagemHeroEffect.instance.audio_press_right.play()
+	StratagemHeroEffect.instance.play_audio_press(the_arrow.direction_now)
 	arrow_completed += 1
 	time_left = move_toward(time_left, TIME_LEFT_MAX, (1.0 / clampf(float(arrow_completed ** 0.8), 0.0, INF)) * TIME_LEFT_MAX)
 	n_score.set_new_text_large(str(arrow_completed))
 
-func input_wrong() -> void:
+func input_wrong(input_direction: StratagemData.CodeArrow) -> void:
 	for n_arrow in n_arrows:
 		if (not n_arrow.pressed):
 			n_arrow.wrong()
-	StratagemHeroEffect.instance.audio_wrong.play()
+	StratagemHeroEffect.instance.play_audio_wrong(input_direction)
 	n_time_left_bar.play_warning_effect()
 	if (wrong_protect_timer.percent <= 0.01):
 		wrong_protect_timer.restart()

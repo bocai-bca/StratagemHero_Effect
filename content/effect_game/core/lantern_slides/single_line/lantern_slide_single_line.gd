@@ -238,7 +238,7 @@ func _got_focus_postfix() -> void:
 func _drop_focus_postfix() -> void:
 	pass
 
-func on_line_wrong(_line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine) -> void:
+func on_line_wrong(_line_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, _input_direction: StratagemData.CodeArrow, _correct_direction: StratagemData.CodeArrow) -> void:
 	var time_decrease: float = timer_max if StratagemHeroEffect_EffectGame.one_heart else BASIC_TIME_DECREASE
 	if (wrong_protect_timer.percent <= 0.01):
 		wrong_protect_timer.restart()

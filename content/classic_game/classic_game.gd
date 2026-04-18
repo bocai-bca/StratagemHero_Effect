@@ -251,23 +251,23 @@ func input_handle() -> void:
 			if (Input.is_action_just_pressed(&"up")):
 				if (current_code == StratagemData.CodeArrow.UP):
 					next_code()
-					StratagemHeroEffect.instance.audio_press_up.play()
-				else: wrong_pressed()
+					StratagemHeroEffect.instance.play_audio_press(StratagemData.CodeArrow.UP)
+				else: wrong_pressed(StratagemData.CodeArrow.UP)
 			if (Input.is_action_just_pressed(&"down")):
 				if (current_code == StratagemData.CodeArrow.DOWN):
 					next_code()
-					StratagemHeroEffect.instance.audio_press_down.play()
-				else: wrong_pressed()
+					StratagemHeroEffect.instance.play_audio_press(StratagemData.CodeArrow.DOWN)
+				else: wrong_pressed(StratagemData.CodeArrow.DOWN)
 			if (Input.is_action_just_pressed(&"left")):
 				if (current_code == StratagemData.CodeArrow.LEFT):
 					next_code()
-					StratagemHeroEffect.instance.audio_press_left.play()
-				else: wrong_pressed()
+					StratagemHeroEffect.instance.play_audio_press(StratagemData.CodeArrow.LEFT)
+				else: wrong_pressed(StratagemData.CodeArrow.LEFT)
 			if (Input.is_action_just_pressed(&"right")):
 				if (current_code == StratagemData.CodeArrow.RIGHT):
 					next_code()
-					StratagemHeroEffect.instance.audio_press_right.play()
-				else: wrong_pressed()
+					StratagemHeroEffect.instance.play_audio_press(StratagemData.CodeArrow.RIGHT)
+				else: wrong_pressed(StratagemData.CodeArrow.RIGHT)
 
 ## 使当前的箭头正确，来到下一个箭头或者完成当前战备
 func next_code() -> void:
@@ -278,13 +278,13 @@ func next_code() -> void:
 	#StratagemHeroEffect.instance.audio_press.play()
 
 ## 按错时调用，用于重置当前已经按的数量
-func wrong_pressed() -> void:
+func wrong_pressed(input_direction: StratagemData.CodeArrow) -> void:
 	arrow_completed = 0
 	was_wrong_this_round = true
 	#timer -= WRONG_TIME_PENALTY
 	input_disable_timer.restart()
 	wrong_timer.current = WRONG_FLASH_TOTAL_TIME
-	StratagemHeroEffect.instance.audio_wrong.play()
+	StratagemHeroEffect.instance.play_audio_wrong(input_direction)
 
 func _process(delta: float) -> void:
 	match (game_state):

@@ -1,0 +1,10 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://dxxi5gdbbhbip"]
+
+[ext_resource type="AudioStream" uid="uid://bbmrhrpslr3te" path="res://resources/sounds/chen_qian_yu/ji_1.wav" id="1_c28yk"]
+[ext_resource type="AudioStream" uid="uid://gpukfhmprwav" path="res://resources/sounds/chen_qian_yu/ji_2.wav" id="2_aluai"]
+
+[resource]
+streams_count = 2
+stream_0/stream = ExtResource("1_c28yk")
+stream_1/stream = ExtResource("2_aluai")
+stream_1/weight = 8.0

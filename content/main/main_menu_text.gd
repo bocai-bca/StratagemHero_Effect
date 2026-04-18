@@ -39,6 +39,8 @@ func update_text() -> void:
 							sfx_variant_text += tr(&"settings_text.sfx_variant.normal")
 						"otto": #电棍
 							sfx_variant_text += tr(&"settings_text.sfx_variant.otto")
+						"chen_qian_yu": #陈千语
+							sfx_variant_text += tr(&"settings_text.sfx_variant.chen_qian_yu")
 					text += "\n[color=yellow][b]" + sfx_variant_text + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 5) else "\n" + sfx_variant_text
 				1:
 					text += "[color=yellow][b]" + tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"menu_general_text_back") + tr(&"settings_text.back_button_to_next_page_text")

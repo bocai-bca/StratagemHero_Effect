@@ -453,15 +453,53 @@ func load_sfx_variant(variant: String) -> void:
 	audio_press_right.stream = SoundManagment.load_sound(variant, "press_right")
 	audio_done.stream = SoundManagment.load_sound(variant, "done")
 	audio_wrong.stream = SoundManagment.load_sound(variant, "wrong")
+	SoundManagment.load_press_only(variant)
+
+func play_audio_wrong(direction: StratagemData.CodeArrow) -> void:
+	if (SoundManagment.sfx_loaded_press_only_cache):
+		play_audio_press(direction)
+		return
+	StratagemHeroEffect.instance.audio_wrong.play()
+
+func play_audio_press(direction: StratagemData.CodeArrow) -> void:
+	match (direction):
+		StratagemData.CodeArrow.UP:
+			StratagemHeroEffect.instance.audio_press_up.play()
+		StratagemData.CodeArrow.DOWN:
+			StratagemHeroEffect.instance.audio_press_down.play()
+		StratagemData.CodeArrow.LEFT:
+			StratagemHeroEffect.instance.audio_press_left.play()
+		StratagemData.CodeArrow.RIGHT:
+			StratagemHeroEffect.instance.audio_press_right.play()
+
+func play_audio_done(direction: StratagemData.CodeArrow) -> void:
+	if (SoundManagment.sfx_loaded_press_only_cache):
+		play_audio_press(direction)
+		return
+	StratagemHeroEffect.instance.audio_done.play()
 
 ## 音频管理
 class SoundManagment:
 	const sfx_variants: PackedStringArray = [
 		"normal",
-		"otto"
+		"otto",
+		"chen_qian_yu",
+	]
+	const sfx_variants_press_only: PackedByteArray = [
+		false,
+		false,
+		true,
 	]
 	## 已加载的音频缓存
 	static var sfx_loaded_cache: Dictionary[String, AudioStream] = {}
+	## 缓存当前加载的音频变体是否仅播放按下音
+	static var sfx_loaded_press_only_cache: bool = false
+
+	## 加载音频变体的press_only并返回
+	static func load_press_only(target_variant_name: String) -> bool:
+		var index: int = sfx_variants.find(target_variant_name)
+		sfx_loaded_press_only_cache = false if index == -1 else (sfx_variants_press_only[index] as bool)
+		return sfx_loaded_press_only_cache
 
 	## 加载音频
 	static func load_sound(variant_name: String, sound_name: String) -> AudioStream:

@@ -109,25 +109,25 @@ func check_input() -> void:
 			press_correct(n_arrows[next_arrow_index_cache])
 			StratagemHeroEffect.instance.audio_press_down.play()
 			return
-		press_wrong()
+		press_wrong(StratagemData.CodeArrow.DOWN)
 	elif (Input.is_action_just_pressed(&"up")):
 		if (next_code_cache == StratagemData.CodeArrow.UP):
 			press_correct(n_arrows[next_arrow_index_cache])
 			StratagemHeroEffect.instance.audio_press_up.play()
 			return
-		press_wrong()
+		press_wrong(StratagemData.CodeArrow.UP)
 	elif (Input.is_action_just_pressed(&"left")):
 		if (next_code_cache == StratagemData.CodeArrow.LEFT):
 			press_correct(n_arrows[next_arrow_index_cache])
 			StratagemHeroEffect.instance.audio_press_left.play()
 			return
-		press_wrong()
+		press_wrong(StratagemData.CodeArrow.LEFT)
 	elif (Input.is_action_just_pressed(&"right")):
 		if (next_code_cache == StratagemData.CodeArrow.RIGHT):
 			press_correct(n_arrows[next_arrow_index_cache])
 			StratagemHeroEffect.instance.audio_press_right.play()
 			return
-		press_wrong()
+		press_wrong(StratagemData.CodeArrow.RIGHT)
 
 func press_correct(this_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -> void:
 	this_arrow.set_pressed(true)
@@ -142,13 +142,13 @@ func press_correct(this_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow) -
 		return
 	next_code_cache = code_cache[next_arrow_index_cache]
 
-func press_wrong() -> void:
+func press_wrong(input_direction: StratagemData.CodeArrow) -> void:
 	for n_arrow in n_arrows:
 		n_arrow.wrong()
 		n_arrow.set_pressed(false)
 	next_arrow_index_cache = 0
 	next_code_cache = code_cache[0]
-	StratagemHeroEffect.instance.audio_wrong.play()
+	StratagemHeroEffect.instance.play_audio_wrong(input_direction)
 	n_time_left_bar.play_warning_effect()
 	if (wrong_protect_timer.percent <= 0.01):
 		wrong_protect_timer.restart()

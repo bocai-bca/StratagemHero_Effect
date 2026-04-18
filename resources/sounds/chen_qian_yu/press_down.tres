@@ -1,0 +1,10 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://cy4segtkwf54e"]
+
+[ext_resource type="AudioStream" uid="uid://cbviq6hl40eqd" path="res://resources/sounds/chen_qian_yu/duan_0.wav" id="1_jshjk"]
+[ext_resource type="AudioStream" uid="uid://4cn8ougv0u1k" path="res://resources/sounds/chen_qian_yu/duan_1.wav" id="2_lcdbc"]
+
+[resource]
+streams_count = 2
+stream_0/stream = ExtResource("1_jshjk")
+stream_1/stream = ExtResource("2_lcdbc")
+stream_1/weight = 6.0

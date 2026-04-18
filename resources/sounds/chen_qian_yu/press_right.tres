@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://d28ibcgw3lrs7"]
+
+[ext_resource type="AudioStream" uid="uid://oj7fikwy5jqx" path="res://resources/sounds/chen_qian_yu/dang_0.wav" id="1_c3267"]
+[ext_resource type="AudioStream" uid="uid://qsago54gum6e" path="res://resources/sounds/chen_qian_yu/dang_1.wav" id="2_nh5aa"]
+[ext_resource type="AudioStream" uid="uid://bk5dxtxdjcukh" path="res://resources/sounds/chen_qian_yu/dang_2.wav" id="3_0cbx5"]
+
+[resource]
+streams_count = 3
+stream_0/stream = ExtResource("1_c3267")
+stream_1/stream = ExtResource("2_nh5aa")
+stream_2/stream = ExtResource("3_0cbx5")
