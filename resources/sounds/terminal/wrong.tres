@@ -1,0 +1,7 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://c2pok5ak2mvxp"]
+
+[ext_resource type="AudioStream" uid="uid://cvj8hcljv2rvo" path="res://resources/sounds/terminal/wrong_0.wav" id="1_4f8g3"]
+
+[resource]
+streams_count = 1
+stream_0/stream = ExtResource("1_4f8g3")

@@ -1,0 +1,8 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://drahstd4083vw"]
+
+[ext_resource type="AudioStream" uid="uid://e440h6gqyft5" path="res://resources/sounds/gachimuchi/faq.wav" id="1_aaou2"]
+
+[resource]
+random_pitch = 1.0594631
+streams_count = 1
+stream_0/stream = ExtResource("1_aaou2")

@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamSynchronized" format=3 uid="uid://rxk3kkgujt4n"]
+
+[ext_resource type="AudioStream" uid="uid://ceekal7jvjdot" path="res://resources/sounds/terminal/done_list.tres" id="1_y5rwj"]
+[ext_resource type="AudioStream" uid="uid://wxy05p8hacu6" path="res://resources/sounds/terminal/press_up.tres" id="2_7f5wv"]
+
+[resource]
+stream_count = 2
+stream_0/stream = ExtResource("1_y5rwj")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("2_7f5wv")
+stream_1/volume = 0.0

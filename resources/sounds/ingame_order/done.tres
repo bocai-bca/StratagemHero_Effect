@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamSynchronized" format=3 uid="uid://bpmqw37ghmx03"]
+
+[ext_resource type="AudioStream" uid="uid://dc7xh2huj5h5e" path="res://resources/sounds/ingame_order/done_list.tres" id="1_cvyqr"]
+[ext_resource type="AudioStream" uid="uid://c8umtfphnc242" path="res://resources/sounds/ingame_order/press_up.tres" id="2_djoct"]
+
+[resource]
+stream_count = 2
+stream_0/stream = ExtResource("1_cvyqr")
+stream_0/volume = 0.0
+stream_1/stream = ExtResource("2_djoct")
+stream_1/volume = 0.0

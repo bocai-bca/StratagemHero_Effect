@@ -482,10 +482,16 @@ func play_audio_done(direction: StratagemData.CodeArrow) -> void:
 class SoundManagment:
 	const sfx_variants: PackedStringArray = [
 		"normal",
+		"ingame_order",
+		"terminal",
+		"gachimuchi",
 		"otto",
 		"chen_qian_yu",
 	]
 	const sfx_variants_press_only: PackedByteArray = [
+		false,
+		false,
+		false,
 		false,
 		false,
 		true,

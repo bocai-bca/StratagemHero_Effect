@@ -1,0 +1,19 @@
+[gd_resource type="AudioStreamRandomizer" format=3 uid="uid://ch5457nrye3sr"]
+
+[ext_resource type="AudioStream" uid="uid://ufgndvufork8" path="res://resources/sounds/terminal/press_0.wav" id="1_jyt58"]
+[ext_resource type="AudioStream" uid="uid://brtemm8ybo75d" path="res://resources/sounds/terminal/press_1.wav" id="2_jhmng"]
+[ext_resource type="AudioStream" uid="uid://pdxmgwg5vxqg" path="res://resources/sounds/terminal/press_2.wav" id="3_emtta"]
+[ext_resource type="AudioStream" uid="uid://d1nv428r775ol" path="res://resources/sounds/terminal/press_3.wav" id="4_jw30d"]
+[ext_resource type="AudioStream" uid="uid://vr7w8syq6kyd" path="res://resources/sounds/terminal/press_4.wav" id="5_a1uwu"]
+[ext_resource type="AudioStream" uid="uid://bof85sutkxf7r" path="res://resources/sounds/terminal/press_5.wav" id="6_4l252"]
+[ext_resource type="AudioStream" uid="uid://dsxte444wbvs8" path="res://resources/sounds/terminal/press_6.wav" id="7_ksglt"]
+
+[resource]
+streams_count = 7
+stream_0/stream = ExtResource("1_jyt58")
+stream_1/stream = ExtResource("2_jhmng")
+stream_2/stream = ExtResource("3_emtta")
+stream_3/stream = ExtResource("4_jw30d")
+stream_4/stream = ExtResource("5_a1uwu")
+stream_5/stream = ExtResource("6_4l252")
+stream_6/stream = ExtResource("7_ksglt")

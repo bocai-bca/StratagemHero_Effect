@@ -37,6 +37,12 @@ func update_text() -> void:
 					match (StratagemHeroEffect_SaveAccess.save_struct_in_memory.sfx_variant):
 						"normal": #标准
 							sfx_variant_text += tr(&"settings_text.sfx_variant.normal")
+						"ingame_order": #游戏内搓球
+							sfx_variant_text += tr(&"settings_text.sfx_variant.ingame_order")
+						"terminal": #终端
+							sfx_variant_text += tr(&"settings_text.sfx_variant.terminal")
+						"gachimuchi": #哲学
+							sfx_variant_text += tr(&"settings_text.sfx_variant.gachimuchi")
 						"otto": #电棍
 							sfx_variant_text += tr(&"settings_text.sfx_variant.otto")
 						"chen_qian_yu": #陈千语

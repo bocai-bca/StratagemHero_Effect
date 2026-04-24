@@ -96,6 +96,8 @@ func _ready() -> void:
 func _on_esc_exit() -> void:
 	if (StratagemHeroEffect_EffectGameCore.lantern_slide_focus == self and not is_going_to_drop_focus):
 		to_game_over()
+		for n_line in n_lines:
+			n_line.visible = false
 		focus_drop_timer.complete()
 
 func _fit_size(window_size: Vector2) -> void:
