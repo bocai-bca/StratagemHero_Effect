@@ -506,6 +506,14 @@ static var list: Dictionary[StringName, StratagemData]:
 					StratagemClass.DEFENCE,
 					false
 				),
+			&"incinerator_frv":
+				StratagemData.new(
+					null,
+					"stratagem_name.incinerator_frv",
+					"<v><v^^",
+					StratagemClass.SUPPORT,
+					false
+				),
 			&"jump_pack":
 				StratagemData.new(
 					preload("res://resources/images/jump_pack.svg"),
@@ -826,6 +834,14 @@ static var list: Dictionary[StringName, StratagemData]:
 					StratagemClass.COMMON,
 					false
 				),
+			&"supply_frv":
+				StratagemData.new(
+					null,
+					"stratagem_name.supply_frv",
+					"<v<<v^>",
+					StratagemClass.SUPPORT,
+					false
+				),
 			&"supply_pack":
 				StratagemData.new(
 					preload("res://resources/images/supply_pack.svg"),
@@ -935,6 +951,8 @@ const STRATAGEM_ORDER_SUPPORT: Array[StringName] = [
 	"emancipator_exosuit",
 	"patriot_exosuit",
 	"fast_recon_vehicle",
+	"supply_frv",
+	"incinerator_frv",
 	"bastion_mk_xvi",
 ]
 ## 攻击战备排序

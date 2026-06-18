@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://d33ubvbkeqppo" path="res://content/effect_game/menu_text.gd" id="3_r6mra"]
 [ext_resource type="Script" uid="uid://drxfj1lvtqfwg" path="res://content/effect_game/description_text.gd" id="5_s1rfw"]
 [ext_resource type="PackedScene" uid="uid://d1d4vlecg1jpd" path="res://content/effect_game/core/effect_game_core.tscn" id="6_j8sgq"]
+[ext_resource type="Script" uid="uid://sdmc7e6d1ld3" path="res://content/effect_game/text_type_in.gd" id="8_0p3pg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_j8sgq"]
 line_spacing = 0.0
@@ -16,6 +17,14 @@ font_size = 72
 [sub_resource type="LabelSettings" id="LabelSettings_s1rfw"]
 line_spacing = 0.0
 font_size = 36
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4lir2"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
 
 [node name="EffectGame" type="Control" unique_id=1763570978]
 layout_mode = 3
@@ -77,3 +86,19 @@ offset_bottom = 1440.0
 
 [node name="EffectGameCore" parent="." unique_id=1890670829 instance=ExtResource("6_j8sgq")]
 layout_mode = 1
+
+[node name="TextTypeIn" type="PanelContainer" parent="." unique_id=902130451]
+visible = false
+layout_mode = 0
+offset_right = 371.0
+offset_bottom = 72.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4lir2")
+script = ExtResource("8_0p3pg")
+
+[node name="LineEdit" type="LineEdit" parent="TextTypeIn" unique_id=1977111489]
+layout_mode = 2
+placeholder_text = "effect_online_description.type_here"
+expand_to_text_length = true
+context_menu_enabled = false
+emoji_menu_enabled = false
+caret_blink = true

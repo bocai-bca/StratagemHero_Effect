@@ -23,3 +23,23 @@ func update_text() -> void:
 			text = tr(&"effect_description.effect_option.oneheart")
 		4: #开始游戏
 			text = tr(&"effect_description.effect_start")
+
+func update_text_online_host() -> void:
+	match (StratagemHeroEffect_EffectGame.menu_option_focus):
+		0: #返回
+			text = tr(&"effect_description.back_to_title")
+		1: #切换侧
+			text = tr(&"effect_online_description.as_host")
+		2: #端口
+			text = tr(&"effect_online_description.set_port_host")
+
+func update_text_online_client() -> void:
+	match (StratagemHeroEffect_EffectGame.menu_option_focus):
+		0: #返回
+			text = tr(&"effect_description.back_to_title")
+		1: #切换侧
+			text = tr(&"effect_online_description.as_client")
+		2: #主机地址
+			text = tr(&"effect_online_description.set_address")
+		3: #主机端口
+			text = tr(&"effect_online_description.set_port_client")

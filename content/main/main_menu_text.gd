@@ -9,7 +9,10 @@ func update_text() -> void:
 	match (StratagemHeroEffect.instance.game_state):
 		StratagemHeroEffect.GameState.MainMenu:
 			text += "[color=yellow][b]" + tr(&"main_menu_text_classic") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 0) else tr(&"main_menu_text_classic")
-			text += "\n[color=yellow][b]" + tr(&"main_menu_text_effects") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + tr(&"main_menu_text_effects")
+			if (StratagemHeroEffect.selected_online_effect_mode):
+				text += "\n[color=yellow][b]<< " + tr(&"main_menu_text_online_effects") + " >>[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + tr(&"main_menu_text_online_effects")
+			else:
+				text += "\n[color=yellow][b]<< " + tr(&"main_menu_text_effects") + " >>[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 1) else "\n" + tr(&"main_menu_text_effects")
 			text += "\n[color=yellow][b]" + tr(&"main_menu_text_settings") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 2) else "\n" + tr(&"main_menu_text_settings")
 			text += "\n[color=yellow][b]" + tr(&"main_menu_text_helps") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 3) else "\n" + tr(&"main_menu_text_helps")
 			text += "\n[color=yellow][b]" + tr(&"main_menu_text_high_scores") + "[/b][/color]" if (StratagemHeroEffect.menu_option_focus == 4) else "\n" + tr(&"main_menu_text_high_scores")

@@ -24,3 +24,15 @@ func update_text() -> void:
 		text += "\n[color=yellow][b]" + tr(&"effect_start") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 4) else "\n" + tr(&"effect_start")
 	else:
 		text += "\n[color=red][b]" + tr(&"effect_cannot_start") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 4) else "\n[color=dark_gray]" + tr(&"effect_cannot_start") + "[/color]"
+
+func update_text_online() -> void:
+	text = ""
+	text += "[color=yellow][b]" + tr(&"menu_general_text_back") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 0) else tr(&"menu_general_text_back")
+	match (StratagemHeroEffect_EffectGame.online_side):
+		StratagemHeroEffect_EffectGame.OnlineSide.HOST:
+			text += "\n[color=yellow][b]" + tr(&"effect_online.as_host") + " >>[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 1) else "\n" + tr(&"effect_online.as_host") + " >>"
+			text += "\n[color=yellow][b]" + tr(&"effect_online.port") + " " + StratagemHeroEffect_EffectGame.online_port + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 2) else "\n" + tr(&"effect_online.port") + " " + StratagemHeroEffect_EffectGame.online_port
+		StratagemHeroEffect_EffectGame.OnlineSide.CLIENT:
+			text += "\n[color=yellow][b]" + tr(&"effect_online.as_client") + " >>[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 1) else "\n" + tr(&"effect_online.as_client") + " >>"
+			text += "\n[color=yellow][b]" + tr(&"effect_online.address") + " " + StratagemHeroEffect_EffectGame.online_address + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 2) else "\n" + tr(&"effect_online.address") + " " + StratagemHeroEffect_EffectGame.online_address
+			text += "\n[color=yellow][b]" + tr(&"effect_online.port") + " " + StratagemHeroEffect_EffectGame.online_port + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 3) else "\n" + tr(&"effect_online.port") + " " + StratagemHeroEffect_EffectGame.online_port

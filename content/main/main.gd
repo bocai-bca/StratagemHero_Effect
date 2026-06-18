@@ -157,6 +157,8 @@ static var score_clear_comfirm: bool = false
 static var score_clear_already: bool = false
 ## 设置菜单当前所在页
 static var settings_menu_page: int = 0
+## 当前是否选择了联机效果模式
+static var selected_online_effect_mode: bool = false
 
 func _init() -> void:
 	instance = self
@@ -193,6 +195,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				audio_press.play()
 			if (event.is_action_released(&"space")):
 				menu_click()
+			if (event.is_action_released(&"left")):
+				menu_turn_left()
+			if (event.is_action_released(&"right")):
+				menu_turn_right()
 		GameState.Settings:
 			if (event.is_action_released(&"up")):
 				score_clear_comfirm = false
@@ -262,7 +268,7 @@ func menu_click() -> void:
 					classic_game.start_game()
 				1: #Effect
 					game_state = GameState.Effect
-					effect_game.start()
+					effect_game.start(selected_online_effect_mode)
 				2: #设置
 					game_state = GameState.Settings
 				3: #帮助
@@ -321,6 +327,12 @@ func menu_click() -> void:
 
 func menu_turn_left() -> void:
 	match (game_state):
+		GameState.MainMenu:
+			match (menu_option_focus):
+				1: #效果模式
+					selected_online_effect_mode = !selected_online_effect_mode
+					n_main_menu_text.update_text()
+					audio_press.play()
 		GameState.Settings:
 			match (settings_menu_page):
 				0:
@@ -353,6 +365,12 @@ func menu_turn_left() -> void:
 
 func menu_turn_right() -> void:
 	match (game_state):
+		GameState.MainMenu:
+			match (menu_option_focus):
+				1: #效果模式
+					selected_online_effect_mode = !selected_online_effect_mode
+					n_main_menu_text.update_text()
+					audio_press.play()
 		GameState.Settings:
 			match (settings_menu_page):
 				0:
@@ -488,6 +506,7 @@ class SoundManagment:
 		"otto",
 		"chen_qian_yu",
 	]
+	## 是否仅播放按下音，也就是不播放done和wrong独有音效
 	const sfx_variants_press_only: PackedByteArray = [
 		false,
 		false,
