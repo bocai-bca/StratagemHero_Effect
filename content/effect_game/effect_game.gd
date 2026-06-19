@@ -38,13 +38,26 @@ enum OnlineSide{
 	HOST, ## 作为主机
 	CLIENT, ## 作为客机
 }
+## 联机特殊效果模式
+enum OnlineSpecialEffectMode{
+	RACING, ## 标准竞速模式
+	DICTATION_RACING, ## 默写竞速
+	CAPTUING, ## 弹幕夺取
+}
+## 联机客户端连接状态
+enum OnlineClientConnectingState{
+	IDLE, ## 闲置，提示连接到服务器
+	CONNECTING, ## 连接中，提示正在连接
+	CONNECTED, ## 已连接到服务器，提示断开连接
+	CONNECT_FAILED, ## 连接失败，提示无法连接到服务器
+}
 
 ## 菜单选项数量，值为实际数量-1
 const MENU_OPTIONS_COUNT: int = 4
 ## 联机菜单选项数量-作为主机，值为实际数量-1
-const ONLINE_MENU_OPTIONS_COUNT_HOST: int = 3
+const ONLINE_MENU_OPTIONS_COUNT_HOST: int = 4
 ## 联机菜单选项数量-作为客机，值为实际数量-1
-const ONLINE_MENU_OPTIONS_COUNT_CLIENT: int = 3
+const ONLINE_MENU_OPTIONS_COUNT_CLIENT: int = 4
 ## 允许记录分数的最少战备启用数
 const MINIMUM_STRATAGEMS_ENABLED_ABLE_TO_RECORD_HIGH_SCORE: int = 16
 
@@ -123,6 +136,10 @@ static var online_port: String = "0"
 static var online_address: String = "localhost"
 ## 记录上次打开输入框是要修改端口还是地址，false表示端口，true表示地址
 static var last_edit_is_port_or_address: bool = false
+## 当前的联机特殊效果模式
+static var online_special_effect_mode: OnlineSpecialEffectMode = OnlineSpecialEffectMode.RACING
+## 当前的联机模式客户端连接状态，用于在玩家作为客机时控制菜单文本的显示
+static var online_client_connecting_state: OnlineClientConnectingState = OnlineClientConnectingState.IDLE
 
 func _init() -> void:
 	instance = self
@@ -197,7 +214,6 @@ func _unhandled_input(event: InputEvent) -> void:
 		GameState.MENU_ONLINE:
 			if (event.is_action_released(&"up")):
 				menu_option_focus -= 1
-				n_menu_text.update_text_online()
 				if (online_side == OnlineSide.HOST):
 					if (menu_option_focus < 0):
 						menu_option_focus = ONLINE_MENU_OPTIONS_COUNT_HOST
@@ -205,11 +221,13 @@ func _unhandled_input(event: InputEvent) -> void:
 				elif (online_side == OnlineSide.CLIENT):
 					if (menu_option_focus < 0):
 						menu_option_focus = ONLINE_MENU_OPTIONS_COUNT_CLIENT
+					if (online_client_connecting_state == OnlineClientConnectingState.CONNECT_FAILED and menu_option_focus == 4):
+						online_client_connecting_state = OnlineClientConnectingState.IDLE
 					n_description_text.update_text_online_client()
+				n_menu_text.update_text_online()
 				StratagemHeroEffect.instance.audio_press.play()
 			if (event.is_action_released(&"down")):
 				menu_option_focus += 1
-				n_menu_text.update_text_online()
 				if (online_side == OnlineSide.HOST):
 					if (menu_option_focus > ONLINE_MENU_OPTIONS_COUNT_HOST):
 						menu_option_focus = 0
@@ -217,7 +235,10 @@ func _unhandled_input(event: InputEvent) -> void:
 				elif (online_side == OnlineSide.CLIENT):
 					if (menu_option_focus > ONLINE_MENU_OPTIONS_COUNT_CLIENT):
 						menu_option_focus = 0
+					if (online_client_connecting_state == OnlineClientConnectingState.CONNECT_FAILED and menu_option_focus == 4):
+						online_client_connecting_state = OnlineClientConnectingState.IDLE
 					n_description_text.update_text_online_client()
+				n_menu_text.update_text_online()
 				StratagemHeroEffect.instance.audio_press.play()
 			if (event.is_action_released(&"space")):
 				get_viewport().set_input_as_handled()
@@ -268,7 +289,12 @@ func menu_click_online() -> void:
 		return
 	if (menu_option_focus == 1): # 更换联机侧
 		StratagemHeroEffect.instance.audio_menu_click.play()
-		online_side = OnlineSide.HOST if online_side == OnlineSide.CLIENT else OnlineSide.CLIENT
+		if (online_side == OnlineSide.CLIENT):
+			online_side = OnlineSide.HOST
+			n_description_text.update_text_online_host()
+		else:
+			online_side = OnlineSide.CLIENT
+			n_description_text.update_text_online_client()
 		n_menu_text.update_text_online()
 		return
 	match (online_side):
@@ -276,21 +302,48 @@ func menu_click_online() -> void:
 			match (menu_option_focus):
 				2: #端口
 					last_edit_is_port_or_address = false
-					start_text_edit(online_port)
+					start_text_edit(online_port, "1025-65535")
+					StratagemHeroEffect.instance.audio_menu_click.play()
+				3: #切换模式
+					match (online_special_effect_mode):
+						OnlineSpecialEffectMode.RACING:
+							online_special_effect_mode = OnlineSpecialEffectMode.DICTATION_RACING
+						OnlineSpecialEffectMode.DICTATION_RACING:
+							online_special_effect_mode = OnlineSpecialEffectMode.CAPTUING
+						OnlineSpecialEffectMode.CAPTUING:
+							online_special_effect_mode = OnlineSpecialEffectMode.RACING
+					n_menu_text.update_text_online()
+					n_description_text.update_text_online_host()
+					StratagemHeroEffect.instance.audio_menu_click.play()
 		OnlineSide.CLIENT:
 			match (menu_option_focus):
 				2: #地址
 					last_edit_is_port_or_address = true
-					start_text_edit(online_address)
+					start_text_edit(online_address, "IP/Domain")
+					StratagemHeroEffect.instance.audio_menu_click.play()
 				3: #端口
 					last_edit_is_port_or_address = false
-					start_text_edit(online_port)
+					start_text_edit(online_port, "1025-65535")
+					StratagemHeroEffect.instance.audio_menu_click.play()
+				4: #连接
+					match (online_client_connecting_state):
+						OnlineClientConnectingState.IDLE, OnlineClientConnectingState.CONNECT_FAILED:
+							var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+							peer.create_client(online_address, online_port.to_int())
+							multiplayer.multiplayer_peer = peer
+							StratagemHeroEffect.instance.audio_menu_click.play()
+						OnlineClientConnectingState.CONNECTED:
+							multiplayer.multiplayer_peer.close()
+							StratagemHeroEffect.instance.audio_menu_click.play()
 
 func check_is_able_to_start_core() -> bool:
-	match (special_effect_mode):
-		SpecialEffectMode.NONE, SpecialEffectMode.DICTATION, SpecialEffectMode.MULTILINES:
-			if (n_stratagem_selection_panel.stratagems_enabled.size() <= 0):
-				return false
+	if (game_state ==GameState.MENU):
+		match (special_effect_mode):
+			SpecialEffectMode.NONE, SpecialEffectMode.DICTATION, SpecialEffectMode.MULTILINES:
+				if (n_stratagem_selection_panel.stratagems_enabled.size() <= 0):
+					return false
+	elif (game_state == GameState.MENU_ONLINE):
+		return false #TODO
 	return true
 
 func start_core() -> void:
@@ -311,9 +364,10 @@ static func get_special_mode_name_translated() -> String:
 			return TranslationServer.translate(&"effect_text.lantern_slide.generic.mode_terminal")
 	return ""
 
-func start_text_edit(init_text: String) -> void:
+func start_text_edit(init_text: String, tip_text: String) -> void:
 	n_text_type_in.visible = true
 	n_text_type_in_line_edit.text = init_text
+	n_text_type_in_line_edit.placeholder_text = tip_text
 	n_text_type_in_line_edit.edit()
 	n_text_type_in_line_edit.caret_column = n_text_type_in_line_edit.text.length()
 
@@ -324,7 +378,7 @@ func on_text_type_in_submit() -> void:
 		n_text_type_in.visible = false
 	else:
 		var port_num: int = text.to_int()
-		online_port = str(clampi(port_num, 0, 65535))
+		online_port = str(clampi(port_num, 1025, 65535))
 		text = online_port
 		n_text_type_in.visible = false
 	n_menu_text.update_text_online()

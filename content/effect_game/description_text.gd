@@ -32,6 +32,19 @@ func update_text_online_host() -> void:
 			text = tr(&"effect_online_description.as_host")
 		2: #端口
 			text = tr(&"effect_online_description.set_port_host")
+		3: #联机特殊效果模式
+			match (StratagemHeroEffect_EffectGame.online_special_effect_mode):
+				StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.RACING:
+					text = tr(&"effect_online_description.racing")
+				StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING:
+					text = tr(&"effect_online_description.dictation_racing")
+				StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.CAPTUING:
+					text = tr(&"effect_online_description.capturing")
+		4: #开启服务器/开始游戏
+			if (multiplayer.is_server()):
+				text = tr(&"effect_online_description.effect_start")
+			else:
+				text = tr(&"effect_online_description.start_server")
 
 func update_text_online_client() -> void:
 	match (StratagemHeroEffect_EffectGame.menu_option_focus):
@@ -43,3 +56,13 @@ func update_text_online_client() -> void:
 			text = tr(&"effect_online_description.set_address")
 		3: #主机端口
 			text = tr(&"effect_online_description.set_port_client")
+		4: #连接
+			match (StratagemHeroEffect_EffectGame.online_client_connecting_state):
+				StratagemHeroEffect_EffectGame.OnlineClientConnectingState.IDLE:
+					text = tr(&"effect_online_description.connect_to_server")
+				StratagemHeroEffect_EffectGame.OnlineClientConnectingState.CONNECTING:
+					text = tr(&"effect_online_description.connecting_to_server")
+				StratagemHeroEffect_EffectGame.OnlineClientConnectingState.CONNECTED:
+					text = tr(&"effect_online_description.disconnect_with_host")
+				StratagemHeroEffect_EffectGame.OnlineClientConnectingState.CONNECT_FAILED:
+					text = tr(&"effect_online_description.connect_failed")
