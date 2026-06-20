@@ -15,6 +15,7 @@ static var instance: StratagemHeroEffect_EffectGame
 @onready var n_game_core: StratagemHeroEffect_EffectGameCore = $EffectGameCore as StratagemHeroEffect_EffectGameCore
 @onready var n_text_type_in: StratagemHeroEffect_EffectGame_TextTypeIn = $TextTypeIn as StratagemHeroEffect_EffectGame_TextTypeIn
 @onready var n_text_type_in_line_edit: LineEdit = $TextTypeIn/LineEdit as LineEdit
+@onready var n_network_tip: Label = $NetworkTip as Label
 
 ## 游戏状态
 enum GameState{
@@ -131,7 +132,7 @@ static var one_heart: bool = false
 ## 联机模式所属侧
 static var online_side: OnlineSide = OnlineSide.HOST
 ## 联机模式端口
-static var online_port: String = "0"
+static var online_port: String = "23100"
 ## 联机模式地址
 static var online_address: String = "localhost"
 ## 记录上次打开输入框是要修改端口还是地址，false表示端口，true表示地址
@@ -140,12 +141,21 @@ static var last_edit_is_port_or_address: bool = false
 static var online_special_effect_mode: OnlineSpecialEffectMode = OnlineSpecialEffectMode.RACING
 ## 当前的联机模式客户端连接状态，用于在玩家作为客机时控制菜单文本的显示
 static var online_client_connecting_state: OnlineClientConnectingState = OnlineClientConnectingState.IDLE
+## 记录当前联机模式服务端是否已开启
+static var online_server_opened: bool = false
+## 联机模式对方对等体id缓存，为0时代表无效
+static var online_target_unique_id_cache: int = 0
 
 func _init() -> void:
 	instance = self
 
 func _ready() -> void:
 	n_text_type_in.edit_exited.connect(on_text_type_in_submit)
+	multiplayer.connected_to_server.connect(on_connected_to_server)
+	multiplayer.connection_failed.connect(on_connection_failed)
+	multiplayer.server_disconnected.connect(on_disconnected_with_server)
+	multiplayer.peer_connected.connect(on_peer_connected)
+	multiplayer.peer_disconnected.connect(on_peer_disconnected)
 	game_state = GameState.IDLE
 
 ## 总启动入口，用于启动本主类，设计为由主菜单进入时调用
@@ -190,6 +200,15 @@ func _physics_process(_delta: float) -> void:
 		button_stylebox.border_width_bottom = fit_size
 		button_stylebox.border_width_right = fit_size
 		button_stylebox.border_width_left = fit_size
+	if (online_target_unique_id_cache != 0):
+		if (multiplayer.multiplayer_peer is ENetMultiplayerPeer):
+			n_network_tip.visible = true
+			var ping_ms: float = (multiplayer.multiplayer_peer as ENetMultiplayerPeer).get_peer(online_target_unique_id_cache).get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME)
+			n_network_tip.text = (str(int(ping_ms)) if ping_ms <= 999.9 else "999+") + " ms"
+			n_network_tip.size = Vector2.ZERO
+			n_network_tip.position = Vector2(window.size.x - n_network_tip.size.x, 0.0)
+	else:
+		n_network_tip.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	match (game_state):
@@ -285,12 +304,14 @@ func menu_click() -> void:
 func menu_click_online() -> void:
 	if (menu_option_focus == 0):
 		StratagemHeroEffect.instance.audio_menu_click.play()
+		stop_all_network()
 		stop_game()
 		return
 	if (menu_option_focus == 1): # 更换联机侧
 		StratagemHeroEffect.instance.audio_menu_click.play()
 		if (online_side == OnlineSide.CLIENT):
 			online_side = OnlineSide.HOST
+			stop_all_network()
 			n_description_text.update_text_online_host()
 		else:
 			online_side = OnlineSide.CLIENT
@@ -301,6 +322,8 @@ func menu_click_online() -> void:
 		OnlineSide.HOST:
 			match (menu_option_focus):
 				2: #端口
+					if (online_server_opened):
+						return
 					last_edit_is_port_or_address = false
 					start_text_edit(online_port, "1025-65535")
 					StratagemHeroEffect.instance.audio_menu_click.play()
@@ -315,23 +338,37 @@ func menu_click_online() -> void:
 					n_menu_text.update_text_online()
 					n_description_text.update_text_online_host()
 					StratagemHeroEffect.instance.audio_menu_click.play()
+				4: #开启服务器/开始游戏
+					if (online_server_opened):
+						#开始游戏
+						pass
+					else:
+						#开启服务器
+						server_open(online_port.to_int())
+						n_menu_text.update_text_online()
+						n_description_text.update_text_online_host()
+						StratagemHeroEffect.instance.audio_menu_click.play()
 		OnlineSide.CLIENT:
 			match (menu_option_focus):
 				2: #地址
+					if (online_client_connecting_state == OnlineClientConnectingState.CONNECTING or online_client_connecting_state == OnlineClientConnectingState.CONNECTED):
+						return
 					last_edit_is_port_or_address = true
 					start_text_edit(online_address, "IP/Domain")
 					StratagemHeroEffect.instance.audio_menu_click.play()
 				3: #端口
+					if (online_client_connecting_state == OnlineClientConnectingState.CONNECTING or online_client_connecting_state == OnlineClientConnectingState.CONNECTED):
+						return
 					last_edit_is_port_or_address = false
 					start_text_edit(online_port, "1025-65535")
 					StratagemHeroEffect.instance.audio_menu_click.play()
 				4: #连接
 					match (online_client_connecting_state):
 						OnlineClientConnectingState.IDLE, OnlineClientConnectingState.CONNECT_FAILED:
-							var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-							peer.create_client(online_address, online_port.to_int())
-							multiplayer.multiplayer_peer = peer
+							client_connect_to_server(online_address, online_port.to_int())
 							StratagemHeroEffect.instance.audio_menu_click.play()
+							n_menu_text.update_text_online()
+							n_description_text.update_text_online_client()
 						OnlineClientConnectingState.CONNECTED:
 							multiplayer.multiplayer_peer.close()
 							StratagemHeroEffect.instance.audio_menu_click.play()
@@ -343,7 +380,9 @@ func check_is_able_to_start_core() -> bool:
 				if (n_stratagem_selection_panel.stratagems_enabled.size() <= 0):
 					return false
 	elif (game_state == GameState.MENU_ONLINE):
-		return false #TODO
+		if (online_server_opened and online_target_unique_id_cache != 0):
+			return true
+		return false
 	return true
 
 func start_core() -> void:
@@ -382,3 +421,55 @@ func on_text_type_in_submit() -> void:
 		text = online_port
 		n_text_type_in.visible = false
 	n_menu_text.update_text_online()
+
+func on_connected_to_server() -> void:
+	online_client_connecting_state = OnlineClientConnectingState.CONNECTED
+	n_menu_text.update_text_online()
+	n_description_text.update_text_online_client()
+
+func on_connection_failed() -> void:
+	online_client_connecting_state = OnlineClientConnectingState.CONNECT_FAILED
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	n_menu_text.update_text_online()
+	n_description_text.update_text_online_client()
+
+func on_disconnected_with_server() -> void:
+	online_client_connecting_state = OnlineClientConnectingState.IDLE
+	n_menu_text.update_text_online()
+	n_description_text.update_text_online_client()
+
+func stop_all_network() -> void:
+	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+	online_client_connecting_state = OnlineClientConnectingState.IDLE
+	online_server_opened = false
+
+func server_open(port: int) -> void:
+	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+	var error: Error = peer.create_server(port, 1, 2)
+	if (error != OK):
+		print("Error on opening server: ", error)
+	else:
+		multiplayer.multiplayer_peer = peer
+		online_server_opened = true
+
+func client_connect_to_server(address: String, port: int) -> void:
+	var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
+	var error: Error = peer.create_client(address, port)
+	if (error != OK):
+		print("Error on client connecting to host: ", error)
+	else:
+		multiplayer.multiplayer_peer = peer
+		online_client_connecting_state = OnlineClientConnectingState.CONNECTING
+		online_target_unique_id_cache = 1
+
+func on_peer_connected(id: int) -> void:
+	if (online_server_opened):
+		online_target_unique_id_cache = id
+		n_menu_text.update_text_online()
+		n_description_text.update_text_online_host()
+
+func on_peer_disconnected(_id: int) -> void:
+	if (online_server_opened):
+		online_target_unique_id_cache = 0
+		n_menu_text.update_text_online()
+		n_description_text.update_text_online_host()

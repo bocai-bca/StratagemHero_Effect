@@ -39,7 +39,7 @@ func update_text_online() -> void:
 					text += "\n[color=yellow][b]" + tr(&"effect_mode_online.dictation_racing") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 3) else "\n" + tr(&"effect_mode_online.dictation_racing")
 				StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.CAPTUING:
 					text += "\n[color=yellow][b]" + tr(&"effect_mode_online.capturing") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 3) else "\n" + tr(&"effect_mode_online.capturing")
-			if (multiplayer.is_server()):
+			if (StratagemHeroEffect_EffectGame.online_server_opened):
 				if (StratagemHeroEffect_EffectGame.instance.check_is_able_to_start_core()):
 					text += "\n[color=yellow][b]" + tr(&"effect_start_online") + "[/b][/color]" if (StratagemHeroEffect_EffectGame.menu_option_focus == 4) else "\n" + tr(&"effect_start_online")
 				else:

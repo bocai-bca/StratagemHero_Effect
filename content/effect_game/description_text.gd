@@ -41,7 +41,7 @@ func update_text_online_host() -> void:
 				StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.CAPTUING:
 					text = tr(&"effect_online_description.capturing")
 		4: #开启服务器/开始游戏
-			if (multiplayer.is_server()):
+			if (StratagemHeroEffect_EffectGame.online_server_opened):
 				text = tr(&"effect_online_description.effect_start")
 			else:
 				text = tr(&"effect_online_description.start_server")
