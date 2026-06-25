@@ -1,0 +1,50 @@
+[gd_scene format=3 uid="uid://d3kktlslmwma3"]
+
+[ext_resource type="Theme" uid="uid://ceavqd6h72cli" path="res://content/effect_game/core/lantern_slides/terminal/theme.tres" id="1_dfkll"]
+[ext_resource type="Script" uid="uid://b56qljxk67773" path="res://content/effect_game/core_online/lantern_slides/racing/lantern_slide_online_racing.gd" id="2_dfkll"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_wtxu6"]
+[ext_resource type="PackedScene" uid="uid://bv2e1xw5flunf" path="res://content/effect_game/core/stratagem_line/stratagem_line.tscn" id="4_hyxwj"]
+
+[node name="LanternSlideOnline_Racing" type="Panel" unique_id=147425425]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("1_dfkll")
+script = ExtResource("2_dfkll")
+
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=376182540]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("3_wtxu6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="P1ProgressBar" type="ProgressBar" parent="." unique_id=1467986390]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 316.8
+offset_right = 1152.0
+offset_bottom = 338.4
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="P1StratagemLine" parent="." unique_id=1089226850 instance=ExtResource("4_hyxwj")]
+position = Vector2(192, 180)
+
+[node name="P2ProgressBar" type="ProgressBar" parent="." unique_id=813218381]
+layout_mode = 0
+offset_left = 128.0
+offset_top = 345.6
+offset_right = 1152.0
+offset_bottom = 367.2
+max_value = 1.0
+value = 0.5
+show_percentage = false
+
+[node name="P2StratagemLine" parent="." unique_id=1272608253 instance=ExtResource("4_hyxwj")]
+position = Vector2(192, 540)

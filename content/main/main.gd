@@ -60,6 +60,7 @@ const LanguagesSupported: PackedStringArray = [
 	"zh",
 ]
 
+static var game_version: String
 static var config_file: ConfigFile = ConfigFile.new()
 var game_state: GameState = GameState.Init:
 	get:
@@ -164,6 +165,7 @@ func _init() -> void:
 	instance = self
 
 func _enter_tree() -> void:
+	game_version = ProjectSettings.get_setting("application/config/version", "UnspecifiedGameVersion")
 	get_window().min_size = Vector2i(640, 360)
 	StratagemHeroEffect_SaveAccess.load_save()
 
