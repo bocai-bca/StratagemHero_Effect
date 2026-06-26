@@ -42,7 +42,10 @@ func update_text_online_host() -> void:
 					text = tr(&"effect_online_description.capturing")
 		4: #开启服务器/开始游戏
 			if (StratagemHeroEffect_EffectGame.online_server_opened):
-				text = tr(&"effect_online_description.effect_start")
+				if (StratagemHeroEffect_EffectGame.online_target_unique_id_cache != 0):
+					text = tr(&"effect_online_description.effect_start")
+				else:
+					text = tr(&"effect_online_description.start_will_available_while_client_joined")
 			else:
 				text = tr(&"effect_online_description.start_server")
 

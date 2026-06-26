@@ -5,12 +5,13 @@ class_name StratagemHeroEffect_EffectGame_OnlineCode
 ## 指令枚举
 enum Code{
 	UNDEFINED = 0, ## 未定义，不被使用的特殊指令
-	START_GAME = 1, ## 开始游戏，只由主机发出，操作符存放要开始的特殊效果模式名称
+	START_GAME = 1, ## 开始游戏，只由主机发出，操作符存放要开始的特殊效果模式名称和表示战备队列的种子
 	ASK_QUESTION = 2, ## 向对方请求数据，操作符存放提问的问题
 	ANSWER_QUESTION = 3, ## 向对方提交问题返回的数据，操作符存放回答的数据
 	FAILED_TO_START_GAME, ## 开始游戏时失败，告知对方请重置游戏状态
 	VERSION_VARIFIED, ## 已验证版本，客机告知主机已确认版本符合
 	VERSION_NOT_MATCH, ## 版本不符合，客机告知主机版本不符合、需要断开
+	INGAME_DATA, ## 游戏内数据，主机客机相互向对方传输的自身状态数据，数据存放在操作符
 }
 
 ## 指令段

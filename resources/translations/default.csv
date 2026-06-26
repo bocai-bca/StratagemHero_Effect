@@ -80,6 +80,8 @@ effect_online.disconnect_with_host,"Disconnect with host","与主机断开连接
 effect_online.connecting_to_server,"Connecting...","正在连接..."
 effect_online.connect_failed,"Connect failed","连接失败"
 
+effect_online_text.lantern_slide.generic.you,"You","你"
+
 effect_mode_online.racing,"Racing (Click to switch)","竞速模式 (点击切换)"
 effect_mode_online.dictation_racing,"Dictation Racing (Click to switch)","默写竞速 (点击切换)"
 effect_mode_online.capturing,"Capturing (Click to switch)","弹幕抢夺 (点击切换)"
@@ -97,6 +99,7 @@ effect_online_description.connect_failed,"Could not connect to server, press thi
 effect_online_description.racing,"Players compete to who complete all stratagems first.","双方玩家比拼谁先完成所有战备的线性竞速"
 effect_online_description.dictation_racing,"Mix Dictation and Racing.","结合默写和竞速的模式，考验记忆与盲打能力"
 effect_online_description.capturing,"Capture stratagems faster than opponent to take scores.","在滚动的战备群中抢先于对手完成战备来夺分"
+effect_online_description.start_will_available_while_client_joined,"Start will available while client joined.","客机连接后方可开始联机效果模式游戏"
 effect_online_description.effect_start,"Start the online effect mode","开始联机效果模式游戏"
 
 effect_text.edit_stratagems.title,"Edit the list of stratagems able to appear.","编辑可出现的战备的列表"

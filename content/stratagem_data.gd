@@ -62,6 +62,16 @@ static func random_arrow() -> CodeArrow:
 			return CodeArrow.RIGHT
 	return CodeArrow.UP
 
+## 从种子创建一个随机的战备序列
+static func create_random_sequence_from_seed(random_seed: int, length: int) -> Array[StratagemData]:
+	var result: Array[StratagemData] = []
+	var random: RandomNumberGenerator = RandomNumberGenerator.new()
+	random.seed = random_seed
+	var list_names: Array[StringName] = list.keys() as Array[StringName]
+	for i in length:
+		result.append(list_names[random.randi_range(0, list_names.size() - 1)])
+	return result
+
 ## 记录所有战备数据的列表
 static var list: Dictionary[StringName, StratagemData]:
 	get:

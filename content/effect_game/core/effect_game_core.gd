@@ -46,6 +46,16 @@ func start() -> void:
 			new_terminal.next_line()
 			add_lantern_slide(new_terminal)
 
+func start_online(main_class: StratagemHeroEffect_EffectGame) -> void:
+	match (StratagemHeroEffect_EffectGame.online_special_effect_mode):
+		StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.RACING, StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING:
+			var new_racing: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing = StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing.CPS().instantiate()
+			new_racing.effect_game_main = main_class
+			new_racing.set_stratagems_count(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT)
+			add_lantern_slide(new_racing)
+		StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.CAPTUING:
+			pass
+
 ## 在幻灯片列表最末尾添加一个新幻灯片，同时将该幻灯片节点添加至场景树
 func add_lantern_slide(lantern_slide_node: StratagemHeroEffect_EffectGameCore_LanternSlide) -> void:
 	lantern_slides_standby.append(lantern_slide_node)
@@ -66,3 +76,9 @@ func next_focus() -> void:
 	lantern_slide_focus = lantern_slides_standby.pop_front() as StratagemHeroEffect_EffectGameCore_LanternSlide
 	lantern_slide_focus.focus_dropped.connect(on_lantern_slide_drop_focus, CONNECT_ONE_SHOT)
 	lantern_slide_focus.got_focus()
+
+## 清除所有幻灯片，回归到初始状态
+func clear() -> void:
+	for n_lantern_slide in (lantern_slides_moveout + lantern_slides_standby):
+		n_lantern_slide.queue_free()
+	lantern_slide_focus.queue_free()

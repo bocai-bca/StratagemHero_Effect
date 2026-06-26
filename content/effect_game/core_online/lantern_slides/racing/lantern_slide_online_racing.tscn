@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://d3kktlslmwma3"]
 
-[ext_resource type="Theme" uid="uid://ceavqd6h72cli" path="res://content/effect_game/core/lantern_slides/terminal/theme.tres" id="1_dfkll"]
+[ext_resource type="Theme" uid="uid://6vcrdu8ev13r" path="res://content/effect_game/core_online/lantern_slides/racing/theme.tres" id="1_hyxwj"]
 [ext_resource type="Script" uid="uid://b56qljxk67773" path="res://content/effect_game/core_online/lantern_slides/racing/lantern_slide_online_racing.gd" id="2_dfkll"]
 [ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_wtxu6"]
 [ext_resource type="PackedScene" uid="uid://bv2e1xw5flunf" path="res://content/effect_game/core/stratagem_line/stratagem_line.tscn" id="4_hyxwj"]
@@ -8,7 +8,7 @@
 [node name="LanternSlideOnline_Racing" type="Panel" unique_id=147425425]
 offset_right = 1280.0
 offset_bottom = 720.0
-theme = ExtResource("1_dfkll")
+theme = ExtResource("1_hyxwj")
 script = ExtResource("2_dfkll")
 
 [node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=376182540]
@@ -48,3 +48,13 @@ show_percentage = false
 
 [node name="P2StratagemLine" parent="." unique_id=1272608253 instance=ExtResource("4_hyxwj")]
 position = Vector2(192, 540)
+
+[node name="YouTipText" type="Label" parent="." unique_id=1166998802]
+layout_mode = 0
+offset_left = 25.6
+offset_top = 273.6
+offset_right = 755.6
+offset_bottom = 322.6
+theme_override_font_sizes/font_size = 36
+text = "effect_online_text.lantern_slide.generic.you"
+vertical_alignment = 1

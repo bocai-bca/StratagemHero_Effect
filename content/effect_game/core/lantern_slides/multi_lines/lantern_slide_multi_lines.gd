@@ -173,11 +173,11 @@ func _update_focus(delta: float) -> void:
 		n_line.update(delta)
 		if (not n_line.was_done and n_line.was_start()):
 			is_line_start = true
-	if (is_line_start): #在没有任何行已经有进度的情况下
+	if (is_line_start): #在已经有行有进度了的情况下
 		for n_line in n_lines: #为有进度的当执行输入检测
 			if (n_line.was_start()):
 				n_line.update_check_input()
-	else: #否则(已经有行有进度了)
+	else: #否则(没有任何行有进度)
 		for n_line in n_lines: #为所有行执行输入检测
 			n_line.update_check_input()
 	if (is_going_to_drop_focus):

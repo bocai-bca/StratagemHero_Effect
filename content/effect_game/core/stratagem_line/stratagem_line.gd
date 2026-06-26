@@ -278,6 +278,14 @@ func start_icon_animation() -> void:
 		icon_animation_timer.reversal()
 	icon_animation_timer_last_tick = 0.0
 
+## 设置已到达的箭头索引
+func set_arrow_index(index: int) -> void:
+	if (stratagem_data == null or stratagem_data.codes.is_empty()):
+		return
+	for i in n_arrows.size():
+		var n_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = n_arrows[i]
+		n_arrow.set_pressed_with_animation_jumpped(i < index)
+
 ## 类场景创建函数
 static func create(new_data: StratagemData, is_dictation: bool = false) -> StratagemHeroEffect_EffectGameCore_StratagemLine:
 	var new_instance: StratagemHeroEffect_EffectGameCore_StratagemLine = CPS().instantiate() as StratagemHeroEffect_EffectGameCore_StratagemLine
