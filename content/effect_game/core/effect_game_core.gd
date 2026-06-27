@@ -81,4 +81,5 @@ func next_focus() -> void:
 func clear() -> void:
 	for n_lantern_slide in (lantern_slides_moveout + lantern_slides_standby):
 		n_lantern_slide.queue_free()
-	lantern_slide_focus.queue_free()
+	if (lantern_slide_focus != null):
+		lantern_slide_focus.queue_free()

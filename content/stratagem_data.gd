@@ -69,7 +69,7 @@ static func create_random_sequence_from_seed(random_seed: int, length: int) -> A
 	random.seed = random_seed
 	var list_names: Array[StringName] = list.keys() as Array[StringName]
 	for i in length:
-		result.append(list_names[random.randi_range(0, list_names.size() - 1)])
+		result.append(list[list_names[random.randi_range(0, list_names.size() - 1)]])
 	return result
 
 ## 记录所有战备数据的列表

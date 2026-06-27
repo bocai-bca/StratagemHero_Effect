@@ -36,6 +36,16 @@ show_percentage = false
 [node name="P1StratagemLine" parent="." unique_id=1089226850 instance=ExtResource("4_hyxwj")]
 position = Vector2(192, 180)
 
+[node name="P1CompletedText" type="Label" parent="." unique_id=1423808669]
+layout_mode = 0
+offset_top = 144.0
+offset_right = 1280.0
+offset_bottom = 208.0
+theme_override_font_sizes/font_size = 48
+text = "effect_online_text.lantern_slide.racing.completed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="P2ProgressBar" type="ProgressBar" parent="." unique_id=813218381]
 layout_mode = 0
 offset_left = 128.0
@@ -49,11 +59,21 @@ show_percentage = false
 [node name="P2StratagemLine" parent="." unique_id=1272608253 instance=ExtResource("4_hyxwj")]
 position = Vector2(192, 540)
 
+[node name="P2CompletedText" type="Label" parent="." unique_id=2097229438]
+layout_mode = 0
+offset_top = 504.0
+offset_right = 1280.0
+offset_bottom = 568.0
+theme_override_font_sizes/font_size = 48
+text = "effect_online_text.lantern_slide.racing.completed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="YouTipText" type="Label" parent="." unique_id=1166998802]
 layout_mode = 0
-offset_left = 25.6
+offset_left = 51.2
 offset_top = 273.6
-offset_right = 755.6
+offset_right = 781.2
 offset_bottom = 322.6
 theme_override_font_sizes/font_size = 36
 text = "effect_online_text.lantern_slide.generic.you"

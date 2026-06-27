@@ -6,7 +6,7 @@ signal edit_exited()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if (visible):
-		if (event.is_action_released(&"space")):
+		if (event.is_action_released(&"enter")):
 				get_viewport().set_input_as_handled()
 				emit_signal(&"edit_exited")
 		get_viewport().set_input_as_handled()

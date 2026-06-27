@@ -76,6 +76,8 @@ const ONLINE_INGAME_DATA_OPERATION_HEAD_STRATAGEM_INDEX: String = "si"
 const ONLINE_INGAME_DATA_OPERATION_HEAD_ARROW_INDEX: String = "ai"
 ## 联机游戏内数据-操作符头-已完成
 const ONLINE_INGAME_DATA_OPERATION_HEAD_COMPLETE: String = "cp"
+## 联机游戏内数据-操作符头-错误
+const ONLINE_INGAME_DATA_OPERATION_HEAD_WRONG: String = "wr"
 ## 联机特殊效果模式战备总量-竞速
 const ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT: int = 30
 ## 联机特殊效果模式战备总量-默写竞速
@@ -151,6 +153,13 @@ var game_state: GameState = GameState.IDLE:
 				n_description_text.visible = false
 				n_stratagem_selection_panel.visible = false
 				n_game_core.start()
+			GameState.CORE_ONLINE:
+				n_title.visible = false
+				n_title_line_top.visible = false
+				n_menu_text.visible = false
+				n_description_text.visible = false
+				n_stratagem_selection_panel.visible = false
+				n_game_core.start_online(self)
 ## 变换计时器列表
 ##  0 = 战备选择面板动画计时器
 static var transfer_timers: Array[TransferTimer] = [
@@ -191,6 +200,8 @@ func _init() -> void:
 	instance = self
 
 func _ready() -> void:
+	if (multiplayer is SceneMultiplayer):
+		(multiplayer as SceneMultiplayer).peer_packet.connect(on_peer_packet)
 	n_text_type_in.edit_exited.connect(on_text_type_in_submit)
 	multiplayer.connected_to_server.connect(on_connected_to_server)
 	multiplayer.connection_failed.connect(on_connection_failed)
@@ -213,7 +224,6 @@ func _process(delta: float) -> void:
 	n_game_core.process(delta)
 	match (game_state):
 		GameState.MENU_ONLINE:
-			get_remote_online_codes()
 			execute_online_code(online_code_queue.pop_front())
 
 func _physics_process(_delta: float) -> void:
@@ -231,7 +241,7 @@ func _physics_process(_delta: float) -> void:
 			n_description_text.label_settings.font_size = int(StratagemHeroEffect.instance.get_font_size(36.0))
 			n_menu_text.size = size
 			n_description_text.size = size
-		GameState.CORE:
+		GameState.CORE, GameState.CORE_ONLINE:
 			n_game_core.fit_size(size)
 	var fit_size: int = int(StratagemHeroEffect.instance.get_fit_size(4.0))
 	for button_stylebox in (
@@ -248,10 +258,12 @@ func _physics_process(_delta: float) -> void:
 	if (online_target_unique_id_cache != 0):
 		if (multiplayer.multiplayer_peer is ENetMultiplayerPeer):
 			n_network_tip.visible = true
-			var ping_ms: float = (multiplayer.multiplayer_peer as ENetMultiplayerPeer).get_peer(online_target_unique_id_cache).get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME)
-			n_network_tip.text = (str(int(ping_ms)) if ping_ms <= 999.9 else "999+") + " ms"
-			n_network_tip.size = Vector2.ZERO
-			n_network_tip.position = Vector2(window.size.x - n_network_tip.size.x, 0.0)
+			var remote_peer: ENetPacketPeer = (multiplayer.multiplayer_peer as ENetMultiplayerPeer).get_peer(online_target_unique_id_cache)
+			if (remote_peer != null):
+				var ping_ms: float = remote_peer.get_statistic(ENetPacketPeer.PEER_ROUND_TRIP_TIME)
+				n_network_tip.text = (str(int(ping_ms)) if ping_ms <= 999.9 else "999+") + " ms"
+				n_network_tip.size = Vector2.ZERO
+				n_network_tip.position = Vector2(window.size.x - n_network_tip.size.x, 0.0)
 	else:
 		n_network_tip.visible = false
 
@@ -400,7 +412,13 @@ func menu_click_online() -> void:
 							OnlineSpecialEffectMode.CAPTUING:
 								start_mode = ONLINE_SPECIAL_EFFECT_MODE_NAME_CAPTURING
 								online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(stratagems_seed, ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT)
-						send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.START_GAME, start_mode + "," + str(stratagems_seed)), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+						send_pack(
+							StratagemHeroEffect_EffectGame_OnlineCode.new(
+								StratagemHeroEffect_EffectGame_OnlineCode.Code.START_GAME,
+								start_mode + "," + str(stratagems_seed)
+							),
+							MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE
+						)
 						game_state = GameState.CORE_ONLINE
 					else:
 						#开启服务器
@@ -495,12 +513,14 @@ func on_connection_failed() -> void:
 
 func on_disconnected_with_server() -> void:
 	online_client_connecting_state = OnlineClientConnectingState.IDLE
+	stop_all_network()
 	n_menu_text.update_text_online()
 	n_description_text.update_text_online_client()
 
 func stop_all_network() -> void:
 	multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
 	online_client_connecting_state = OnlineClientConnectingState.IDLE
+	online_target_unique_id_cache = 0
 	online_server_opened = false
 	online_was_version_matched = false
 
@@ -510,9 +530,9 @@ func server_open(port: int) -> void:
 	if (error != OK):
 		push_error("Error on opening server: ", error)
 	else:
-		peer.transfer_mode = MultiplayerPeer.TRANSFER_MODE_RELIABLE
 		multiplayer.multiplayer_peer = peer
 		online_server_opened = true
+		print("Server opened.")
 
 func client_connect_to_server(address: String, port: int) -> void:
 	online_was_version_matched = false
@@ -525,6 +545,7 @@ func client_connect_to_server(address: String, port: int) -> void:
 		multiplayer.multiplayer_peer = peer
 		online_client_connecting_state = OnlineClientConnectingState.CONNECTING
 		online_target_unique_id_cache = 1
+		print("Connected to server as a client.")
 
 func on_peer_connected(id: int) -> void:
 	if (online_server_opened):
@@ -532,46 +553,53 @@ func on_peer_connected(id: int) -> void:
 		online_was_version_matched = false
 		n_menu_text.update_text_online()
 		n_description_text.update_text_online_host()
+		send_pack(
+			StratagemHeroEffect_EffectGame_OnlineCode.new(
+				StratagemHeroEffect_EffectGame_OnlineCode.Code.ANSWER_QUESTION,
+				ONLINE_ASK_QUESTION_SERVER_VERSION + "," + StratagemHeroEffect.game_version
+			),
+			MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE
+		)
 
 func on_peer_disconnected(_id: int) -> void:
 	if (online_server_opened):
-		online_target_unique_id_cache = 0
-		online_was_version_matched = false
 		n_menu_text.update_text_online()
 		n_description_text.update_text_online_host()
 	if (game_state == GameState.CORE_ONLINE):
 		n_game_core.clear()
 		game_state = GameState.MENU_ONLINE
-
-## 获取来自远程的联机指令，相当于接收联机对方的数据包
-## 另见send_pack()，该方法为发送数据
-func get_remote_online_codes() -> void:
-	if (not check_target_unique_id_available(false)):
-		return
-	while (multiplayer.multiplayer_peer.get_available_packet_count() > 0):
-		if (multiplayer.multiplayer_peer.get_packet_peer() == online_target_unique_id_cache):
-			#提取包并解析然后添加到联机指令队列
-			var packet_var: Variant = multiplayer.multiplayer_peer.get_var(true)
-			if (packet_var is StratagemHeroEffect_EffectGame_OnlineCode):
-				online_code_queue.append(packet_var)
-				continue
-			push_warning("Got remote packet but isn't OnlineCode, discarded.")
-			continue
-		multiplayer.multiplayer_peer.get_var(true) #丢弃包
-		push_error("Got packet from the unique id is not owned by target peer, discarded.")
-		continue
+	stop_all_network()
 
 ## 向对方发送数据，如果没有连接到对方，则不会进行任何操作
 ## 另见get_remote_online_codes()，该方法为接收数据的方法
-func send_pack(data: Variant, transfer_mode: MultiplayerPeer.TransferMode) -> void:
+func send_pack(data: StratagemHeroEffect_EffectGame_OnlineCode, transfer_mode: MultiplayerPeer.TransferMode) -> void:
 	if (not check_target_unique_id_available()):
 		return
-	var local_peer: ENetMultiplayerPeer = multiplayer.multiplayer_peer as ENetMultiplayerPeer
-	if (local_peer == null):
+	var scene_multiplayer: SceneMultiplayer = multiplayer as SceneMultiplayer
+	if (scene_multiplayer == null):
+		push_error("The multiplayer is not SceneMultiplayer.")
 		return
-	local_peer.set_target_peer(online_target_unique_id_cache)
-	local_peer.transfer_mode = transfer_mode
-	local_peer.put_var(data, true)
+	scene_multiplayer.send_bytes(var_to_bytes_with_objects(data.to_dictionary()), 0, transfer_mode)
+	var enum_name: StringName = StratagemHeroEffect_EffectGame_OnlineCode.Code.find_key(data.code)
+	if (enum_name == null):
+		print("Sent datapack with online code: ", data.code)
+	else:
+		print("Sent datapack with online code: ", enum_name)
+
+## 信号方法-接收到自定义数据包
+## 另见send_pack()，该方法为发送数据
+func on_peer_packet(_id: int, packet: PackedByteArray) -> void:
+	var data: Dictionary = bytes_to_var_with_objects(packet)
+	if (data == null):
+		push_warning("Failed to convert packet to dictionary.")
+		return
+	var data_parsed: StratagemHeroEffect_EffectGame_OnlineCode = StratagemHeroEffect_EffectGame_OnlineCode.from_dictionary(data)
+	online_code_queue.append(data_parsed)
+	var enum_name: StringName = StratagemHeroEffect_EffectGame_OnlineCode.Code.find_key(data_parsed.code)
+	if (enum_name == null):
+		print("Got online code: ", data_parsed.code)
+	else:
+		print("Got online code: ", enum_name)
 
 ## 检查当前的联机对方对等体id可用性
 func check_target_unique_id_available(try_fix_if_error: bool = true) -> bool:
@@ -629,6 +657,7 @@ func execute_online_code(online_code: StratagemHeroEffect_EffectGame_OnlineCode)
 			execute_code_answer_question(online_code.oprt)
 		StratagemHeroEffect_EffectGame_OnlineCode.Code.VERSION_VARIFIED:
 			online_was_version_matched = true
+			print("Version varified.")
 		StratagemHeroEffect_EffectGame_OnlineCode.Code.VERSION_NOT_MATCH:
 			soft_disconnect()
 		StratagemHeroEffect_EffectGame_OnlineCode.Code.FAILED_TO_START_GAME:
@@ -641,9 +670,15 @@ func execute_online_code(online_code: StratagemHeroEffect_EffectGame_OnlineCode)
 func execute_code_ask_question(operation: String) -> void:
 	match (operation):
 		ONLINE_ASK_QUESTION_SERVER_VERSION:
-			send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.ANSWER_QUESTION, StratagemHeroEffect.game_version), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+			send_pack(
+				StratagemHeroEffect_EffectGame_OnlineCode.new(
+					StratagemHeroEffect_EffectGame_OnlineCode.Code.ANSWER_QUESTION,
+					ONLINE_ASK_QUESTION_SERVER_VERSION + "," + StratagemHeroEffect.game_version
+				),
+				MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE
+			)
 
-## 执行联机指令ANSWER_QUESTION
+## 执行联机指令ANSWER_QUESTION，相当于读取回答
 func execute_code_answer_question(operation: String) -> void:
 	var splitted: PackedStringArray = operation.split(",", true, 1)
 	if (splitted.size() < 2):
@@ -653,10 +688,21 @@ func execute_code_answer_question(operation: String) -> void:
 		ONLINE_ASK_QUESTION_SERVER_VERSION:
 			if (splitted[1] != StratagemHeroEffect.game_version):
 				push_warning("Game version is not match with remote peer, disconnecting.")
-				send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.VERSION_NOT_MATCH), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+				send_pack(
+					StratagemHeroEffect_EffectGame_OnlineCode.new(
+						StratagemHeroEffect_EffectGame_OnlineCode.Code.VERSION_NOT_MATCH
+					),
+					MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE
+				)
 				soft_disconnect()
 				return
-			send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.VERSION_VARIFIED), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+			send_pack(
+				StratagemHeroEffect_EffectGame_OnlineCode.new(
+					StratagemHeroEffect_EffectGame_OnlineCode.Code.VERSION_VARIFIED
+				),
+				MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE
+			)
+			print("Version varified.")
 			online_was_version_matched = true
 
 ## 执行联机指令START_GAME

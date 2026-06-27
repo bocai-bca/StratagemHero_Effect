@@ -2,6 +2,11 @@ extends RefCounted
 class_name StratagemHeroEffect_EffectGame_OnlineCode
 ## 效果模式-联机指令。为联机模式的通信数据
 
+## 字典键-code
+const DICTIONARY_KEY_CODE: String = "cd"
+## 字典键-oprt
+const DICTIONARY_KEY_OPRT: String = "op"
+
 ## 指令枚举
 enum Code{
 	UNDEFINED = 0, ## 未定义，不被使用的特殊指令
@@ -22,3 +27,14 @@ var oprt: String
 func _init(new_code: Code = Code.UNDEFINED, new_oprt: String = "") -> void:
 	code = new_code
 	oprt = new_oprt
+
+static func from_dictionary(dictionary: Dictionary) -> StratagemHeroEffect_EffectGame_OnlineCode:
+	var new_code: Code = dictionary.get(DICTIONARY_KEY_CODE, Code.UNDEFINED) as Code
+	var new_oprt: String = dictionary.get(DICTIONARY_KEY_OPRT, "") as String
+	return StratagemHeroEffect_EffectGame_OnlineCode.new(new_code if new_code != null else Code.UNDEFINED, new_oprt if new_oprt != null else "")
+
+func to_dictionary() -> Dictionary[String, Variant]:
+	return {
+		DICTIONARY_KEY_CODE: code as int,
+		DICTIONARY_KEY_OPRT: oprt
+	}

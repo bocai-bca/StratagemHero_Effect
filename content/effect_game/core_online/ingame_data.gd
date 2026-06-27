@@ -7,6 +7,7 @@ enum DataHead{
 	STRATAGEM_INDEX, ## 更换战备索引
 	ARROW_INDEX, ## 箭头完成索引
 	COMPLETE, ## 已完成
+	WRONG, ## 错误
 }
 
 ## 数据头
