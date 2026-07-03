@@ -30,7 +30,6 @@ offset_top = 316.8
 offset_right = 1152.0
 offset_bottom = 338.4
 max_value = 1.0
-value = 0.5
 show_percentage = false
 
 [node name="P1StratagemLine" parent="." unique_id=1089226850 instance=ExtResource("4_hyxwj")]
@@ -53,7 +52,6 @@ offset_top = 345.6
 offset_right = 1152.0
 offset_bottom = 367.2
 max_value = 1.0
-value = 0.5
 show_percentage = false
 
 [node name="P2StratagemLine" parent="." unique_id=1272608253 instance=ExtResource("4_hyxwj")]

@@ -87,7 +87,12 @@ func update(delta: float) -> void:
 	n_ring.scale = Vector2.ONE * ring_scale_rate
 	n_ring.modulate.a = clampf((RING_ANIMATION_ALPHA_DECREASE_START_SCALE - ring_scale_rate) / (RING_ANIMATION_MAX_SCALE - RING_ANIMATION_ALPHA_DECREASE_START_SCALE), 0.0, 1.0)
 	wrong_timer = move_toward(wrong_timer, 0.0, delta)
-	modulate = Color(lerpf(1.0, WRONG_COLOR.r, wrong_timer / WRONG_ANIMATION_TIME), lerpf(1.0, WRONG_COLOR.g, wrong_timer / WRONG_ANIMATION_TIME), lerpf(0.0 if pressed else 1.0, WRONG_COLOR.b, wrong_timer / WRONG_ANIMATION_TIME), modulate.a)
+	modulate = Color(
+		lerpf(1.0, WRONG_COLOR.r, wrong_timer / WRONG_ANIMATION_TIME),
+		lerpf(1.0, WRONG_COLOR.g, wrong_timer / WRONG_ANIMATION_TIME),
+		lerpf(0.0 if pressed else 1.0, WRONG_COLOR.b, wrong_timer / WRONG_ANIMATION_TIME),
+		modulate.a
+	)
 	update_arrow_animation()
 
 ## 更新箭头动画，注意箭头动画计时器的更新由update()承担

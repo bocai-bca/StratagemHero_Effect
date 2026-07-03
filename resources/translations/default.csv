@@ -81,7 +81,11 @@ effect_online.connecting_to_server,"Connecting...","正在连接..."
 effect_online.connect_failed,"Connect failed","连接失败"
 
 effect_online_text.lantern_slide.generic.you,"You","你"
+effect_online_text.lantern_slide.generic.mode_racing,"Racing","竞速"
+effect_online_text.lantern_slide.generic.mode_dictation_racing,"Dictation Racing","默写竞速"
+effect_online_text.lantern_slide.generic.mode_capturing,"Capturing","弹幕夺取"
 effect_online_text.lantern_slide.racing.completed,"Completed","已完成"
+effect_online_text.lantern_slide.game_over.continue_tip,"Host presses ENTER key to continue","主机按下确认键以继续"
 
 effect_mode_online.racing,"Racing (Click to switch)","竞速模式 (点击切换)"
 effect_mode_online.dictation_racing,"Dictation Racing (Click to switch)","默写竞速 (点击切换)"

@@ -195,6 +195,8 @@ static var online_was_version_matched: bool = false
 static var online_opponent_in_game_data_list: Array[StratagemHeroEffect_EffectGame_InGameData] = []
 ## 联机模式战备列表，使用种子生成，联机时由主机给客机种子
 static var online_in_game_stratagems_list: Array[StratagemData] = []
+## 联机模式战备数量最大值缓存
+static var online_stratagems_count_max_cache: int
 
 func _init() -> void:
 	instance = self
@@ -223,7 +225,7 @@ func _process(delta: float) -> void:
 	n_stratagem_selection_panel.process(delta)
 	n_game_core.process(delta)
 	match (game_state):
-		GameState.MENU_ONLINE:
+		GameState.MENU_ONLINE, GameState.CORE_ONLINE:
 			execute_online_code(online_code_queue.pop_front())
 
 func _physics_process(_delta: float) -> void:
@@ -405,13 +407,15 @@ func menu_click_online() -> void:
 						match (online_special_effect_mode):
 							OnlineSpecialEffectMode.RACING:
 								start_mode = ONLINE_SPECIAL_EFFECT_MODE_NAME_RACING
-								online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(stratagems_seed, ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT)
+								online_stratagems_count_max_cache = ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT
 							OnlineSpecialEffectMode.DICTATION_RACING:
 								start_mode = ONLINE_SPECIAL_EFFECT_MODE_NAME_DICTATION_RACING
-								online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(stratagems_seed, ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT)
+								online_stratagems_count_max_cache = ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT
 							OnlineSpecialEffectMode.CAPTUING:
 								start_mode = ONLINE_SPECIAL_EFFECT_MODE_NAME_CAPTURING
-								online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(stratagems_seed, ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT)
+								online_stratagems_count_max_cache = ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT
+						online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(stratagems_seed, online_stratagems_count_max_cache)
+						print("Initialized online_in_game_stratagems_list with ", online_in_game_stratagems_list.size(), " stratagems.")
 						send_pack(
 							StratagemHeroEffect_EffectGame_OnlineCode.new(
 								StratagemHeroEffect_EffectGame_OnlineCode.Code.START_GAME,
@@ -568,6 +572,8 @@ func on_peer_disconnected(_id: int) -> void:
 	if (game_state == GameState.CORE_ONLINE):
 		n_game_core.clear()
 		game_state = GameState.MENU_ONLINE
+		StratagemHeroEffect.instance.audio_playing_music.stop()
+		StratagemHeroEffect.instance.audio_title_music.play()
 	stop_all_network()
 
 ## 向对方发送数据，如果没有连接到对方，则不会进行任何操作
@@ -580,11 +586,11 @@ func send_pack(data: StratagemHeroEffect_EffectGame_OnlineCode, transfer_mode: M
 		push_error("The multiplayer is not SceneMultiplayer.")
 		return
 	scene_multiplayer.send_bytes(var_to_bytes_with_objects(data.to_dictionary()), 0, transfer_mode)
-	var enum_name: StringName = StratagemHeroEffect_EffectGame_OnlineCode.Code.find_key(data.code)
-	if (enum_name == null):
-		print("Sent datapack with online code: ", data.code)
-	else:
-		print("Sent datapack with online code: ", enum_name)
+	#var enum_name: StringName = StratagemHeroEffect_EffectGame_OnlineCode.Code.find_key(data.code)
+	#if (enum_name == null):
+		#print("Sent datapack with online code: ", data.code)
+	#else:
+		#print("Sent datapack with online code: ", enum_name)
 
 ## 信号方法-接收到自定义数据包
 ## 另见send_pack()，该方法为发送数据
@@ -715,16 +721,18 @@ func execute_code_start_game(operation: String) -> void:
 		match (splitted[0]):
 			ONLINE_SPECIAL_EFFECT_MODE_NAME_RACING:
 				online_special_effect_mode = OnlineSpecialEffectMode.RACING
-				online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(splitted[1].to_int(), ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT)
+				online_stratagems_count_max_cache = ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT
 			ONLINE_SPECIAL_EFFECT_MODE_NAME_DICTATION_RACING:
 				online_special_effect_mode = OnlineSpecialEffectMode.DICTATION_RACING
-				online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(splitted[1].to_int(), ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT)
+				online_stratagems_count_max_cache = ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT
 			ONLINE_SPECIAL_EFFECT_MODE_NAME_CAPTURING:
 				online_special_effect_mode = OnlineSpecialEffectMode.CAPTUING
-				online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(splitted[1].to_int(), ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT)
+				online_stratagems_count_max_cache = ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT
 			_:
 				push_error("Got unknown operation for OnlineSpecialEffectMode: ", operation)
 				return
+		online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(splitted[1].to_int(), online_stratagems_count_max_cache)
+		print("Initialized online_in_game_stratagems_list with ", online_in_game_stratagems_list.size(), " stratagems.")
 		game_state = GameState.CORE_ONLINE
 		return
 	if (game_state == GameState.CORE_ONLINE):
@@ -743,22 +751,33 @@ func execute_code_ingame_data(operation: String) -> void:
 			online_opponent_in_game_data_list.append(
 				StratagemHeroEffect_EffectGame_InGameData.new(
 					StratagemHeroEffect_EffectGame_InGameData.DataHead.STRATAGEM_INDEX,
-					splitted[2]
+					splitted[1]
 				)
 			)
+			print("Received IngameData: STRATAGEM_INDEX")
 		ONLINE_INGAME_DATA_OPERATION_HEAD_ARROW_INDEX:
 			online_opponent_in_game_data_list.append(
 				StratagemHeroEffect_EffectGame_InGameData.new(
 					StratagemHeroEffect_EffectGame_InGameData.DataHead.ARROW_INDEX,
-					splitted[2]
+					splitted[1] # 这里是箭头序号
 				)
 			)
+			print("Received IngameData: ARROW_INDEX")
 		ONLINE_INGAME_DATA_OPERATION_HEAD_COMPLETE:
 			online_opponent_in_game_data_list.append(
 				StratagemHeroEffect_EffectGame_InGameData.new(
 					StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE
 				)
 			)
+			print("Received IngameData: COMPLETE")
+		ONLINE_INGAME_DATA_OPERATION_HEAD_WRONG:
+			online_opponent_in_game_data_list.append(
+				StratagemHeroEffect_EffectGame_InGameData.new(
+					StratagemHeroEffect_EffectGame_InGameData.DataHead.WRONG,
+					splitted[1] # 这里是当前的战备索引号，用来加强同步战备进度
+				)
+			)
+			print("Received IngameData: WRONG")
 		_:
 			push_warning("Dirty data! Unknown ingame data operation head. Disconnecting with remote peer.")
 			soft_disconnect()

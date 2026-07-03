@@ -47,6 +47,9 @@ func start() -> void:
 			add_lantern_slide(new_terminal)
 
 func start_online(main_class: StratagemHeroEffect_EffectGame) -> void:
+	var new_intro: StratagemHeroEffect_EffectGameCore_LanternSlide_Intro = StratagemHeroEffect_EffectGameCore_LanternSlide_Intro.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlide_Intro
+	new_intro.set_effect_mode_displayed_online(StratagemHeroEffect_EffectGame.online_special_effect_mode)
+	add_lantern_slide(new_intro)
 	match (StratagemHeroEffect_EffectGame.online_special_effect_mode):
 		StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.RACING, StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING:
 			var new_racing: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing = StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing.CPS().instantiate()
