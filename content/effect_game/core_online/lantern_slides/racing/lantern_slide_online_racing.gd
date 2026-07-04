@@ -244,4 +244,4 @@ func _got_focus_postfix() -> void:
 	StratagemHeroEffect.instance.audio_playing_music.play()
 
 func get_exitable() -> bool:
-	return false
+	return true

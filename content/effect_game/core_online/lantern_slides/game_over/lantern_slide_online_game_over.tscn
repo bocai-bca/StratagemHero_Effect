@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://jf5gk85whg3f"]
 
-[ext_resource type="Theme" uid="uid://cgvisphb6fkn6" path="res://content/effect_game/core/lantern_slides/game_over/theme.tres" id="1_8c4s2"]
-[ext_resource type="Script" uid="uid://c5eafd2ge22d6" path="res://content/effect_game/core/lantern_slides/game_over/lantern_slide_game_over.gd" id="2_t2yxv"]
+[ext_resource type="Theme" uid="uid://dim615wa7kdi5" path="res://content/effect_game/core_online/lantern_slides/game_over/theme.tres" id="1_8c4s2"]
+[ext_resource type="Script" uid="uid://cggs2v3unk7g7" path="res://content/effect_game/core_online/lantern_slides/game_over/lantern_slide_online_game_over.gd" id="2_8c4s2"]
 [ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="3_5pnvu"]
 [ext_resource type="LabelSettings" uid="uid://dgb7pq3okaew0" path="res://content/effect_game/core/lantern_slides/game_over/label_settings_continue_tip.tres" id="4_161yw"]
 
@@ -9,7 +9,7 @@
 offset_right = 1280.0
 offset_bottom = 720.0
 theme = ExtResource("1_8c4s2")
-script = ExtResource("2_t2yxv")
+script = ExtResource("2_8c4s2")
 
 [node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=1046185189]
 modulate = Color(1, 1, 1, 0.1882353)
@@ -22,6 +22,30 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_5pnvu")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="MC" type="MarginContainer" parent="." unique_id=1067914961]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="HBC" type="HBoxContainer" parent="MC" unique_id=1259081411]
+layout_mode = 2
+
+[node name="WinLostText" type="Label" parent="MC/HBC" unique_id=2018726413]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 96
+text = "effect_online_text.lantern_slide.game_over.win"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true
+
+[node name="DetailText" type="RichTextLabel" parent="MC/HBC" unique_id=310968808]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ContinueTip" type="Label" parent="." unique_id=1410019577]
 layout_mode = 0
