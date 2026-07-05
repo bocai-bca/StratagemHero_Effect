@@ -43,7 +43,10 @@ clip_text = true
 [node name="DetailText" type="RichTextLabel" parent="MC/HBC" unique_id=310968808]
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
+text = "你的用时     对手用时
+1:14     5:14"
 horizontal_alignment = 1
 vertical_alignment = 1
 

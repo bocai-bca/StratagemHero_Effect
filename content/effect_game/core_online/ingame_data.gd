@@ -8,7 +8,25 @@ enum DataHead{
 	ARROW_INDEX, ## 箭头完成索引
 	COMPLETE, ## 已完成
 	WRONG, ## 错误
+	COMPLETE_TIME, ## 完成时间
+	GAME_OVER, ## 移动至游戏结束幻灯片
+	CLOSE, ## 结束效果模式核心
 }
+
+## 操作符头-战备索引
+const HEAD_STRATAGEM_INDEX: String = "si"
+## 操作符头-箭头索引
+const HEAD_ARROW_INDEX: String = "ai"
+## 操作符头-已完成
+const HEAD_COMPLETE: String = "cp"
+## 操作符头-错误
+const HEAD_WRONG: String = "wr"
+## 操作符头-完成时间
+const HEAD_COMPLETE_TIME: String = "ct"
+## 操作符头-移动至游戏结束幻灯片
+const HEAD_GAME_OVER: String = "go"
+## 操作符头-结束核心
+const HEAD_CLOSE: String = "cl"
 
 ## 数据头
 var head: DataHead
@@ -18,3 +36,50 @@ var data: String
 func _init(new_head: DataHead, new_data: String = "") -> void:
 	head = new_head
 	data = new_data
+
+## 从联机指令的操作码解析
+static func from_online_code(operation: String) -> StratagemHeroEffect_EffectGame_InGameData:
+	var splitted: PackedStringArray = operation.split(",", true, 1)
+	if (splitted.size() < 2):
+		push_error("Got data from question answered but error on splitting.")
+		return null
+	match (splitted[0]):
+		HEAD_STRATAGEM_INDEX:
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.STRATAGEM_INDEX,
+				splitted[1]
+			)
+		HEAD_ARROW_INDEX:
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.ARROW_INDEX,
+				splitted[1] # 这里是箭头序号
+			)
+		HEAD_COMPLETE:
+			print("Received IngameData: COMPLETE")
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE
+			)
+		HEAD_WRONG:
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.WRONG,
+				splitted[1] # 这里是当前的战备索引号，用来加强同步战备进度
+			)
+		HEAD_COMPLETE_TIME:
+			print("Received IngameData: COMPLETE_TIME")
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE,
+				splitted[1] # 这里是对方完成时间
+			)
+		HEAD_GAME_OVER:
+			print("Received IngameData: GAME_OVER")
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.GAME_OVER
+			)
+		HEAD_CLOSE:
+			print("Received IngameData: CLOSE")
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.CLOSE
+			)
+		_:
+			push_warning("Dirty data! Unknown ingame data operation head.")
+			return null

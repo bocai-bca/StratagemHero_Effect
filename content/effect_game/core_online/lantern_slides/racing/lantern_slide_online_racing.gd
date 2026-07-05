@@ -58,6 +58,10 @@ var p2_completed_text_animation_timer: float = 0.0
 var was_p1_completed: bool = false
 ## P2是否已完成
 var was_p2_completed: bool = false
+## 本地完成时间
+var local_complete_time: float = 0.0
+## 对方完成时间，由对方在完成时发包过来
+var remote_complete_time: float = 0.0
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -112,21 +116,15 @@ func _ready() -> void:
 
 ## 虚方法覆写-幻灯片聚焦状态的过程方法，一般会直接用于State.FOCUS时的_update方法
 func _update_focus(delta: float) -> void:
-	while (not StratagemHeroEffect_EffectGame.online_opponent_in_game_data_list.is_empty()):
-		var ingame_data: StratagemHeroEffect_EffectGame_InGameData = StratagemHeroEffect_EffectGame.online_opponent_in_game_data_list.pop_front() as StratagemHeroEffect_EffectGame_InGameData
-		match (ingame_data.head):
-			StratagemHeroEffect_EffectGame_InGameData.DataHead.STRATAGEM_INDEX:
-				set_opponent_progress(ingame_data.data.to_int(), 0)
-			StratagemHeroEffect_EffectGame_InGameData.DataHead.ARROW_INDEX:
-				set_opponent_progress(opponent_stratagem_index_cache, ingame_data.data.to_int())
-			StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE:
-				if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
-					complete_p2()
-				elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.CLIENT):
-					complete_p1()
-			StratagemHeroEffect_EffectGame_InGameData.DataHead.WRONG:
-				opponent_stratagem_line.play_wrong()
-				set_opponent_progress(ingame_data.data.to_int(), 0)
+	if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
+		if (not was_p1_completed):
+			local_complete_time += delta
+		elif (was_p2_completed):
+			effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_GAME_OVER + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+	elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.CLIENT):
+		if (not was_p2_completed):
+			local_complete_time += delta
+	ingame_data_handle_loop()
 	self_stratagem_line.update_check_input()
 	self_stratagem_line.update(delta)
 	opponent_stratagem_line.update(delta)
@@ -145,41 +143,25 @@ func on_local_done(_line: StratagemHeroEffect_EffectGameCore_StratagemLine, _arr
 		n_p2_progress_bar.value = local_stratagem_index
 	if (StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.RACING):
 		if (local_stratagem_index >= StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT):
-			effect_game_main.send_pack(
-				StratagemHeroEffect_EffectGame_OnlineCode.new(
-					StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA,
-					StratagemHeroEffect_EffectGame.ONLINE_INGAME_DATA_OPERATION_HEAD_COMPLETE + ","
-				),
-				MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED
-			)
+			effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_COMPLETE + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
 			if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
 				complete_p1()
 			elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.CLIENT):
 				complete_p2()
+			effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_COMPLETE_TIME + "," + str(int(local_complete_time))), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
 			return
 		self_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[local_stratagem_index], false)
 	if (StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING):
 		if (local_stratagem_index >= StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT):
 			effect_game_main.send_pack(
-				StratagemHeroEffect_EffectGame_OnlineCode.new(
-					StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA,
-					StratagemHeroEffect_EffectGame.ONLINE_INGAME_DATA_OPERATION_HEAD_COMPLETE + ","
-				),
-				MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED
-			)
+				StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_COMPLETE + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
 			if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
 				complete_p1()
 			elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.CLIENT):
 				complete_p2()
 			return
 		self_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[local_stratagem_index], true)
-	effect_game_main.send_pack(
-		StratagemHeroEffect_EffectGame_OnlineCode.new(
-			StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA,
-			StratagemHeroEffect_EffectGame.ONLINE_INGAME_DATA_OPERATION_HEAD_STRATAGEM_INDEX + "," + str(local_stratagem_index)
-		),
-		MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED
-	)
+	effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_STRATAGEM_INDEX + "," + str(local_stratagem_index)), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
 
 ## 设置战备总数，用于修改进度条上限
 func set_stratagems_count(count_num: int) -> void:
@@ -210,31 +192,56 @@ func set_opponent_progress(current_stratagem_index: int, current_arrow_index: in
 func complete_p1() -> void:
 	was_p1_completed = true
 	n_p1_stratagem_line.death = true
+	n_p1_progress_bar.value = n_p1_progress_bar.max_value
 
 ## 使P2已完成
 func complete_p2() -> void:
 	was_p2_completed = true
 	n_p2_stratagem_line.death = true
+	n_p2_progress_bar.value = n_p2_progress_bar.max_value
 
 ## 信号方法-本地战备行按对
 func on_local_correct(line: StratagemHeroEffect_EffectGameCore_StratagemLine, _direction: StratagemData.CodeArrow) -> void:
-	StratagemHeroEffect_EffectGame.instance.send_pack(
-		StratagemHeroEffect_EffectGame_OnlineCode.new(
-			StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA,
-			StratagemHeroEffect_EffectGame.ONLINE_INGAME_DATA_OPERATION_HEAD_ARROW_INDEX + "," + str(line.get_index_of_next_arrow())
-		),
-		MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED
-	)
+	StratagemHeroEffect_EffectGame.instance.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_ARROW_INDEX + "," + str(line.get_index_of_next_arrow())), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
 
 ## 信号方法-本地战备行按错
 func on_local_wrong(_line: StratagemHeroEffect_EffectGameCore_StratagemLine, _input_direction: StratagemData.CodeArrow, _correct_direction: StratagemData.CodeArrow) -> void:
-	StratagemHeroEffect_EffectGame.instance.send_pack(
-		StratagemHeroEffect_EffectGame_OnlineCode.new(
-			StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA,
-			StratagemHeroEffect_EffectGame.ONLINE_INGAME_DATA_OPERATION_HEAD_WRONG + "," + str(local_stratagem_index)
-		),
-		MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED
-	)
+	StratagemHeroEffect_EffectGame.instance.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_WRONG + "," + str(local_stratagem_index)), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
+
+func game_over() -> void:
+	var game_over_lantern_slide: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_GameOver = StratagemHeroEffect_EffectGameCore_LanternSlideOnline_GameOver.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlideOnline_GameOver
+	game_over_lantern_slide.set_detail_racing(int(local_complete_time), int(remote_complete_time))
+	if (local_complete_time >= remote_complete_time):
+		StratagemHeroEffect.instance.audio_round_completes[randi_range(0, StratagemHeroEffect.instance.audio_round_completes.size() - 1)].play()
+	else:
+		StratagemHeroEffect.instance.audio_game_over.play()
+	effect_game_main.n_game_core.add_lantern_slide(game_over_lantern_slide)
+	drop_focus()
+
+func ingame_data_handle_loop() -> void:
+	var reback_list: Array[StratagemHeroEffect_EffectGame_InGameData] = []
+	while (not StratagemHeroEffect_EffectGame.online_opponent_in_game_data_list.is_empty()):
+		var ingame_data: StratagemHeroEffect_EffectGame_InGameData = StratagemHeroEffect_EffectGame.online_opponent_in_game_data_list.pop_front() as StratagemHeroEffect_EffectGame_InGameData
+		match (ingame_data.head):
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.STRATAGEM_INDEX:
+				set_opponent_progress(ingame_data.data.to_int(), 0)
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.ARROW_INDEX:
+				set_opponent_progress(opponent_stratagem_index_cache, ingame_data.data.to_int())
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE:
+				if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
+					complete_p2()
+				elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.CLIENT):
+					complete_p1()
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.WRONG:
+				opponent_stratagem_line.play_wrong()
+				set_opponent_progress(ingame_data.data.to_int(), 0)
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.GAME_OVER:
+				game_over()
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE_TIME:
+				remote_complete_time = ingame_data.data.to_int()
+			_:
+				reback_list.append(ingame_data) #不是本幻灯片该处理的，塞回去
+	StratagemHeroEffect_EffectGame.online_opponent_in_game_data_list.append_array(reback_list)
 
 ## 虚方法覆写-当本幻灯片实例抛下焦点后调用，本方法将于广播节点和设置状态之后调用
 func _drop_focus_postfix() -> void:

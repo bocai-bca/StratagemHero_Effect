@@ -70,16 +70,8 @@ const ONLINE_SPECIAL_EFFECT_MODE_NAME_DICTATION_RACING: String = "drc"
 const ONLINE_SPECIAL_EFFECT_MODE_NAME_CAPTURING: String = "cpt"
 ## 联机请求数据-服务器版本
 const ONLINE_ASK_QUESTION_SERVER_VERSION: String = "ver"
-## 联机游戏内数据-操作符头-战备索引
-const ONLINE_INGAME_DATA_OPERATION_HEAD_STRATAGEM_INDEX: String = "si"
-## 联机游戏内数据-操作符头-箭头索引
-const ONLINE_INGAME_DATA_OPERATION_HEAD_ARROW_INDEX: String = "ai"
-## 联机游戏内数据-操作符头-已完成
-const ONLINE_INGAME_DATA_OPERATION_HEAD_COMPLETE: String = "cp"
-## 联机游戏内数据-操作符头-错误
-const ONLINE_INGAME_DATA_OPERATION_HEAD_WRONG: String = "wr"
 ## 联机特殊效果模式战备总量-竞速
-const ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT: int = 30
+const ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT: int = 5
 ## 联机特殊效果模式战备总量-默写竞速
 const ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT: int = 15
 ## 联机特殊效果模式战备总量-弹幕夺取
@@ -143,6 +135,7 @@ var game_state: GameState = GameState.IDLE:
 							n_description_text.update_text_online_host()
 						elif (online_side == OnlineSide.CLIENT):
 							n_description_text.update_text_online_client()
+						online_in_game_stratagems_list.clear()
 			GameState.STRATAGEM_EDIT:
 				transfer_timers[0].current = 0.0
 				n_stratagem_selection_panel.open_panel()
@@ -601,11 +594,11 @@ func on_peer_packet(_id: int, packet: PackedByteArray) -> void:
 		return
 	var data_parsed: StratagemHeroEffect_EffectGame_OnlineCode = StratagemHeroEffect_EffectGame_OnlineCode.from_dictionary(data)
 	online_code_queue.append(data_parsed)
-	var enum_name: StringName = StratagemHeroEffect_EffectGame_OnlineCode.Code.find_key(data_parsed.code)
-	if (enum_name == null):
-		print("Got online code: ", data_parsed.code)
-	else:
-		print("Got online code: ", enum_name)
+	#var enum_name: StringName = StratagemHeroEffect_EffectGame_OnlineCode.Code.find_key(data_parsed.code)
+	#if (enum_name == null):
+		#print("Got online code: ", data_parsed.code)
+	#else:
+		#print("Got online code: ", enum_name)
 
 ## 检查当前的联机对方对等体id可用性
 func check_target_unique_id_available(try_fix_if_error: bool = true) -> bool:
@@ -742,42 +735,8 @@ func execute_code_start_game(operation: String) -> void:
 
 ## 执行联机指令INGAME_DATA
 func execute_code_ingame_data(operation: String) -> void:
-	var splitted: PackedStringArray = operation.split(",", true, 1)
-	if (splitted.size() < 2):
-		push_error("Got data from question answered but error on splitting.")
-		return
-	match (splitted[0]):
-		ONLINE_INGAME_DATA_OPERATION_HEAD_STRATAGEM_INDEX:
-			online_opponent_in_game_data_list.append(
-				StratagemHeroEffect_EffectGame_InGameData.new(
-					StratagemHeroEffect_EffectGame_InGameData.DataHead.STRATAGEM_INDEX,
-					splitted[1]
-				)
-			)
-			print("Received IngameData: STRATAGEM_INDEX")
-		ONLINE_INGAME_DATA_OPERATION_HEAD_ARROW_INDEX:
-			online_opponent_in_game_data_list.append(
-				StratagemHeroEffect_EffectGame_InGameData.new(
-					StratagemHeroEffect_EffectGame_InGameData.DataHead.ARROW_INDEX,
-					splitted[1] # 这里是箭头序号
-				)
-			)
-			print("Received IngameData: ARROW_INDEX")
-		ONLINE_INGAME_DATA_OPERATION_HEAD_COMPLETE:
-			online_opponent_in_game_data_list.append(
-				StratagemHeroEffect_EffectGame_InGameData.new(
-					StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE
-				)
-			)
-			print("Received IngameData: COMPLETE")
-		ONLINE_INGAME_DATA_OPERATION_HEAD_WRONG:
-			online_opponent_in_game_data_list.append(
-				StratagemHeroEffect_EffectGame_InGameData.new(
-					StratagemHeroEffect_EffectGame_InGameData.DataHead.WRONG,
-					splitted[1] # 这里是当前的战备索引号，用来加强同步战备进度
-				)
-			)
-			print("Received IngameData: WRONG")
-		_:
-			push_warning("Dirty data! Unknown ingame data operation head. Disconnecting with remote peer.")
-			soft_disconnect()
+	var ingame_data: StratagemHeroEffect_EffectGame_InGameData = StratagemHeroEffect_EffectGame_InGameData.from_online_code(operation)
+	if (ingame_data == null):
+		print("InGameData parsing failed, soft disconnecting.")
+		soft_disconnect()
+	online_opponent_in_game_data_list.append(ingame_data)
