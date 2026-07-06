@@ -10,6 +10,7 @@ enum DataHead{
 	WRONG, ## 错误
 	COMPLETE_TIME, ## 完成时间
 	GAME_OVER, ## 移动至游戏结束幻灯片
+	GAME_OVER_CONFIRM, ## 是否准备好游戏结束的询问和响应，主机向客机发送代表询问客机是否准备好(一般不会这么做)，客机向主机回应代表已确认
 	CLOSE, ## 结束效果模式核心
 }
 
@@ -25,6 +26,8 @@ const HEAD_WRONG: String = "wr"
 const HEAD_COMPLETE_TIME: String = "ct"
 ## 操作符头-移动至游戏结束幻灯片
 const HEAD_GAME_OVER: String = "go"
+## 操作符头-是否准备好游戏结束的询问和响应
+const HEAD_GAME_OVER_CONFIRM: String = "gc"
 ## 操作符头-结束核心
 const HEAD_CLOSE: String = "cl"
 
@@ -67,13 +70,18 @@ static func from_online_code(operation: String) -> StratagemHeroEffect_EffectGam
 		HEAD_COMPLETE_TIME:
 			print("Received IngameData: COMPLETE_TIME")
 			return StratagemHeroEffect_EffectGame_InGameData.new(
-				StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE,
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE_TIME,
 				splitted[1] # 这里是对方完成时间
 			)
 		HEAD_GAME_OVER:
 			print("Received IngameData: GAME_OVER")
 			return StratagemHeroEffect_EffectGame_InGameData.new(
 				StratagemHeroEffect_EffectGame_InGameData.DataHead.GAME_OVER
+			)
+		HEAD_GAME_OVER_CONFIRM:
+			print("Received IngameData: GAME_OVER_CONFIRM")
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.GAME_OVER_CONFIRM
 			)
 		HEAD_CLOSE:
 			print("Received IngameData: CLOSE")

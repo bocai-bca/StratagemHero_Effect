@@ -74,7 +74,10 @@ func on_lantern_slide_drop_focus(the_lantern_slide: StratagemHeroEffect_EffectGa
 ## 转动幻灯片数组，将焦点转移给下一个待机幻灯片
 func next_focus() -> void:
 	if (lantern_slides_standby.is_empty()):
-		StratagemHeroEffect_EffectGame.instance.game_state = StratagemHeroEffect_EffectGame.GameState.MENU
+		if (StratagemHeroEffect_EffectGame.instance.game_state == StratagemHeroEffect_EffectGame.GameState.CORE):
+			StratagemHeroEffect_EffectGame.instance.game_state = StratagemHeroEffect_EffectGame.GameState.MENU
+		elif (StratagemHeroEffect_EffectGame.instance.game_state == StratagemHeroEffect_EffectGame.GameState.CORE_ONLINE):
+			StratagemHeroEffect_EffectGame.instance.game_state = StratagemHeroEffect_EffectGame.GameState.MENU_ONLINE
 		return
 	lantern_slide_focus = lantern_slides_standby.pop_front() as StratagemHeroEffect_EffectGameCore_LanternSlide
 	lantern_slide_focus.focus_dropped.connect(on_lantern_slide_drop_focus, CONNECT_ONE_SHOT)

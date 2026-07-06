@@ -26,6 +26,8 @@ const DETAIL_TEXT_FONT_SIZE_DEFAULT: float = 48.0
 
 ## 继续计时器，用于阻断空格连发
 var continue_timer: float = CONTINUE_TIME + 1.0
+## 本地完成时间缓存
+var local_time_cache: int
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -59,29 +61,44 @@ func ingame_data_handle_loop() -> void:
 		match (ingame_data.head):
 			StratagemHeroEffect_EffectGame_InGameData.DataHead.CLOSE:
 				drop_focus()
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE_TIME: # 完成时间数据，应该只有默写竞速和标准竞速会发，所以直接写竞速的逻辑了
+				set_detail_racing(local_time_cache, ingame_data.data.to_int())
 			_:
 				reback_list.append(ingame_data) #不是本幻灯片该处理的，塞回去
 	StratagemHeroEffect_EffectGame.online_opponent_in_game_data_list.append_array(reback_list)
 
 ## 设置详细信息-竞速模式
 func set_detail_racing(local_time: int, opponent_time: int) -> void:
+	print("GameOver detail racing set, local:", local_time, " opponent:", opponent_time)
+	local_time_cache = local_time
+	var temp_str: String
+	temp_str = str(local_time % 60)
+	if (temp_str.length() <= 1):
+		temp_str = "0" + temp_str
+	@warning_ignore("integer_division") var local_time_str: String = str(local_time / 60) + ":" + temp_str
+	temp_str = str(opponent_time % 60)
+	if (temp_str.length() <= 1):
+		temp_str = "0" + temp_str
+	@warning_ignore("integer_division") var opponent_time_str: String = str(opponent_time / 60) + ":" + temp_str
 	if (local_time < opponent_time): # 胜利
 		n_win_lose_text.text = tr(&"effect_online_text.lantern_slide.game_over.win")
 		n_win_lose_text.modulate = WIN_COLOR
-		@warning_ignore("integer_division") n_detail_text.text = "[color=yellow]" + tr(&"effect_online_text.lantern_slide.game_over.your_time_used") + "[/color]   " + tr(&"effect_online_text.lantern_slide.game_over.opponent_time_used") + "\n[color=yellow]" + str(local_time / 60) + ":" + str(local_time % 60) + "[/color]   " + str(opponent_time / 60) + ":" + str(opponent_time % 60)
+		n_detail_text.text = "[color=yellow]" + tr(&"effect_online_text.lantern_slide.game_over.your_time_used") + "[/color]   " + tr(&"effect_online_text.lantern_slide.game_over.opponent_time_used") + "\n[color=yellow]" + local_time_str + "[/color]   " + opponent_time_str
 	elif (local_time > opponent_time): # 失败
 		n_win_lose_text.text = tr(&"effect_online_text.lantern_slide.game_over.lose")
 		n_win_lose_text.modulate = LOSE_COLOR
-		@warning_ignore("integer_division") n_detail_text.text = tr(&"effect_online_text.lantern_slide.game_over.your_time_used") + "   [color=yellow]" + tr(&"effect_online_text.lantern_slide.game_over.opponent_time_used") + "[/color]\n" + str(local_time / 60) + ":" + str(local_time % 60) + "   [color=yellow]" + str(opponent_time / 60) + ":" + str(opponent_time % 60) + "[/color]"
+		n_detail_text.text = tr(&"effect_online_text.lantern_slide.game_over.your_time_used") + "   [color=yellow]" + tr(&"effect_online_text.lantern_slide.game_over.opponent_time_used") + "[/color]\n" + local_time_str + "   [color=yellow]" + opponent_time_str + "[/color]"
 	else: # 平局
 		n_win_lose_text.text = tr(&"effect_online_text.lantern_slide.game_over.tie")
 		n_win_lose_text.modulate = TIE_COLOR
-		@warning_ignore("integer_division") n_detail_text.text = tr(&"effect_online_text.lantern_slide.game_over.your_time_used") + "   " + tr(&"effect_online_text.lantern_slide.game_over.opponent_time_used") + "\n" + str(local_time / 60) + ":" + str(local_time % 60) + "   " + str(opponent_time / 60) + ":" + str(opponent_time % 60)
-
+		n_detail_text.text = tr(&"effect_online_text.lantern_slide.game_over.your_time_used") + "   " + tr(&"effect_online_text.lantern_slide.game_over.opponent_time_used") + "\n" + local_time_str + "   " + opponent_time_str
 
 ## 虚方法覆写-当本幻灯片实例抛下焦点后调用，本方法将于广播节点和设置状态之后调用
 func _drop_focus_postfix() -> void:
-	pass
+	StratagemHeroEffect.instance.audio_title_music.play()
 
 func get_exitable() -> bool:
 	return false
+
+func _on_esc_exit() -> void:
+	StratagemHeroEffect_EffectGame.instance.soft_disconnect()

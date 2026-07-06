@@ -62,6 +62,8 @@ var was_p2_completed: bool = false
 var local_complete_time: float = 0.0
 ## 对方完成时间，由对方在完成时发包过来
 var remote_complete_time: float = 0.0
+## 对方是否已确认可以游戏结束
+var game_over_confirmed: bool = false
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -120,7 +122,9 @@ func _update_focus(delta: float) -> void:
 		if (not was_p1_completed):
 			local_complete_time += delta
 		elif (was_p2_completed):
-			effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_GAME_OVER + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+			if (remote_complete_time != 0.0 and game_over_confirmed):
+				effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_GAME_OVER + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+				game_over()
 	elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.CLIENT):
 		if (not was_p2_completed):
 			local_complete_time += delta
@@ -153,8 +157,7 @@ func on_local_done(_line: StratagemHeroEffect_EffectGameCore_StratagemLine, _arr
 		self_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[local_stratagem_index], false)
 	if (StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING):
 		if (local_stratagem_index >= StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT):
-			effect_game_main.send_pack(
-				StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_COMPLETE + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
+			effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_COMPLETE + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
 			if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
 				complete_p1()
 			elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.CLIENT):
@@ -212,9 +215,10 @@ func game_over() -> void:
 	var game_over_lantern_slide: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_GameOver = StratagemHeroEffect_EffectGameCore_LanternSlideOnline_GameOver.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_LanternSlideOnline_GameOver
 	game_over_lantern_slide.set_detail_racing(int(local_complete_time), int(remote_complete_time))
 	if (local_complete_time >= remote_complete_time):
-		StratagemHeroEffect.instance.audio_round_completes[randi_range(0, StratagemHeroEffect.instance.audio_round_completes.size() - 1)].play()
-	else:
 		StratagemHeroEffect.instance.audio_game_over.play()
+	else:
+		StratagemHeroEffect.instance.audio_round_completes[randi_range(0, StratagemHeroEffect.instance.audio_round_completes.size() - 1)].play()
+	StratagemHeroEffect.instance.audio_playing_music.stop()
 	effect_game_main.n_game_core.add_lantern_slide(game_over_lantern_slide)
 	drop_focus()
 
@@ -237,8 +241,12 @@ func ingame_data_handle_loop() -> void:
 				set_opponent_progress(ingame_data.data.to_int(), 0)
 			StratagemHeroEffect_EffectGame_InGameData.DataHead.GAME_OVER:
 				game_over()
+			StratagemHeroEffect_EffectGame_InGameData.DataHead.GAME_OVER_CONFIRM:
+				game_over_confirmed = true
 			StratagemHeroEffect_EffectGame_InGameData.DataHead.COMPLETE_TIME:
 				remote_complete_time = ingame_data.data.to_int()
+				effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_GAME_OVER_CONFIRM + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+				print("Got remote complete time: ", remote_complete_time)
 			_:
 				reback_list.append(ingame_data) #不是本幻灯片该处理的，塞回去
 	StratagemHeroEffect_EffectGame.online_opponent_in_game_data_list.append_array(reback_list)
@@ -252,3 +260,6 @@ func _got_focus_postfix() -> void:
 
 func get_exitable() -> bool:
 	return true
+
+func _on_esc_exit() -> void:
+	effect_game_main.soft_disconnect()
