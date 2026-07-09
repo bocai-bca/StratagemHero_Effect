@@ -93,6 +93,7 @@ effect_online_text.lantern_slide.game_over.opponent_time_used,"Opponent TimeUsed
 effect_online_text.lantern_slide.game_over.your_score,"Your Score","你的分数"
 effect_online_text.lantern_slide.game_over.opponent_score,"Opponent Score","对手分数"
 effect_online_text.lantern_slide.game_over.continue_tip,"Host presses ENTER key to continue","主机按下确认键以继续"
+effect_online_text.lantern_slide.intro.title,"Special Effect [Online]","特殊效果[联机]"
 
 effect_mode_online.racing,"Racing (Click to switch)","竞速模式 (点击切换)"
 effect_mode_online.dictation_racing,"Dictation Racing (Click to switch)","默写竞速 (点击切换)"

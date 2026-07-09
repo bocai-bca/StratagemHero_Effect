@@ -55,9 +55,12 @@ func start_online(main_class: StratagemHeroEffect_EffectGame) -> void:
 			var new_racing: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing = StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing.CPS().instantiate()
 			new_racing.effect_game_main = main_class
 			new_racing.set_stratagems_count(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT)
+			new_racing.is_dictation_cache = StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING
 			add_lantern_slide(new_racing)
 		StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.CAPTUING:
-			pass
+			var new_capturing: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing = StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.CPS().instantiate()
+			new_capturing.effect_game_main = main_class
+			add_lantern_slide(new_capturing)
 
 ## 在幻灯片列表最末尾添加一个新幻灯片，同时将该幻灯片节点添加至场景树
 func add_lantern_slide(lantern_slide_node: StratagemHeroEffect_EffectGameCore_LanternSlide) -> void:

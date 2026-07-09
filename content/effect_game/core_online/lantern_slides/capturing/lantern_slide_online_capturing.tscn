@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bi78qxtld8hh4"]
+
+[ext_resource type="Theme" uid="uid://ds680epdf82mb" path="res://content/effect_game/core_online/lantern_slides/capturing/theme.tres" id="1_dv8je"]
+[ext_resource type="Script" uid="uid://0xybjukjx440" path="res://content/effect_game/core_online/lantern_slides/capturing/lantern_slide_online_capturing.gd" id="2_dv8je"]
+[ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="2_psmf3"]
+[ext_resource type="Script" uid="uid://bny70lproaxes" path="res://content/effect_game/core_online/lantern_slides/capturing/stratagems_area.gd" id="4_dv8je"]
+
+[node name="LanternSlideOnline_Capturing" type="Panel" unique_id=147425425]
+offset_right = 1280.0
+offset_bottom = 720.0
+theme = ExtResource("1_dv8je")
+script = ExtResource("2_dv8je")
+
+[node name="SuperEarthIcon" type="TextureRect" parent="." unique_id=376182540]
+modulate = Color(1, 1, 1, 0.1882353)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 90.0
+offset_right = 1440.0
+offset_bottom = 810.0
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("2_psmf3")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="StratagemsArea" type="Control" parent="." unique_id=1739724752]
+clip_contents = true
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+script = ExtResource("4_dv8je")

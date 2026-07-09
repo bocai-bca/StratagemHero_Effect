@@ -1,0 +1,16 @@
+[gd_resource type="Theme" format=3 uid="uid://ds680epdf82mb"]
+
+[ext_resource type="StyleBox" uid="uid://dsioe5qvol38p" path="res://content/effect_game/core/lantern_slides/stylebox_panel.tres" id="1_qucbl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ogv0w"]
+bg_color = Color(0.2509804, 0.2509804, 0.2509804, 1)
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0fo0e"]
+bg_color = Color(1, 1, 0, 1)
+anti_aliasing = false
+
+[resource]
+Panel/styles/panel = ExtResource("1_qucbl")
+ProgressBar/styles/background = SubResource("StyleBoxFlat_ogv0w")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_0fo0e")

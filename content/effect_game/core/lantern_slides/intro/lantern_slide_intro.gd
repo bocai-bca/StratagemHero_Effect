@@ -61,7 +61,7 @@ func set_effect_mode_displayed_online(special_mode_online: StratagemHeroEffect_E
 			mode_name = tr(&"effect_online_text.lantern_slide.generic.mode_dictation_racing")
 		StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.CAPTUING:
 			mode_name = tr(&"effect_online_text.lantern_slide.generic.mode_capturing")
-	n_text.text = tr(&"effect_text.lantern_slide.intro.title") + "\n[color=yellow][b]" + mode_name + "[/b][/color]"
+	n_text.text = tr(&"effect_online_text.lantern_slide.intro.title") + "\n[color=yellow][b]" + mode_name + "[/b][/color]"
 
 func get_exitable() -> bool:
 	return false

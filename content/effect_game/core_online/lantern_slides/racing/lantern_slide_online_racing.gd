@@ -64,6 +64,8 @@ var local_complete_time: float = 0.0
 var remote_complete_time: float = 0.0
 ## 对方是否已确认可以游戏结束
 var game_over_confirmed: bool = false
+## 是否是默写模式的缓存
+var is_dictation_cache: bool = false
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -110,9 +112,8 @@ func _ready() -> void:
 	self_stratagem_line.pressed_correct.connect(on_local_correct)
 	self_stratagem_line.pressed_wrong.connect(on_local_wrong)
 	self_stratagem_line.stratagem_done.connect(on_local_done)
-	var is_dictation: bool = StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING
-	n_p1_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[0], is_dictation)
-	n_p2_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[0], is_dictation)
+	n_p1_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[0], is_dictation_cache)
+	n_p2_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[0], is_dictation_cache)
 	n_p1_stratagem_line.lighting = true
 	n_p2_stratagem_line.lighting = true
 
@@ -155,7 +156,7 @@ func on_local_done(_line: StratagemHeroEffect_EffectGameCore_StratagemLine, _arr
 			effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_COMPLETE_TIME + "," + str(int(local_complete_time))), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
 			return
 		self_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[local_stratagem_index], false)
-	if (StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING):
+	if (is_dictation_cache):
 		if (local_stratagem_index >= StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT):
 			effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_COMPLETE + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE_ORDERED)
 			if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
@@ -183,7 +184,7 @@ func set_opponent_progress(current_stratagem_index: int, current_arrow_index: in
 		StratagemHeroEffect_EffectGame.instance.soft_disconnect()
 		return
 	if (opponent_stratagem_index_cache != current_stratagem_index):
-		opponent_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[current_stratagem_index])
+		opponent_stratagem_line.change_stratagem_data_to(StratagemHeroEffect_EffectGame.online_in_game_stratagems_list[current_stratagem_index], is_dictation_cache)
 		opponent_stratagem_index_cache = current_stratagem_index
 	opponent_stratagem_line.set_arrow_index(current_arrow_index)
 	if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):
