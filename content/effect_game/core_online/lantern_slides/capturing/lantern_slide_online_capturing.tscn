@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://0xybjukjx440" path="res://content/effect_game/core_online/lantern_slides/capturing/lantern_slide_online_capturing.gd" id="2_dv8je"]
 [ext_resource type="Texture2D" uid="uid://dfgj1n72o3q0y" path="res://resources/images/logo_super_earth.svg" id="2_psmf3"]
 [ext_resource type="Script" uid="uid://bny70lproaxes" path="res://content/effect_game/core_online/lantern_slides/capturing/stratagems_area.gd" id="4_dv8je"]
+[ext_resource type="PackedScene" uid="uid://bv2e1xw5flunf" path="res://content/effect_game/core/stratagem_line/stratagem_line.tscn" id="5_2bt1y"]
 
 [node name="LanternSlideOnline_Capturing" type="Panel" unique_id=147425425]
 offset_right = 1280.0
@@ -24,8 +25,11 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="StratagemsArea" type="Control" parent="." unique_id=1739724752]
-clip_contents = true
 anchors_preset = 0
 offset_right = 1280.0
 offset_bottom = 720.0
 script = ExtResource("4_dv8je")
+
+[node name="StratagemLine" parent="StratagemsArea" unique_id=1089226850 instance=ExtResource("5_2bt1y")]
+position = Vector2(96, 360)
+scale = Vector2(0.75, 0.75)

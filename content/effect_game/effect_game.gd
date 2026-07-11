@@ -190,6 +190,8 @@ static var online_opponent_in_game_data_list: Array[StratagemHeroEffect_EffectGa
 static var online_in_game_stratagems_list: Array[StratagemData] = []
 ## 联机模式战备数量最大值缓存
 static var online_stratagems_count_max_cache: int
+## 联机模式种子缓存，主客机都会用到，客机会在接受到主机的数据包时赋值
+static var online_seed_cache: int
 
 func _init() -> void:
 	instance = self
@@ -697,7 +699,8 @@ func execute_code_start_game(operation: String) -> void:
 			_:
 				push_error("Got unknown operation for OnlineSpecialEffectMode: ", operation)
 				return
-		online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(splitted[1].to_int(), online_stratagems_count_max_cache)
+		online_seed_cache = splitted[1].to_int()
+		online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(online_seed_cache, online_stratagems_count_max_cache)
 		print("Initialized online_in_game_stratagems_list with ", online_in_game_stratagems_list.size(), " stratagems.")
 		game_state = GameState.CORE_ONLINE
 		return

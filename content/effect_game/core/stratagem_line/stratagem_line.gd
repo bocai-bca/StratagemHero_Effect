@@ -1,9 +1,17 @@
 extends Node2D
 class_name StratagemHeroEffect_EffectGameCore_StratagemLine
 ## 效果模式幻灯片使用的战备行
+## 默认的高度尺寸是128+43=171
 
 static func CPS() -> PackedScene:
 	return preload("res://content/effect_game/core/stratagem_line/stratagem_line.tscn") as PackedScene
+
+## 默认状态下图标半径尺寸
+const DEFAULT_ICON_RADIUS: float = 64.0
+## 默认状态下图标直径尺寸
+const DEFAULT_ICON_DIAMETER: float = DEFAULT_ICON_RADIUS * 2.0
+## 默认状态下文本栏高度尺寸
+const DEFAULT_TEXT_BAR_HEIGHT: float = 43.0
 
 ## 信号-按下且正确时广播，同时附带本实例和该次方向
 signal pressed_correct(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, direction: StratagemData.CodeArrow)
@@ -83,6 +91,8 @@ var death_timer: TransferTimer = TransferTimer.new(DEATH_TIME, false, DEATH_TIME
 @export var dont_warn_when_wrong: bool = false
 ## 是否静音，设置为true时本行列实例不会调用音效播放
 @export var silent: bool = false
+## 箭头的总宽度缓存，会在每次update_arrows()后更新
+var total_arrow_width_cache: float = 0.0
 
 func _notification(what: int) -> void:
 	if (what == NOTIFICATION_SCENE_INSTANTIATED):
@@ -207,6 +217,7 @@ func update_arrows(delta: float) -> void:
 			n_arrow.modulate.g * modulate_value,
 			n_arrow.modulate.b * modulate_value,
 		)
+	total_arrow_width_cache = width_used
 	for i in free_index:
 		(n_arrows.pop_at(i) as StratagemHeroEffect_EffectGameCore_EffectArrow).queue_free()
 
