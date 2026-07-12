@@ -4,7 +4,7 @@ class_name StratagemHeroEffect_EffectGame_InGameData
 
 ## 数据头，标志数据的类型
 enum DataHead{
-	STRATAGEM_INDEX, ## 更换战备索引
+	STRATAGEM_INDEX, ## 更换战备索引，在弹幕夺取模式中表示对方夺取的战备
 	ARROW_INDEX, ## 箭头完成索引
 	COMPLETE, ## 已完成
 	WRONG, ## 错误

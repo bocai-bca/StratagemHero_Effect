@@ -28,7 +28,14 @@ var n_icon: Sprite2D
 var n_arrows: Array[StratagemHeroEffect_EffectGameCore_EffectArrow] = []
 var n_namebar_container: PanelContainer
 var n_namebar_text: Label
+var n_captured_icon: Sprite2D
 
+## 已被夺取的左侧箭头图标
+const CAPTURED_ICON_LEFT: Texture2D = preload("res://resources/images/captured_left.svg")
+## 已被夺取的右侧箭头图标
+const CAPTURED_ICON_RIGHT: Texture2D = preload("res://resources/images/captured_right.svg")
+## 已被夺取的双侧箭头图标
+const CAPTURED_ICON_BOTH: Texture2D = preload("res://resources/images/captured_both.svg")
 ## 图标边框标准宽度
 const ICON_BORDER_BASIC_WIDTH: float = 8.0
 ## 图标纹理宽度
@@ -102,6 +109,7 @@ func _notification(what: int) -> void:
 		n_namebar_text = $NameBar/NameText as Label
 		theme_namebar = n_namebar_container.theme
 		stylebox_namebar = theme_namebar.get_stylebox(&"panel", &"PanelContainer") as StyleBoxFlat
+		n_captured_icon = $Icon/CapturedIcon as Sprite2D
 
 ## 相当于process，需要由持有并管理本箭头的幻灯片实例调用
 func update(delta: float) -> void:
@@ -296,6 +304,19 @@ func set_arrow_index(index: int) -> void:
 	for i in n_arrows.size():
 		var n_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow = n_arrows[i]
 		n_arrow.set_pressed_with_animation_jumpped(i < index)
+
+## 设置被夺取状态
+func set_captured(left: bool, right: bool) -> void:
+	if (left):
+		if (right):
+			n_captured_icon.texture = CAPTURED_ICON_BOTH
+		else:
+			n_captured_icon.texture = CAPTURED_ICON_LEFT
+	else:
+		if (right):
+			n_captured_icon.texture = CAPTURED_ICON_RIGHT
+		else:
+			n_captured_icon.texture = null
 
 ## 类场景创建函数
 static func create(new_data: StratagemData, is_dictation: bool = false) -> StratagemHeroEffect_EffectGameCore_StratagemLine:

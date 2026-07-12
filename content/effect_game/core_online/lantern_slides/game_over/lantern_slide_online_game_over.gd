@@ -93,6 +93,11 @@ func set_detail_racing(local_time: int, opponent_time: int) -> void:
 		n_win_lose_text.modulate = TIE_COLOR
 		n_detail_text.text = tr(&"effect_online_text.lantern_slide.game_over.your_time_used") + "   " + tr(&"effect_online_text.lantern_slide.game_over.opponent_time_used") + "\n" + local_time_str + "   " + opponent_time_str
 
+## 设置详细信息-弹幕夺取
+func set_detail_capturing(local_score: int, opponent_score: int) -> void:
+	print("GameOver detail capturing set, local:", local_score, " opponent:", opponent_score)
+	#TODO
+
 ## 虚方法覆写-当本幻灯片实例抛下焦点后调用，本方法将于广播节点和设置状态之后调用
 func _drop_focus_postfix() -> void:
 	StratagemHeroEffect.instance.audio_title_music.play()

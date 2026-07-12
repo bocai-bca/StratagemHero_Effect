@@ -25,6 +25,10 @@ offset_right = 256.0
 offset_bottom = 256.0
 theme = ExtResource("3_p0pey")
 
+[node name="CapturedIcon" type="Sprite2D" parent="Icon" unique_id=1761623827]
+self_modulate = Color(1, 1, 0, 1)
+scale = Vector2(1.25, 1.25)
+
 [node name="NameBar" type="PanelContainer" parent="." unique_id=1169584266]
 offset_left = -112.0
 offset_top = -107.0
