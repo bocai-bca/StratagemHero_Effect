@@ -32,6 +32,7 @@ func update(delta: float) -> void:
 		if (last_tick_time <= stratagem_time_and_life.spawn_time and stratagem_time_and_life.spawn_time <= timer):
 			var new_line: StratagemHeroEffect_EffectGameCore_StratagemLine = StratagemHeroEffect_EffectGameCore_StratagemLine.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_StratagemLine
 			new_line.change_stratagem_data_to(parent.effect_game_main.online_in_game_stratagems_list[i])
+			new_line.lighting = true
 			add_line(LineInstance.new(new_line, i, get_best_track()))
 	if (timer > (parent.stratagems_time_and_life[stratagems_size - 1].spawn_time + parent.stratagems_time_and_life[stratagems_size - 1].life_time)):
 		parent.was_over = true
@@ -42,7 +43,7 @@ func update(delta: float) -> void:
 func add_line(line_instance: LineInstance) -> void:
 	lines.append(line_instance)
 	add_child(line_instance.line)
-	line_instance.line.stratagem_done.connect(on_line_complete.bind([line_instance.index]))
+	line_instance.line.stratagem_done.connect(on_line_complete.bind(line_instance.index))
 
 func update_line(delta: float) -> void:
 	for i in lines.size():
@@ -50,7 +51,10 @@ func update_line(delta: float) -> void:
 		var line: StratagemHeroEffect_EffectGameCore_StratagemLine = line_instance.line
 		var time_data: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.StratagemTimeAndLife = parent.stratagems_time_and_life[line_instance.index]
 		var time_lived: float = timer - time_data.spawn_time
-		line.position = Vector2((size.x + line.DEFAULT_ICON_DIAMETER * line.scale.x) * (time_lived / time_data.life_time) - line.total_arrow_width_cache * line.scale.x, get_position_y_for_track(line_instance.track))
+		line.position = Vector2(
+			(size.x + line.DEFAULT_ICON_DIAMETER * line.scale.x) * (1.0 - (time_lived / time_data.life_time)) - line.total_arrow_width_cache * line.scale.x,
+			get_position_y_for_track(line_instance.track)
+		)
 		line.update_check_input()
 		line.update(delta)
 

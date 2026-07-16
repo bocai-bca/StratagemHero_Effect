@@ -94,7 +94,8 @@ static func from_online_code(operation: String) -> StratagemHeroEffect_EffectGam
 		HEAD_SCORES:
 			print("Received IngameData: SCORES")
 			return StratagemHeroEffect_EffectGame_InGameData.new(
-				StratagemHeroEffect_EffectGame_InGameData.DataHead.SCORES
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.SCORES,
+				splitted[1] # 这里是分数数据
 			)
 		_:
 			push_warning("Dirty data! Unknown ingame data operation head.")

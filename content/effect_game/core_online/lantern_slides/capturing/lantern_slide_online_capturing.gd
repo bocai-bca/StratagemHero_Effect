@@ -44,7 +44,7 @@ var opponent_score: int = 0
 var was_sent_scores: bool = false
 
 func _init() -> void:
-	opponent_line_completion_time.resize(30)
+	opponent_line_completion_time.resize(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT)
 	opponent_line_completion_time.fill(0.0)
 
 func _notification(what: int) -> void:
@@ -65,6 +65,9 @@ func _update_focus(delta: float) -> void:
 		calculate_scores()
 		effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_SCORES + "," + str(local_score) + " " + str(opponent_score)), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
 		was_sent_scores = true
+	elif (game_over_confirmed):
+		effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_GAME_OVER + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+		game_over()
 	ingame_data_handle_loop()
 
 func ingame_data_handle_loop() -> void:
@@ -83,6 +86,14 @@ func ingame_data_handle_loop() -> void:
 					return
 				opponent_line_completion_time = ingame_data.data.split_floats(" ", true)
 			StratagemHeroEffect_EffectGame_InGameData.DataHead.SCORES:
+				var splitted: PackedStringArray = ingame_data.data.split(" ")
+				print("splitted: ", splitted)
+				if (splitted.size() < 2):
+					push_warning("DirtyData! Scores got format error, the size of array splitted is small than excepted.")
+					effect_game_main.soft_disconnect()
+					return
+				local_score = splitted[0].to_int()
+				opponent_score = splitted[1].to_int()
 				effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_GAME_OVER_CONFIRM + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
 			_:
 				reback_list.append(ingame_data) #不是本幻灯片该处理的，塞回去
