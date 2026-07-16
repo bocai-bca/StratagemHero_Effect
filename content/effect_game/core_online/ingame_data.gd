@@ -8,7 +8,8 @@ enum DataHead{
 	ARROW_INDEX, ## 箭头完成索引
 	COMPLETE, ## 已完成
 	WRONG, ## 错误
-	COMPLETE_TIME, ## 完成时间
+	COMPLETE_TIME, ## 完成时间，在弹幕夺取模式中表示发送方的详细完成情况
+	SCORES, ## 游戏分数数据，只在弹幕夺取模式中有效，由主机结算完毕后发给客机
 	GAME_OVER, ## 移动至游戏结束幻灯片
 	GAME_OVER_CONFIRM, ## 是否准备好游戏结束的询问和响应，主机向客机发送代表询问客机是否准备好(一般不会这么做)，客机向主机回应代表已确认
 	CLOSE, ## 结束效果模式核心
@@ -24,6 +25,8 @@ const HEAD_COMPLETE: String = "cp"
 const HEAD_WRONG: String = "wr"
 ## 操作符头-完成时间
 const HEAD_COMPLETE_TIME: String = "ct"
+## 操作符头-游戏分数数据
+const HEAD_SCORES: String = "sc"
 ## 操作符头-移动至游戏结束幻灯片
 const HEAD_GAME_OVER: String = "go"
 ## 操作符头-是否准备好游戏结束的询问和响应
@@ -87,6 +90,11 @@ static func from_online_code(operation: String) -> StratagemHeroEffect_EffectGam
 			print("Received IngameData: CLOSE")
 			return StratagemHeroEffect_EffectGame_InGameData.new(
 				StratagemHeroEffect_EffectGame_InGameData.DataHead.CLOSE
+			)
+		HEAD_SCORES:
+			print("Received IngameData: SCORES")
+			return StratagemHeroEffect_EffectGame_InGameData.new(
+				StratagemHeroEffect_EffectGame_InGameData.DataHead.SCORES
 			)
 		_:
 			push_warning("Dirty data! Unknown ingame data operation head.")

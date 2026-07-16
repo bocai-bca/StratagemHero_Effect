@@ -619,7 +619,7 @@ func check_target_unique_id_available(try_fix_if_error: bool = true) -> bool:
 				fix_successed = true
 				break
 		if (not fix_successed):
-			push_error("Failed to fix online target unique id.")
+			push_warning("Failed to fix online target unique id.")
 			return false
 	return true
 

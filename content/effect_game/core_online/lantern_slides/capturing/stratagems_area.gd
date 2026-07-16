@@ -26,12 +26,15 @@ func _ready() -> void:
 func update(delta: float) -> void:
 	var last_tick_time: float = timer
 	timer += delta
-	for i in parent.stratagems_time_and_life.size():
+	var stratagems_size: int = parent.stratagems_time_and_life.size()
+	for i in stratagems_size:
 		var stratagem_time_and_life: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.StratagemTimeAndLife = parent.stratagems_time_and_life[i]
 		if (last_tick_time <= stratagem_time_and_life.spawn_time and stratagem_time_and_life.spawn_time <= timer):
 			var new_line: StratagemHeroEffect_EffectGameCore_StratagemLine = StratagemHeroEffect_EffectGameCore_StratagemLine.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_StratagemLine
 			new_line.change_stratagem_data_to(parent.effect_game_main.online_in_game_stratagems_list[i])
 			add_line(LineInstance.new(new_line, i, get_best_track()))
+	if (timer > (parent.stratagems_time_and_life[stratagems_size - 1].spawn_time + parent.stratagems_time_and_life[stratagems_size - 1].life_time)):
+		parent.was_over = true
 	update_line(delta)
 	update_tracks_weights(delta)
 
@@ -74,7 +77,7 @@ func get_best_track() -> int:
 	return result
 
 ## 信号方法-行完成时调用
-func on_line_complete(line_index: int) -> void:
+func on_line_complete(_stratagem_line: StratagemHeroEffect_EffectGameCore_StratagemLine, _codes_size: int, _code_arrow: StratagemData.CodeArrow, line_index: int) -> void:
 	if (0 <= line_index and line_index < line_completion_time.size()):
 		line_completion_time[line_index] = timer
 
