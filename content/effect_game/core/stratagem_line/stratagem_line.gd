@@ -94,11 +94,11 @@ var was_done: bool = false
 var death: bool = false
 ## 淡出动画倒计时器
 var death_timer: TransferTimer = TransferTimer.new(DEATH_TIME, false, DEATH_TIME)
-## 设定当本行实例有按错时不呈现按错动画
+## 设定当本行实例有按错时不呈现按错动画(同时也不会有按错音效)
 @export var dont_warn_when_wrong: bool = false
-## 是否静音，设置为true时本行列实例不会调用音效播放
+## 是否静音，设置为[code]true[/code]时本行列实例不会调用音效播放
 @export var silent: bool = false
-## 箭头的总宽度缓存，会在每次update_arrows()后更新
+## 箭头的总宽度缓存，会在每次[method update_arrows]后更新
 var total_arrow_width_cache: float = 0.0
 
 func _notification(what: int) -> void:
@@ -120,7 +120,7 @@ func update(delta: float) -> void:
 		death_timer.update(delta)
 	modulate.a = death_timer.percent
 
-## 获取当前等待被按的箭头的索引，如果战备序列为空或者箭头全部完成则返回-1
+## 获取当前等待被按的箭头的索引，如果战备序列为空或者箭头全部完成则返回[code]-1[/code]
 func get_index_of_next_arrow() -> int:
 	if (stratagem_data == null or stratagem_data.codes.is_empty()):
 		return -1
@@ -174,7 +174,7 @@ func update_check_input() -> void:
 		press_wrong(StratagemData.CodeArrow.RIGHT, current_arrow.direction_now)
 		return
 
-## 判定按下正确并标记下一个箭头为完成状态，并播放相关音效，同时若is_last_one为true则会调用stratagem_done()并播放完成音效
+## 判定按下正确并标记下一个箭头为完成状态，并播放相关音效，同时若[member is_last_one]为[code]true[/code]则会调用[method stratagem_done]并播放完成音效
 func press_correct(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow, is_last_one: bool, direction: StratagemData.CodeArrow) -> void:
 	the_arrow.set_pressed(true)
 	the_arrow.is_unknown = false
@@ -186,7 +186,7 @@ func press_correct(the_arrow: StratagemHeroEffect_EffectGameCore_EffectArrow, is
 	elif (not silent):
 		StratagemHeroEffect.instance.play_audio_press(direction)
 
-## 判定按下错误并重置所有箭头，并播放相关音效。如果dont_warn_when_wrong为true，则不会播放音效和按错动画，只会广播信号并重置箭头进度
+## 判定按下错误并重置所有箭头，并播放相关音效。如果[member no_sfx_on_wrong]为[code]true[/code]则不会播放音效，并且无论[member no_sfx_on_wrong]如何、如果[member dont_warn_when_wrong]为[code]true[/code]，则不会播放音效和按错动画，只会广播信号并重置箭头进度
 func press_wrong(input_direction: StratagemData.CodeArrow, correct_direction: StratagemData.CodeArrow) -> void:
 	if (not dont_warn_when_wrong):
 		if (not silent):

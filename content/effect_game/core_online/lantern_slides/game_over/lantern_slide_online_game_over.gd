@@ -96,7 +96,18 @@ func set_detail_racing(local_time: int, opponent_time: int) -> void:
 ## 设置详细信息-弹幕夺取
 func set_detail_capturing(local_score: int, opponent_score: int) -> void:
 	print("GameOver detail capturing set, local:", local_score, " opponent:", opponent_score)
-	#TODO
+	if (local_score > opponent_score): #胜利
+		n_win_lose_text.text = tr(&"effect_online_text.lantern_slide.game_over.win")
+		n_win_lose_text.modulate = WIN_COLOR
+		n_detail_text.text = "[color=yellow]" + tr(&"effect_online_text.lantern_slide.game_over.your_score") + "[/color]   " + tr(&"effect_online_text.lantern_slide.game_over.opponent_score") + "\n[color=yellow]" + str(local_score) + "[/color]   " + str(opponent_score)
+	elif (opponent_score > local_score): #失败
+		n_win_lose_text.text = tr(&"effect_online_text.lantern_slide.game_over.lose")
+		n_win_lose_text.modulate = LOSE_COLOR
+		n_detail_text.text = tr(&"effect_online_text.lantern_slide.game_over.your_score") + "   [color=yellow]" + tr(&"effect_online_text.lantern_slide.game_over.opponent_score") + "[/color]\n" + str(local_score) + "   [color=yellow]" + str(opponent_score) + "[/color]"
+	else: # 平局
+		n_win_lose_text.text = tr(&"effect_online_text.lantern_slide.game_over.tie")
+		n_win_lose_text.modulate = TIE_COLOR
+		n_detail_text.text = tr(&"effect_online_text.lantern_slide.game_over.your_score") + "   " + tr(&"effect_online_text.lantern_slide.game_over.opponent_score") + "\n" + str(local_score) + "   " + str(opponent_score)
 
 ## 虚方法覆写-当本幻灯片实例抛下焦点后调用，本方法将于广播节点和设置状态之后调用
 func _drop_focus_postfix() -> void:

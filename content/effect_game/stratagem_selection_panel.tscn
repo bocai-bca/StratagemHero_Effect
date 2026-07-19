@@ -227,6 +227,7 @@ clip_text = true
 [node name="WontRecordTip" type="Label" parent="." unique_id=690122096]
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_font_sizes/font_size = 24
 text = "effect_text.edit_stratagems.wont_record_tip"
 horizontal_alignment = 1
 vertical_alignment = 2

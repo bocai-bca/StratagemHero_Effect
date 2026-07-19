@@ -75,7 +75,7 @@ const ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT: int = 30
 ## 联机特殊效果模式战备总量-默写竞速
 const ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT: int = 15
 ## 联机特殊效果模式战备总量-弹幕夺取
-const ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT: int = 1
+const ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT: int = 50
 
 var game_state: GameState = GameState.IDLE:
 	get:
@@ -397,7 +397,7 @@ func menu_click_online() -> void:
 						if (!check_is_able_to_start_core()):
 							return
 						var start_mode: String
-						var stratagems_seed: int = randi()
+						online_seed_cache = randi()
 						match (online_special_effect_mode):
 							OnlineSpecialEffectMode.RACING:
 								start_mode = ONLINE_SPECIAL_EFFECT_MODE_NAME_RACING
@@ -408,9 +408,9 @@ func menu_click_online() -> void:
 							OnlineSpecialEffectMode.CAPTUING:
 								start_mode = ONLINE_SPECIAL_EFFECT_MODE_NAME_CAPTURING
 								online_stratagems_count_max_cache = ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT
-						online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(stratagems_seed, online_stratagems_count_max_cache)
+						online_in_game_stratagems_list = StratagemData.create_random_sequence_from_seed(online_seed_cache, online_stratagems_count_max_cache)
 						print("Initialized online_in_game_stratagems_list with ", online_in_game_stratagems_list.size(), " stratagems.")
-						send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.START_GAME, start_mode + "," + str(stratagems_seed)), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+						send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.START_GAME, start_mode + "," + str(online_seed_cache)), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
 						game_state = GameState.CORE_ONLINE
 					else:
 						#开启服务器

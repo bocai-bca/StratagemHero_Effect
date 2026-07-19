@@ -10,6 +10,7 @@ class_name StratagemHeroEffect_EffectGame_StratagemSelectionPanel
 @onready var n_common_class_icons_container: HFlowContainer = $VBC/HBC/CommonClass/HFC as HFlowContainer
 @onready var n_buttons_container: VBoxContainer = $VBC/HBC/Buttons as VBoxContainer
 @onready var n_cancel_button: Button = $VBC/HBC/Buttons/Cancel as Button
+@onready var n_wont_record_tip: Label = $WontRecordTip as Label
 @onready var n_detail_bar: Node2D = $DetailBar as Node2D
 @onready var n_detail_bar_panel: PanelContainer = $DetailBar/PC as PanelContainer
 @onready var n_detail_bar_container: HBoxContainer = $DetailBar/PC/HBC as HBoxContainer
@@ -18,6 +19,8 @@ var n_detail_bar_arrows: Array[TextureRect] = []
 
 ## 详细信息栏的动画时间
 const DETAIL_BAR_ANIMATION_TIME: float = 0.6
+## 不记录成绩提示文本默认字体大小
+const WONT_RECORD_TIP_FONT_SIZE_DEFAULT: float = 24.0
 
 static var instance: StratagemHeroEffect_EffectGame_StratagemSelectionPanel
 ## 记录所有已启用的战备
@@ -86,6 +89,7 @@ func physics_process() -> void:
 	(n_detail_bar_panel.theme.get_stylebox(&"panel", &"PanelContainer") as StyleBoxFlat).border_width_bottom = int(StratagemHeroEffect.instance.get_fit_size(4.0))
 	n_detail_bar_panel.theme.set_font_size(&"font_size", &"Label", int(StratagemHeroEffect.instance.get_fit_size(32.0)))
 	n_detail_bar_panel.size = Vector2(window.size.x, StratagemHeroEffect.instance.get_fit_size(72.0))
+	n_wont_record_tip.add_theme_font_size_override(&"font_size", int(StratagemHeroEffect.instance.get_fit_size(WONT_RECORD_TIP_FONT_SIZE_DEFAULT)))
 
 ## 放置图标(旧版)，现在请改用place_icons()
 func place_icons_old() -> void:

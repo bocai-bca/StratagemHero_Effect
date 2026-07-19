@@ -8,20 +8,26 @@ static func CPS() -> PackedScene:
 
 var n_super_earth_logo: TextureRect
 var n_stratagems_area: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing_StratagemsArea
+var n_progress_bar: ProgressBar
 
 ## 基本夺取分数，只要完成一个战备就可以获得这个分数
 const BASIC_CAPTURED_SCORE: int = 5
 ## 抢先夺取分数，如果抢先于对手完成这个战备(对手没完成也算)则可以在BASIC_CAPTURED_SCORE的基础上额外获得这个分数
 const FIRST_CAPTUED_SCORE: int = 3
-
+## 战备行缩放
+const STRATAGEM_LINE_SCALE: float = 0.6
 ## 一个战备在屏幕上停留的标准时间
 const STRATAGEM_STAY_TIME_BASIC: float = 6.0
 ## 一个战备在屏幕上停留的时间浮动值
-const STRATAGEM_STAY_TIME_OFFSET: float = 1.5
+const STRATAGEM_STAY_TIME_OFFSET: float = 0.5
 ## 一个战备相较于上一个战备的出现时间间隔标准值
 const STRATAGEM_SPAWN_TIME_DELAY_BASIC: float = 1.0
 ## 一个战备相较于上一个战备的出现时间间隔浮动值
 const STRATAGEM_SPAWN_TIME_DELAY_OFFSET: float = 0.5
+## 进度条尺寸比率，基于屏幕尺寸
+const PROGRESS_BAR_SIZE_RATE: Vector2 = Vector2(0.75, 0.05)
+## 进度条位置比率，基于屏幕尺寸
+const PROGRESS_BAR_POSITION_RATE: Vector2 = Vector2(0.125, 0.9)
 
 ## 效果模式主类引用，由效果模式主类在创建本幻灯片实例时赋予
 var effect_game_main: StratagemHeroEffect_EffectGame
@@ -52,10 +58,13 @@ func _notification(what: int) -> void:
 		n_super_earth_logo = $SuperEarthIcon as TextureRect
 		n_stratagems_area = $StratagemsArea as StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing_StratagemsArea
 		n_stratagems_area.parent = self
+		n_progress_bar = $ProgressBar as ProgressBar
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_stratagems_area.size = window_size
+	n_progress_bar.size = window_size * PROGRESS_BAR_SIZE_RATE
+	n_progress_bar.position = window_size * PROGRESS_BAR_POSITION_RATE
 
 ## 虚方法覆写-幻灯片聚焦状态的过程方法，一般会直接用于State.FOCUS时的_update方法
 func _update_focus(delta: float) -> void:
@@ -63,7 +72,7 @@ func _update_focus(delta: float) -> void:
 		n_stratagems_area.update(delta)
 	elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST and not was_sent_scores and opponent_line_completion_time != null): #否则(本地已结束且已收到对方的时间数据)
 		calculate_scores()
-		effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_SCORES + "," + str(local_score) + " " + str(opponent_score)), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
+		effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_SCORES + "," + str(opponent_score) + " " + str(local_score)), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
 		was_sent_scores = true
 	elif (game_over_confirmed):
 		effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_GAME_OVER + ","), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
@@ -156,6 +165,7 @@ func get_exitable() -> bool:
 	return true
 
 func _got_focus_postfix() -> void:
+	StratagemHeroEffect.instance.audio_playing_music.play()
 	stratagems_time_and_life = []
 	var last_spawn_time: float = 0.0
 	var random: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -166,6 +176,7 @@ func _got_focus_postfix() -> void:
 		stratagem_time_and_life.spawn_time = last_spawn_time
 		stratagem_time_and_life.life_time = STRATAGEM_STAY_TIME_BASIC + random.randf_range(-STRATAGEM_STAY_TIME_OFFSET, STRATAGEM_STAY_TIME_OFFSET)
 		stratagems_time_and_life.append(stratagem_time_and_life)
+	n_stratagems_area.got_focus()
 
 ## 战备的出生时间和生存时间数据
 class StratagemTimeAndLife extends RefCounted:

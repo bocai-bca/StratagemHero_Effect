@@ -3,7 +3,7 @@ class_name StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing_Strat
 ## 联机效果模式弹幕夺取幻灯片类的战备区域
 
 ## 当某个轨道被选中以添加新弹幕时，该轨道的权重将被设为此数
-const TRACK_WEIGHT_CHANGED_ON_HIT: float = -0.6
+const TRACK_WEIGHT_CHANGED_ON_HIT: float = -2.5
 
 ## 父节点的引用
 var parent: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing
@@ -17,11 +17,19 @@ var tracks_weights: PackedFloat32Array = [0.0, 0.0, 0.0, 0.0, 0.0]
 var track_random: RandomNumberGenerator = RandomNumberGenerator.new()
 ## 行完成时间
 var line_completion_time: PackedFloat32Array = []
+## 最后一个行死掉的时间
+var last_one_dead_time: float = INF
+## 是否应该播放音效，-1代表不需要，从0代表UP、1代表DOWN、2代表LEFT、3代表RIGHT
+var should_play_sfx: int = -1
 
 func _ready() -> void:
 	track_random.seed = StratagemHeroEffect_EffectGame.online_seed_cache
 	line_completion_time.resize(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT)
 	line_completion_time.fill(0.0)
+
+func got_focus() -> void:
+	var stratagems_size: int = parent.stratagems_time_and_life.size()
+	last_one_dead_time = parent.stratagems_time_and_life[stratagems_size - 1].spawn_time + parent.stratagems_time_and_life[stratagems_size - 1].life_time
 
 func update(delta: float) -> void:
 	var last_tick_time: float = timer
@@ -33,8 +41,11 @@ func update(delta: float) -> void:
 			var new_line: StratagemHeroEffect_EffectGameCore_StratagemLine = StratagemHeroEffect_EffectGameCore_StratagemLine.CPS().instantiate() as StratagemHeroEffect_EffectGameCore_StratagemLine
 			new_line.change_stratagem_data_to(parent.effect_game_main.online_in_game_stratagems_list[i])
 			new_line.lighting = true
+			new_line.silent = true
+			new_line.scale = Vector2.ONE * StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.STRATAGEM_LINE_SCALE
 			add_line(LineInstance.new(new_line, i, get_best_track()))
-	if (timer > (parent.stratagems_time_and_life[stratagems_size - 1].spawn_time + parent.stratagems_time_and_life[stratagems_size - 1].life_time)):
+	parent.n_progress_bar.value = timer / last_one_dead_time
+	if (timer > last_one_dead_time):
 		parent.was_over = true
 	update_line(delta)
 	update_tracks_weights(delta)
@@ -44,6 +55,7 @@ func add_line(line_instance: LineInstance) -> void:
 	lines.append(line_instance)
 	add_child(line_instance.line)
 	line_instance.line.stratagem_done.connect(on_line_complete.bind(line_instance.index))
+	line_instance.line.pressed_correct.connect(on_line_correct)
 
 func update_line(delta: float) -> void:
 	for i in lines.size():
@@ -52,7 +64,7 @@ func update_line(delta: float) -> void:
 		var time_data: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.StratagemTimeAndLife = parent.stratagems_time_and_life[line_instance.index]
 		var time_lived: float = timer - time_data.spawn_time
 		line.position = Vector2(
-			(size.x + line.DEFAULT_ICON_DIAMETER * line.scale.x) * (1.0 - (time_lived / time_data.life_time)) - line.total_arrow_width_cache * line.scale.x,
+			(size.x + line.DEFAULT_ICON_RADIUS * line.scale.x) * (1.0 - (time_lived / time_data.life_time)) - line.total_arrow_width_cache * line.scale.x,
 			get_position_y_for_track(line_instance.track)
 		)
 		line.update_check_input()
@@ -60,7 +72,7 @@ func update_line(delta: float) -> void:
 
 ## 获取用于某一轨道的Y坐标
 func get_position_y_for_track(track_index: int) -> float:
-	return size.y / 2.0 + (track_index - 2) * (StratagemHeroEffect_EffectGameCore_StratagemLine.DEFAULT_ICON_RADIUS + StratagemHeroEffect_EffectGameCore_StratagemLine.DEFAULT_TEXT_BAR_HEIGHT)
+	return size.y / 2.0 + (track_index - 2) * (StratagemHeroEffect_EffectGameCore_StratagemLine.DEFAULT_ICON_DIAMETER + StratagemHeroEffect_EffectGameCore_StratagemLine.DEFAULT_TEXT_BAR_HEIGHT) * StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.STRATAGEM_LINE_SCALE
 
 ## 更新轨道权重，应跟随update调用
 func update_tracks_weights(delta: float) -> void:
@@ -76,14 +88,47 @@ func set_line_captured(line_index: int) -> void:
 
 ## 获取一个当前状态最好的轨道
 func get_best_track() -> int:
-	var result: int = track_random.rand_weighted(tracks_weights)
+	var weights: PackedFloat32Array
+	for weight in tracks_weights:
+		weights.append(clampf(weight, 0.0, 1.0))
+	var result: int = track_random.rand_weighted(weights)
+	print("Get best track: ", result, ", weights: ", tracks_weights)
+	if (result == -1):
+		result = track_random.randi_range(0, 4)
+		print("Best track has re-random to: ", result)
 	tracks_weights[result] = TRACK_WEIGHT_CHANGED_ON_HIT
 	return result
+
+## 检查并播放音效
+func check_to_play_sound() -> void:
+	match (should_play_sfx):
+		0:
+			StratagemHeroEffect.instance.audio_press_up.play()
+		1:
+			StratagemHeroEffect.instance.audio_press_down.play()
+		2:
+			StratagemHeroEffect.instance.audio_press_left.play()
+		3:
+			StratagemHeroEffect.instance.audio_press_right.play()
+	should_play_sfx = -1
+
+## 信号方法-行输入正确时调用
+func on_line_correct(_line: StratagemHeroEffect_EffectGameCore_StratagemLine, direction: StratagemData.CodeArrow) -> void:
+	match (direction):
+		StratagemData.CodeArrow.UP:
+			should_play_sfx = 0
+		StratagemData.CodeArrow.DOWN:
+			should_play_sfx = 1
+		StratagemData.CodeArrow.LEFT:
+			should_play_sfx = 2
+		StratagemData.CodeArrow.RIGHT:
+			should_play_sfx = 3
 
 ## 信号方法-行完成时调用
 func on_line_complete(_stratagem_line: StratagemHeroEffect_EffectGameCore_StratagemLine, _codes_size: int, _code_arrow: StratagemData.CodeArrow, line_index: int) -> void:
 	if (0 <= line_index and line_index < line_completion_time.size()):
 		line_completion_time[line_index] = timer
+		parent.effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_STRATAGEM_INDEX + "," + str(line_index)), MultiplayerPeer.TransferMode.TRANSFER_MODE_UNRELIABLE)
 
 ## 战备实例引用数据
 class LineInstance extends RefCounted:
