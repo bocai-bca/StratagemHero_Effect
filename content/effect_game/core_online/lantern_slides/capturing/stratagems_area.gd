@@ -34,6 +34,7 @@ func got_focus() -> void:
 func update(delta: float) -> void:
 	var last_tick_time: float = timer
 	timer += delta
+	check_to_play_sound()
 	var stratagems_size: int = parent.stratagems_time_and_life.size()
 	for i in stratagems_size:
 		var stratagem_time_and_life: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.StratagemTimeAndLife = parent.stratagems_time_and_life[i]

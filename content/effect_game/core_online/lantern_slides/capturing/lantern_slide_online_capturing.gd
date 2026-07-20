@@ -164,6 +164,9 @@ func _drop_focus_postfix() -> void:
 func get_exitable() -> bool:
 	return true
 
+func _on_esc_exit() -> void:
+	effect_game_main.soft_disconnect()
+
 func _got_focus_postfix() -> void:
 	StratagemHeroEffect.instance.audio_playing_music.play()
 	stratagems_time_and_life = []
