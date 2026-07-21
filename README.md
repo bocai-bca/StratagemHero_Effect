@@ -11,7 +11,8 @@
 Of course bro.  
 This project has stratagems selection function and few interesting special effect modes, they can help you practicing efficiently.  
 And a high score function is holding your best record on every mode with your score, you reached level and your speed.  
-And finally, this project provides you a better experience by its smooth animated UI re-designed, instead of the copy of original minigame actually.
+And finally, this project provides you a better experience by its smooth animated UI re-designed, instead of the copy of original minigame actually.  
+After version 0.3.1, you can play with friends in the new EffectOnline mode.
 
 # Game Mode
 There're two basic game mode, "Classic Mode" and "Effect Mode".
@@ -23,23 +24,18 @@ It is the imitation of the original minigame. Just it.
 The collection of special effect modes.
 
 ### Special Effect Modes
-
 #### None
   A normal mode with Effect Mode UI and classic gameplay.  
   It is suitable for doing some basic practice.
-
 #### Dictation
   A mode won't showing arrows. It gives you more time and greater penalty on you wrong.  
   It is suitable for testing your memory.
-
 #### Great Wall
   A mode with infinited continuous random arrows.  
   It is suitable for practicing your real-time planning skill.
-
 #### Multi-Lines
   A mode shows 4 stratagems at same time, you can choose which one to complete first follow your idea, and also allow you transfer to other stratagems if you wrong.  
   It is suitable for practicing your complex strength.
-
 #### Terminal
   A mode simulates long random codes of terminals which you are able to seen in mission.  
   It is suitable for practicing your skill for terminal operating.
@@ -47,6 +43,17 @@ The collection of special effect modes.
 ### One Heart
 A function is able to attach on any effect modes. While enabled, you'll gameover if just wrong once.  
 You can use it to practicing don't wrong.
+
+## Effect Online Mode
+The collection of special effect modes with online multiplayer.
+
+### Special Effect Online Modes
+#### Basic Racing
+  The mode for players compete to who complete all stratagems first.
+#### Dictation Racing
+  This mode mixed Dictation and Racing.
+#### Capturing
+  The mode for capture stratagems faster than opponent to take scores.
 
 # Special Thanks
 [https://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg](https://github.com/nvigneux/Helldivers-2-Stratagems-icons-svg): This repository and pull requests in it provided almost all image resources for this project.  
