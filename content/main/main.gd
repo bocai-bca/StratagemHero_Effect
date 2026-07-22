@@ -178,6 +178,8 @@ func _ready() -> void:
 	AudioServer.set_bus_volume_linear(AudioServer.get_bus_index(&"SFX"), StratagemHeroEffect_SaveAccess.save_struct_in_memory.volume_sfx)
 
 func _unhandled_input(event: InputEvent) -> void:
+	if (event is InputEventJoypadMotion):
+		return
 	match (game_state):
 		GameState.Title:
 			if (event.is_action_released(&"space")):

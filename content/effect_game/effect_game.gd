@@ -264,6 +264,8 @@ func _physics_process(_delta: float) -> void:
 		n_network_tip.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
+	if (event is InputEventJoypadMotion):
+		return
 	match (game_state):
 		GameState.MENU:
 			if (event.is_action_released(&"up")):
@@ -273,6 +275,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				n_menu_text.update_text()
 				n_description_text.update_text()
 				StratagemHeroEffect.instance.audio_press.play()
+				_physics_process(0.0)
 			if (event.is_action_released(&"down")):
 				menu_option_focus += 1
 				if (menu_option_focus > MENU_OPTIONS_COUNT):
@@ -280,10 +283,11 @@ func _unhandled_input(event: InputEvent) -> void:
 				n_menu_text.update_text()
 				n_description_text.update_text()
 				StratagemHeroEffect.instance.audio_press.play()
+				_physics_process(0.0)
 			if (event.is_action_released(&"space")):
 				get_viewport().set_input_as_handled()
 				menu_click()
-			_physics_process(0.0)
+				_physics_process(0.0)
 		GameState.MENU_ONLINE:
 			if (event.is_action_released(&"up")):
 				menu_option_focus -= 1
@@ -299,6 +303,7 @@ func _unhandled_input(event: InputEvent) -> void:
 					n_description_text.update_text_online_client()
 				n_menu_text.update_text_online()
 				StratagemHeroEffect.instance.audio_press.play()
+				_physics_process(0.0)
 			if (event.is_action_released(&"down")):
 				menu_option_focus += 1
 				if (online_side == OnlineSide.HOST):
@@ -313,10 +318,11 @@ func _unhandled_input(event: InputEvent) -> void:
 					n_description_text.update_text_online_client()
 				n_menu_text.update_text_online()
 				StratagemHeroEffect.instance.audio_press.play()
+				_physics_process(0.0)
 			if (event.is_action_released(&"space")):
 				get_viewport().set_input_as_handled()
 				menu_click_online()
-			_physics_process(0.0)
+				_physics_process(0.0)
 
 func stop_game() -> void:
 	game_state = GameState.IDLE
