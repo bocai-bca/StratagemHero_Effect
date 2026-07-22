@@ -10,6 +10,7 @@ var n_super_earth_logo: TextureRect
 var n_container: MarginContainer
 var n_win_lose_text: Label
 var n_detail_text: RichTextLabel
+var n_continue_tip: Label
 
 ## 继续计时，用于阻断空格连发
 const CONTINUE_TIME: float = 0.15
@@ -23,6 +24,8 @@ const LOSE_COLOR: Color = Color(0.7, 0.7, 0.7)
 const TIE_COLOR: Color = Color(1.0, 1.0, 1.0)
 ## 详细文本字体大小默认值
 const DETAIL_TEXT_FONT_SIZE_DEFAULT: float = 48.0
+## 继续提示文本字体大小默认值
+const CONTINUE_TEXT_FONT_SIZE_DEFAULT: float = 48.0
 
 ## 继续计时器，用于阻断空格连发
 var continue_timer: float = CONTINUE_TIME + 1.0
@@ -35,10 +38,13 @@ func _notification(what: int) -> void:
 		n_win_lose_text = $MC/HBC/WinLostText as Label
 		n_container = $MC as MarginContainer
 		n_detail_text = $MC/HBC/DetailText as RichTextLabel
+		n_continue_tip = $ContinueTip as Label
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
 	n_container.size = window_size
+	n_continue_tip.size = window_size
+	n_continue_tip.add_theme_font_size_override(&"font_size", int(StratagemHeroEffect.instance.get_fit_size(CONTINUE_TEXT_FONT_SIZE_DEFAULT)))
 	n_win_lose_text.add_theme_font_size_override(&"font_size", int(StratagemHeroEffect.instance.get_fit_size(WIN_LOSE_TEXT_FONT_SIZE_DEFAULT)))
 	n_detail_text.add_theme_font_size_override(&"normal_font_size", int(StratagemHeroEffect.instance.get_fit_size(DETAIL_TEXT_FONT_SIZE_DEFAULT)))
 

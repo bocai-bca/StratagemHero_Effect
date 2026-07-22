@@ -17,7 +17,8 @@ const DEFAULT_TEXT_BAR_HEIGHT: float = 43.0
 signal pressed_correct(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, direction: StratagemData.CodeArrow)
 ## 信号-按下且错误时广播，同时附带本实例和按下方向与实际正确方向
 signal pressed_wrong(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, input_direction: StratagemData.CodeArrow, correct_direction: StratagemData.CodeArrow)
-## 信号-战备输入完成时广播，同时附带本实例和本实例战备的箭头数量和完成时按下的方向
+## 信号-战备输入完成时广播，同时附带本实例和本实例战备的箭头数量和完成时按下的方向。
+## 如果一个战备按下正确而完成，本信号会在pressed_correct信号之后被发出
 signal stratagem_done(this_instance: StratagemHeroEffect_EffectGameCore_StratagemLine, arrow_count: int, direction: StratagemData.CodeArrow)
 
 var theme_namebar: Theme

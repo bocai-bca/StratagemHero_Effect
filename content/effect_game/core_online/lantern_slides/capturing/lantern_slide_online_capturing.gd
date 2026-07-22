@@ -17,7 +17,7 @@ const FIRST_CAPTUED_SCORE: int = 3
 ## 战备行缩放
 const STRATAGEM_LINE_SCALE: float = 0.6
 ## 一个战备在屏幕上停留的标准时间
-const STRATAGEM_STAY_TIME_BASIC: float = 6.0
+const STRATAGEM_STAY_TIME_BASIC: float = 8.0
 ## 一个战备在屏幕上停留的时间浮动值
 const STRATAGEM_STAY_TIME_OFFSET: float = 0.5
 ## 一个战备相较于上一个战备的出现时间间隔标准值
@@ -62,7 +62,7 @@ func _notification(what: int) -> void:
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
-	n_stratagems_area.size = window_size
+	n_stratagems_area.fit_size(window_size)
 	n_progress_bar.size = window_size * PROGRESS_BAR_SIZE_RATE
 	n_progress_bar.position = window_size * PROGRESS_BAR_POSITION_RATE
 

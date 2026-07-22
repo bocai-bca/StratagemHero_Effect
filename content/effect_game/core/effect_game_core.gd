@@ -54,7 +54,10 @@ func start_online(main_class: StratagemHeroEffect_EffectGame) -> void:
 		StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.RACING, StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING:
 			var new_racing: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing = StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Racing.CPS().instantiate()
 			new_racing.effect_game_main = main_class
-			new_racing.set_stratagems_count(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT)
+			if (StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.RACING):
+				new_racing.set_stratagems_count(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_RACING_STRATAGEMS_COUNT)
+			else:
+				new_racing.set_stratagems_count(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_DICTATION_RACING_STRATAGEMS_COUNT)
 			new_racing.is_dictation_cache = StratagemHeroEffect_EffectGame.online_special_effect_mode == StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.DICTATION_RACING
 			add_lantern_slide(new_racing)
 		StratagemHeroEffect_EffectGame.OnlineSpecialEffectMode.CAPTUING:
