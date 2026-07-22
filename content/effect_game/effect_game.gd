@@ -283,6 +283,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if (event.is_action_released(&"space")):
 				get_viewport().set_input_as_handled()
 				menu_click()
+			_physics_process(0.0)
 		GameState.MENU_ONLINE:
 			if (event.is_action_released(&"up")):
 				menu_option_focus -= 1
@@ -315,7 +316,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			if (event.is_action_released(&"space")):
 				get_viewport().set_input_as_handled()
 				menu_click_online()
-	_physics_process(0.0)
+			_physics_process(0.0)
 
 func stop_game() -> void:
 	game_state = GameState.IDLE

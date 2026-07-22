@@ -23,7 +23,7 @@ const STRATAGEM_STAY_TIME_OFFSET: float = 0.5
 ## 一个战备相较于上一个战备的出现时间间隔标准值
 const STRATAGEM_SPAWN_TIME_DELAY_BASIC: float = 1.0
 ## 一个战备相较于上一个战备的出现时间间隔浮动值
-const STRATAGEM_SPAWN_TIME_DELAY_OFFSET: float = 0.5
+const STRATAGEM_SPAWN_TIME_DELAY_OFFSET: float = 0.25
 ## 进度条尺寸比率，基于屏幕尺寸
 const PROGRESS_BAR_SIZE_RATE: Vector2 = Vector2(0.75, 0.05)
 ## 进度条位置比率，基于屏幕尺寸

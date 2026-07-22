@@ -3,7 +3,7 @@ class_name StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing_Strat
 ## 联机效果模式弹幕夺取幻灯片类的战备区域
 
 ## 当某个轨道被选中以添加新弹幕时，该轨道的权重将被设为此数
-const TRACK_WEIGHT_CHANGED_ON_HIT: float = -2.5
+const TRACK_WEIGHT_CHANGED_ON_HIT: float = -3.5
 ## 默认尺寸下的Y尺寸
 const DEFAULT_SIZE_Y: float = 720.0
 
@@ -66,17 +66,25 @@ func add_line(line_instance: LineInstance) -> void:
 	line_instance.line.pressed_correct.connect(on_line_correct)
 
 func update_line(delta: float) -> void:
+	var lines_gonna_free: Array[int] = []
 	for i in lines.size():
-		var line_instance: LineInstance = lines[lines.size() - i - 1]
+		var index: int = lines.size() - i - 1
+		var line_instance: LineInstance = lines[index]
 		var line: StratagemHeroEffect_EffectGameCore_StratagemLine = line_instance.line
 		var time_data: StratagemHeroEffect_EffectGameCore_LanternSlideOnline_Capturing.StratagemTimeAndLife = parent.stratagems_time_and_life[line_instance.index]
 		var time_lived: float = timer - time_data.spawn_time
+		if (time_lived >= time_data.life_time * 1.25):
+			lines_gonna_free.append(index)
+			continue
 		line.position = Vector2(
 			(size.x + line.DEFAULT_ICON_RADIUS * line.scale.x) * (1.0 - (time_lived / time_data.life_time)) - line.total_arrow_width_cache * line.scale.x,
 			get_position_y_for_track(line_instance.track)
 		)
 		line.update_check_input()
 		line.update(delta)
+	for i in lines_gonna_free:
+		lines[i].line.queue_free()
+		lines.remove_at(i)
 
 ## 获取用于某一轨道的Y坐标
 func get_position_y_for_track(track_index: int) -> float:
@@ -96,12 +104,18 @@ func set_line_captured(line_index: int) -> void:
 
 ## 获取一个当前状态最好的轨道
 func get_best_track() -> int:
+	var max_weight: float = TRACK_WEIGHT_CHANGED_ON_HIT
+	var max_index: int = 0
 	var weights: PackedFloat32Array
-	for weight in tracks_weights:
+	for i in tracks_weights.size():
+		var weight: float = tracks_weights[i]
+		if (weight > max_weight):
+			max_index = i
+			max_weight = weight
 		weights.append(clampf(weight, 0.0, 1.0))
 	var result: int = track_random.rand_weighted(weights)
 	if (result == -1):
-		result = track_random.randi_range(0, 4)
+		result = max_index
 	tracks_weights[result] = TRACK_WEIGHT_CHANGED_ON_HIT
 	return result
 
