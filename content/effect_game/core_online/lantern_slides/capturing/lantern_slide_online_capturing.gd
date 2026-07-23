@@ -48,6 +48,8 @@ var local_score: int = 0
 var opponent_score: int = 0
 ## 是否已向对方发送过分数，仅在主机上有效
 var was_sent_scores: bool = false
+## 是否已获得对方发送的完成时间，仅在主机上有效
+var was_got_completion_times: bool = false
 
 func _init() -> void:
 	opponent_line_completion_time.resize(StratagemHeroEffect_EffectGame.ONLINE_SPECIAL_EFFECT_MODE_CAPTURING_STRATAGEMS_COUNT)
@@ -71,7 +73,7 @@ func _fit_size(window_size: Vector2) -> void:
 func _update_focus(delta: float) -> void:
 	if (not was_over): #如果本地还没结束
 		n_stratagems_area.update(delta)
-	elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST and not was_sent_scores and opponent_line_completion_time != null): #否则(本地已结束且已收到对方的时间数据)
+	elif (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST and not was_sent_scores and was_got_completion_times): #否则(本地已结束且已收到对方的时间数据)
 		calculate_scores()
 		effect_game_main.send_pack(StratagemHeroEffect_EffectGame_OnlineCode.new(StratagemHeroEffect_EffectGame_OnlineCode.Code.INGAME_DATA, StratagemHeroEffect_EffectGame_InGameData.HEAD_SCORES + "," + str(opponent_score) + " " + str(local_score)), MultiplayerPeer.TransferMode.TRANSFER_MODE_RELIABLE)
 		was_sent_scores = true
@@ -95,6 +97,7 @@ func ingame_data_handle_loop() -> void:
 				if (effect_game_main.online_side != StratagemHeroEffect_EffectGame.OnlineSide.HOST):
 					return
 				opponent_line_completion_time = ingame_data.data.split_floats(" ", true)
+				was_got_completion_times = true
 			StratagemHeroEffect_EffectGame_InGameData.DataHead.SCORES:
 				var splitted: PackedStringArray = ingame_data.data.split(" ")
 				print("splitted: ", splitted)
