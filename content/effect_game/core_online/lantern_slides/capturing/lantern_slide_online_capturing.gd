@@ -65,6 +65,7 @@ func _fit_size(window_size: Vector2) -> void:
 	n_stratagems_area.fit_size(window_size)
 	n_progress_bar.size = window_size * PROGRESS_BAR_SIZE_RATE
 	n_progress_bar.position = window_size * PROGRESS_BAR_POSITION_RATE
+	update_logo(n_super_earth_logo, window_size)
 
 ## 虚方法覆写-幻灯片聚焦状态的过程方法，一般会直接用于State.FOCUS时的_update方法
 func _update_focus(delta: float) -> void:

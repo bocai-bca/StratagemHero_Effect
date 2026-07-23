@@ -80,6 +80,7 @@ func _notification(what: int) -> void:
 
 func _fit_size(window_size: Vector2) -> void:
 	size = window_size
+	n_super_earth_logo.size = window_size
 	n_p1_progress_bar.size = window_size * PROGRESS_BARS_SIZE_RATE
 	n_p1_progress_bar.position = window_size * PROGRESS_BAR_P1_POSITION_RATE
 	n_p2_progress_bar.size = n_p1_progress_bar.size
@@ -101,6 +102,7 @@ func _fit_size(window_size: Vector2) -> void:
 	n_p2_completed_text.size = Vector2(window_size.x, 0.0)
 	n_p1_completed_text.position = window_size * COMPLETED_TEXT_P1_POSITION_RATE
 	n_p2_completed_text.position = window_size * COMPLETED_TEXT_P2_POSITION_RATE
+	update_logo(n_super_earth_logo, window_size)
 
 func _ready() -> void:
 	if (effect_game_main.online_side == StratagemHeroEffect_EffectGame.OnlineSide.HOST):

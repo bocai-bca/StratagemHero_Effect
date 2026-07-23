@@ -47,6 +47,7 @@ func _fit_size(window_size: Vector2) -> void:
 	n_continue_tip.add_theme_font_size_override(&"font_size", int(StratagemHeroEffect.instance.get_fit_size(CONTINUE_TEXT_FONT_SIZE_DEFAULT)))
 	n_win_lose_text.add_theme_font_size_override(&"font_size", int(StratagemHeroEffect.instance.get_fit_size(WIN_LOSE_TEXT_FONT_SIZE_DEFAULT)))
 	n_detail_text.add_theme_font_size_override(&"normal_font_size", int(StratagemHeroEffect.instance.get_fit_size(DETAIL_TEXT_FONT_SIZE_DEFAULT)))
+	update_logo(n_super_earth_logo, window_size)
 
 ## 虚方法覆写-幻灯片聚焦状态的过程方法，一般会直接用于State.FOCUS时的_update方法
 func _update_focus(delta: float) -> void:
